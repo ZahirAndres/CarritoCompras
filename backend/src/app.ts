@@ -11,6 +11,7 @@ import categoriaRoutes from "./routes/categoriaRoutes";
 import rolRoutes from "./routes/rolRoutes";
 import compraRoutes from "./routes/compraRoutes";
 
+import carritoRoutes from './routes/carritoRoutes';
 class Server {
 
 private app: Aplication;
@@ -46,7 +47,8 @@ routes() {
     this.app.use("/productos",productoRoutes)
     this.app.use("/categoria", categoriaRoutes);
     this.app.use("/rol", rolRoutes);
-    this.app.use("/compra", compraRoutes);
+    this.app.use("/productos",productoRoutes);
+    this.app.use("/carrito", carritoRoutes);
 }
 
 }
