@@ -7,6 +7,9 @@ import bodyParser from 'body-parser';
 import authRoutes   from './routes/authRoutes';
 import usuarioRoutes from './routes/usuarioRoutes';
 import productoRoutes from "./routes/productoRoutes";
+import categoriaRoutes from "./routes/categoriaRoutes";
+import rolRoutes from "./routes/rolRoutes";
+
 class Server {
 
 private app: Aplication;
@@ -40,6 +43,8 @@ routes() {
     this.app.use("/", authRoutes);
     this.app.use("/usuario", usuarioRoutes);
     this.app.use("/productos",productoRoutes)
+    this.app.use("/categoria", categoriaRoutes);
+    this.app.use("/rol", rolRoutes);
 }
 
 }
