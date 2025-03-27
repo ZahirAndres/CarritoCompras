@@ -21,12 +21,13 @@ class UsuarioController {
     public async add (req:Request, res:Response) {
         try {
             let {email,password,role} = req.body;
-
+            var correoElectronico;
+            var idRol = 0;
             if (!email || !validator.isEmail(email)) {
                 return res.status(400).json({message: "Email invalido", code: 1});
             }
             const usuarios = await model.list();
-            const usuarioExistente = usuarios.some((usuario:any) => usuario.email === email);
+            const usuarioExistente = usuarios.some((usuario:any) => usuario.correoElectronico === email);
 
             if (usuarioExistente) {
                 return res.status(400).json({message: "email en uso", code: 2});
@@ -34,8 +35,9 @@ class UsuarioController {
 
             var encryptedText = await utils.hashPassword(password);
             password = encryptedText;
-
-            await model.add({email,password,role});
+            correoElectronico = email;
+            idRol = role;
+            await model.add({correoElectronico,password,idRol});
 
             return res.json({message: "usuario agregado", code:0});
         } catch (error: any) {
@@ -51,15 +53,15 @@ class UsuarioController {
                 return res.status(400).json({message: "email invalido", code:1});
             }
             const usuarios = await model.list();
-            const usuarioExistente = usuarios.some((usuario:any) => usuario.email === email);
+            const usuarioExistente = usuarios.some((usuario:any) => usuario.correoElectronico === email);
 
             if (!usuarioExistente) {
-                return res.status(404).json({ message: "usuario no encontrado", code: 3});
+                return res.status(404).json({ message: "usuario no encontrado"+ usuarioExistente, code: 3});
             }
 
             var encryptedText = await utils.hashPassword(password);
-
-            await model.update({email,password: encryptedText});
+var correoElectronico = email;
+            await model.update({correoElectronico,password: encryptedText});
 
             return res.json({message: "usuario correctamente actualizado", code:0 });
         } catch (error: any) {
@@ -78,14 +80,14 @@ class UsuarioController {
       
             // Verificar si el usuario existe
             const usuarios = await model.list();
-            const usuarioExistente = usuarios.some((usuario: any) => usuario.email === email);
+            const usuarioExistente = usuarios.some((usuario: any) => usuario.correoElectronico === email);
       
             if (!usuarioExistente) {
                 return res.status(404).json({ message: "Usuario no encontrado", code: 3 });
             }
-      
+      var correoElectronico = email;
             // Realizar la eliminación
-            await model.delete(email);
+            await model.delete(correoElectronico);
             return res.json({ message: "Usuario eliminado correctamente", code: 0 });
         } catch (error: any) {
             return res.status(500).json({ message: `${error.message}` });

@@ -7,8 +7,8 @@ class UsuarioModelo {
     public async list() {
         const result = await pool.then( async (connection) => {
             return await connection.query(
-                " SELECT u.email, u.password, u.role "
-                + " FROM tbl_usuario u ")  });
+                " SELECT u.correoElectronico, u.password, u.idRol "
+                + " FROM usuario u ")  });
         return result;
     }
 
@@ -16,7 +16,7 @@ class UsuarioModelo {
     public async add(usuario: any) {
         const result = await pool.then( async (connection) => {
             return await connection.query(
-                " INSERT INTO tbl_usuario SET ? ", [usuario]);
+                " INSERT INTO usuario SET ? ", [usuario]);
         });
         return result;
     }
@@ -24,8 +24,8 @@ class UsuarioModelo {
 
 
     public async update(usuario: any) {
-       const update = "UPDATE tbl_usuario SET password='" + usuario.password +
-            "' where email='" + usuario.email + "'";
+       const update = "UPDATE usuario SET password='" + usuario.password +
+            "' where correoElectronico='" + usuario.correoElectronico + "'";
         console.log("Update  "+ update)
         const result = await pool.then( async (connection) => {
             return await connection.query(update)              
@@ -34,11 +34,11 @@ class UsuarioModelo {
     }
 
 
-    public async delete(email: string) {
+    public async delete(correoElectronico: string) {
         console.log('Eliminando');
         const result = await pool.then( async (connection) => {
             return await connection.query(
-             "DELETE FROM tbl_usuario where email= ?", [email]
+             "DELETE FROM usuario where correoElectronico= ?", [correoElectronico]
              );
         });
         return result;

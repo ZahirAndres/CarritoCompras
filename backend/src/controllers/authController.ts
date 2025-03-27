@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import validator from "validator";
 import model from "../models/authModelo";
 import { utils } from "../utils/utils";
-import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'; 
 //import db from '../utils/database';
 import dotenv from 'dotenv';
 
