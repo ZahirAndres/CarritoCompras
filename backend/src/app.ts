@@ -10,7 +10,6 @@ import productoRoutes from "./routes/productoRoutes";
 import categoriaRoutes from "./routes/categoriaRoutes";
 import rolRoutes from "./routes/rolRoutes";
 import compraRoutes from "./routes/compraRoutes";
-
 import carritoRoutes from './routes/carritoRoutes';
 class Server {
 
@@ -49,6 +48,7 @@ routes() {
     this.app.use("/rol", rolRoutes);
     this.app.use("/productos",productoRoutes);
     this.app.use("/carrito", carritoRoutes);
+    this.app.use("/compra", compraRoutes);
 }
 
 }
