@@ -1,0 +1,44 @@
+import pool from '../config/connection';
+
+class ProductoModelo {
+  public async list() {
+    const result = await pool.then(async (connection) => {
+      return await connection.query("SELECT * FROM productos");
+    });
+    return result;
+  }
+
+  public async getById(id: number) {
+    const result = await pool.then(async (connection) => {
+      return await connection.query("SELECT * FROM productos WHERE id = ?", [id]);
+    });
+    return result;
+  }
+
+  public async add(producto: any) {
+    const result = await pool.then(async (connection) => {
+      return await connection.query("INSERT INTO productos SET ?", [producto]);
+    });
+    return result;
+  }
+
+  public async update(producto: any) {
+    const result = await pool.then(async (connection) => {
+      return await connection.query(
+        "UPDATE productos SET nombre=?, categoria=?, descripcion=?, precio=?, stock=? WHERE id=?",
+        [producto.nombre, producto.categoria, producto.descripcion, producto.precio, producto.stock, producto.id]
+      );
+    });
+    return result;
+  }
+
+  public async delete(id: number) {
+    const result = await pool.then(async (connection) => {
+      return await connection.query("DELETE FROM productos WHERE id = ?", [id]);
+    });
+    return result;
+  }
+}
+
+const model = new ProductoModelo();
+export default model;
