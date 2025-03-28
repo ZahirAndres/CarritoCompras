@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 import model from "../models/compraModelo";
 
 class CompraController {
-  
-    public async list(req:Request, res: Response) {
+
+    public async list(req: Request, res: Response) {
         try {
             const compraes = await model.list();
             return res.json({
@@ -12,49 +12,49 @@ class CompraController {
                 code: 200
             });
         } catch (error: any) {
-            return res.status(500).json({message: `${error.message}`});
+            return res.status(500).json({ message: `${error.message}` });
         }
     }
 
-    public async add (req:Request, res:Response) {
+    public async add(req: Request, res: Response) {
         try {
-            let {idProducto, idCarrito, cantidad, totalProducto} = req.body;
+            let { idProducto, idCarrito, cantidad, totalProducto } = req.body;
 
 
-            await model.add({idProducto, idCarrito, cantidad, totalProducto});
+            await model.add({ idProducto, idCarrito, cantidad, totalProducto });
 
-            return res.json({message: "compra agregado", code:0});
+            return res.json({ message: "compra agregado", code: 0 });
         } catch (error: any) {
-            return res.status(500).json({message: `${error.message}`});
+            return res.status(500).json({ message: `${error.message}` });
         }
     }
 
-    public async update(req: Request, res:Response) {
+    public async update(req: Request, res: Response) {
         try {
-            const {idProducto, idCarrito, cantidad, totalProducto, idCompra}  = req.body;
+            const { idProducto, idCarrito, cantidad, totalProducto, idCompra } = req.body;
 
             const compraes = await model.list();
-            const compraExistente = compraes.some((compra:any) => compra.idCompra === idCompra);
+            const compraExistente = compraes.some((compra: any) => compra.idCompra === idCompra);
 
             if (!compraExistente) {
-                return res.status(404).json({ message: "compra no encontrado"+ compraExistente, code: 3});
+                return res.status(404).json({ message: "compra no encontrado" + compraExistente, code: 3 });
             }
 
-            await model.update({idProducto, idCarrito, cantidad, totalProducto, idCompra});
+            await model.update({ idProducto, idCarrito, cantidad, totalProducto, idCompra });
 
-            return res.json({message: "compra correctamente actualizado", code:0 });
+            return res.json({ message: "compra correctamente actualizado", code: 0 });
         } catch (error: any) {
-            return res.status(500).json({message: `${error.message}`});
+            return res.status(500).json({ message: `${error.message}` });
         }
     }
 
     public async delete(req: Request, res: Response) {
         try {
             const { idCompra } = req.body;
-      
+
             const compraes = await model.list();
             const compraExistente = compraes.some((compra: any) => compra.idCompra === idCompra);
-      
+
             if (!compraExistente) {
                 return res.status(404).json({ message: "Compra no encontrado", code: 3 });
             }
@@ -63,7 +63,26 @@ class CompraController {
         } catch (error: any) {
             return res.status(500).json({ message: `${error.message}` });
         }
-      }
+    }
+
+    public async getArticulosCarritos(req: Request, res: Response) {
+        try {
+            const { idCarrito } = req.params;
+            const productosCarrito = await model.getArticulosCarritos(idCarrito);
+
+            if(productosCarrito.length < 0) {
+                return res.status(407).json({ message: "No hay productos en el carrito", code: 3 });
+            }
+
+            return res.json({
+                message: "Artículos en el carrito",
+                productosCarrito: productosCarrito,
+                code: 200
+            });
+        } catch (error: any) { 
+            return res.status(500).json({ message: `${error.message}` });
+        }
+    }
 
 }
 export const compraController = new CompraController();

@@ -13,6 +13,7 @@ class CompraRoutes {
     this.router.post("/", compraController.add);
     this.router.put("/", compraController.update);
     this.router.delete("/", compraController.delete);
+    this.router.get("/productosCarrito/:idCarrito", compraController.getArticulosCarritos);
   }
 }
 

@@ -36,10 +36,19 @@ class CarritoController {
             }
 
             fechaCreacion = new Date();
+            const carritoActual = await model.obtenerCarrito(idUsuario);
 
-            await model.add({ estatus, fechaPago, fechaCreacion, total, subTotal, idUsuario });
+            if (carritoActual.length === 0) {
+                await model.add({ estatus, fechaPago, fechaCreacion, total, subTotal, idUsuario });
 
-            return res.json({ message: "Carrito agregado correctamente", code: 0 });
+                return res.json({ message: "Carrito agregado correctamente", code: 0 });
+
+            } else {
+                return res.status(404).json({ message: "No puedes agregar otro carrito hasta que pagues el primero", code: 7 });
+            }
+
+
+
         } catch (error: any) {
             return res.status(500).json({ message: `${error.message}` });
         }
@@ -49,7 +58,6 @@ class CarritoController {
         try {
             let { idCarrito, estatus, fechaPago, total, subTotal } = req.body;
 
-            // Validaciones
             if (!idCarrito || isNaN(idCarrito)) {
                 return res.status(400).json({ message: "ID inválido", code: 6 });
             }
@@ -66,9 +74,11 @@ class CarritoController {
             if (fechaPago && !validator.isEmpty(fechaPago)) {
                 fechaPago = new Date(fechaPago).toISOString().split('T')[0];
             } else {
-                fechaPago = null; 
+                fechaPago = null;
             }
             await model.update({ idCarrito, estatus, fechaPago, total, subTotal });
+
+
 
             return res.json({ message: "Carrito actualizado correctamente", code: 0 });
         } catch (error: any) {
@@ -84,7 +94,6 @@ class CarritoController {
                 return res.status(400).json({ message: "ID inválido", code: 6 });
             }
 
-            // Verificar si el producto existe
             const carritoExistente = await model.getById(idCarrito);
             if (carritoExistente.length === 0) {
                 return res.status(404).json({ message: "El carrito no existe", code: 7 });
@@ -92,6 +101,47 @@ class CarritoController {
             await model.delete(idCarrito);
 
             return res.json({ message: "Carrito eliminado correctamente", code: 0 });
+        } catch (error: any) {
+            return res.status(500).json({ message: `${error.message}` });
+        }
+    }
+
+    public async obtenerCarritosPagados(req: Request, res: Response) {
+        try {
+            let { idUsuario } = req.params;
+            const carritosPagados = await model.obtenerCarritosPagados(idUsuario);
+
+            if (carritosPagados.length === 0) {
+                return res.status(404).json({ message: "No tiene carritos pagados", code: 7 });
+            }
+
+            return res.json({
+                message: "Listado de carritos pagados",
+                carritosPagados: carritosPagados,
+                code: 200
+            });
+
+        } catch (error: any) {
+            return res.status(500).json({ message: `${error.message}` });
+        }
+    }
+
+
+    public async obtenerCarrito(req: Request, res: Response) {
+        try {
+            let { idUsuario } = req.params;
+            const carritoActual = await model.obtenerCarrito(idUsuario);
+
+            if (carritoActual.length === 0) {
+                return res.status(404).json({ message: "No tiene carritos pagados", code: 7 });
+            }
+
+            return res.json({
+                message: "Listado de tu carrito actual",
+                carritosPagados: carritoActual,
+                code: 200
+            });
+
         } catch (error: any) {
             return res.status(500).json({ message: `${error.message}` });
         }

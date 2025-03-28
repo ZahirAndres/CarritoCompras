@@ -16,10 +16,10 @@ class CarritoModelo {
   }
 
   public async add(producto: any) {
-      const result = await pool.then(async (connection) => {
-        return await connection.query("INSERT INTO carrito SET ?", [producto]);
-      });
-      return result;
+    const result = await pool.then(async (connection) => {
+      return await connection.query("INSERT INTO carrito SET ?", [producto]);
+    });
+    return result;
   }
 
   public async update(producto: any) {
@@ -39,16 +39,17 @@ class CarritoModelo {
     return result;
   }
 
-  public async obtenerCarritosPagados(idCarrito: number){
+  public async obtenerCarritosPagados(idUsuario: number) {
     const result = await pool.then(async (connection) => {
-        return await connection.query("SELECT * FROM carrito WHERE idCarrito =? AND estatus = 'Pagado'", [idCarrito]);
+      return await connection.query("SELECT * FROM carrito WHERE idUsuario = ? AND estatus = 'Pagado'", [idUsuario]);
     });
     return result;
   }
 
-  public async obtenerCarrito(idCarrito: number){
+  public async obtenerCarrito(idUsuario: number) {
     const result = await pool.then(async (connection) => {
-        return await connection.query("SELECT * FROM carrito WHERE idCarrito =? AND estatus = 'Proceso' LIMIT 1", [idCarrito]);
+      return await connection.query(
+        "SELECT * FROM carrito WHERE idUsuario = ? AND estatus = 'Proceso' ORDER BY fechaCreacion ASC LIMIT 1",[idUsuario]);
     });
     return result;
   }

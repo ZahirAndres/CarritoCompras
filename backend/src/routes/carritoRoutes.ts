@@ -13,6 +13,9 @@ class CarritoRoutes {
     this.router.post("/", carritoController.add);
     this.router.put("/", carritoController.update);
     this.router.delete("/:idCarrito", carritoController.delete);
+    this.router.get("/carritosPagados/:idUsuario", carritoController.obtenerCarritosPagados);
+    this.router.get("/carritoActual/:idUsuario", carritoController.obtenerCarrito);
+
   }
 }
 
