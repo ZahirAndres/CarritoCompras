@@ -23,7 +23,11 @@ export class ProductosService {
     return this.http.put<any[]>(`${this.apiUri}`, producto);
   }
 
-  eliminarProductos(producto: any){
-    return this.http.delete<any[]>(`${this.apiUri}`, producto);
+  eliminarProductos(producto: any) {
+    return this.http.delete<any[]>(`${this.apiUri}`, {
+      headers: { 'Content-Type': 'application/json' },
+      body: producto
+    });
   }
+  
 }

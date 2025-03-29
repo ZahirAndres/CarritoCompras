@@ -6,4 +6,5 @@ export interface Producto {
     cantidadProducto: number;
     idCategoria: number;
     descripcion: string;
+    fechaCreacion: Date;
 }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,19 +9,23 @@ import { CrearProductoComponent } from './components/productos/crear-producto/cr
 import { VerProductosComponent } from './components/productos/ver-productos/ver-productos.component';
 import { DetalleProductoComponent } from './components/productos/detalle-producto/detalle-producto.component';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavBarComponent,
-    CrearProductoComponent,
     VerProductosComponent,
-    DetalleProductoComponent
+    DetalleProductoComponent,
+    CrearProductoComponent 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule 
+    HttpClientModule,
+    RouterModule, 
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
