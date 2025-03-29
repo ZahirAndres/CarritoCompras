@@ -1,0 +1,96 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <!-- Logo y Nombre -->
+      <div class="navbar-brand d-flex align-items-center">
+        <div class="me-2">
+          <img src="assets/img/logo_MotoPronto.png" alt="MotoPronto Logo" />
+          MotoPronto
+        </div>
+      </div>
+  
+      <!-- Botón para móviles -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <!-- Elementos de la navbar -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <!-- Enlaces de navegación -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+          </li>
+  
+          <!-- Dropdown de Productos -->
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Productos
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Motos Deportivas</a></li>
+              <li><a class="dropdown-item" href="#">Motos Todo Terreno</a></li>
+              <li><a class="dropdown-item" href="#">Scooters</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" href="#">Accesorios</a></li>
+              <li><a class="dropdown-item" href="#">Repuestos</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Servicios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contacto</a>
+          </li>
+        </ul>
+  
+        <!-- Elementos de la derecha -->
+        <div class="d-flex align-items-center">
+          <!-- Carrito de compras -->
+          <a href="#" class="nav-link me-3 position-relative">
+            <i class="fas fa-shopping-cart fa-lg"></i>
+            <span
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            >
+              3
+              <span class="visually-hidden">productos en carrito</span>
+            </span>
+          </a>
+  
+          <!-- Usuario logueado (mostrar condicionalmente) -->
+          <div class="d-flex align-items-center me-3">
+            <img
+              src="assets/img/user-avatar.png"
+              alt="Avatar de Usuario"
+              class="user-avatar me-2"
+            />
+            <span class="text-light d-none d-md-block">Usuario</span>
+          </div>
+  
+          <!-- Botón de inicio de sesión -->
+          <button class="btn btn-login me-2">Iniciar Sesión</button>
+  
+          <!-- Botón de cerrar sesión -->
+           <!-- Botón de cerrar sesión -->
+  <button class="btn btn-danger">
+      <i class="fas fa-sign-out-alt"></i>
+    </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+  

@@ -1,0 +1,55 @@
+
+<body class="body-all-pages">
+  <div class="container">
+    <div class="row" *ngFor="let producto of productos">
+      <!-- Primer producto -->
+      <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+          <div class="row g-0 align-items-center">
+            <!-- Imagen a la izquierda -->
+            <div class="col-md-5">
+              <div class="position-relative">
+                <img
+                  [src]="producto.imagen"
+                  class="img-fluid rounded-start"
+                  alt="Moto Deportiva"
+                />
+                <span
+                  class="badge bg-danger position-absolute top-0 end-0 mt-2 me-2"
+                  >Nuevo</span
+                >
+              </div>
+            </div>
+            <!-- Contenido a la derecha -->
+            <div class="col-md-7">
+              <div class="card-body">
+                <h5 class="card-title fw-bold">
+                  {{ producto.nombreProducto }}
+                </h5>
+                <p class="card-text text-muted mb-1">Moto Deportiva</p>
+                <div
+                  class="d-flex justify-content-between align-items-center mb-2"
+                >
+                  <h4 class="text-primary fw-bold mb-0">$12,499</h4>
+                  <span class="badge bg-success">Disponible</span>
+                </div>
+                <p class="card-text small">
+                  Potencia, estilo y rendimiento en carretera. Motor de 650cc
+                  con 94HP.
+                </p>
+                <div class="d-flex justify-content-between mt-3">
+                  <button class="btn btn-primary">
+                    <i class="fas fa-shopping-cart me-1"></i> Añadir
+                  </button>
+                  <button class="btn btn-outline-secondary">
+                    Ver detalles
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
