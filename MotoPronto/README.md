@@ -1,59 +1,39 @@
-# MotoPronto
+# Configuración
+La aplicación permitirá registrarse e ingresar utilizando Json-Server
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.4.
-
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
+```
+git clone git clone https://github.com/Entornos-Virtuales-Utng/gbr-shop.git
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+Cambiarse al directorio de trabajo
+```
+cd gbr-shop
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
+Instalación de Dependencias
+```
+npm i
 ```
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
+Levantar el servidor
 ```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+ng s -o
 ```
+Cerciorarse que el servidor esté levantando
+[Servidor Angular](http://localhost:4200/).
 
-## Running end-to-end tests
+## Registro
+![image](https://github.com/Entornos-Virtuales-Utng/gbr-shop/assets/8560750/8e34b5a5-f475-41b6-8cdb-fe39998f197c)
 
-For end-to-end (e2e) testing, run:
+## Login o Ingresar
+![image](https://github.com/Entornos-Virtuales-Utng/gbr-shop/assets/8560750/9e18b0f3-028d-4a18-81c5-f1f57c779b83)
 
-```bash
-ng e2e
+
+## servidor Json-Server
+Instrucción para levantar el servidor Json-Server
 ```
+npx json-server db.json
+```
+Cerciorarse que el servidor esté levantando
+[Json Server](http://localhost:3000/).
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
