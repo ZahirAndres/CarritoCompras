@@ -14,6 +14,10 @@ import { FooterComponent } from './componentes/footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
 import {  HttpClientModule } from '@angular/common/http';
+import { VerProductosComponent } from './componentes/productos/ver-productos/ver-productos.component';
+import { CrearProductoComponent } from './componentes/productos/crear-producto/crear-producto.component';
+import { DetalleProductoComponent } from './componentes/productos/detalle-producto/detalle-producto.component';
+import { NavBarComponent } from './componentes/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,11 @@ import {  HttpClientModule } from '@angular/common/http';
     RegisterComponent,
     HomeComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    VerProductosComponent,
+    CrearProductoComponent,
+    DetalleProductoComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,

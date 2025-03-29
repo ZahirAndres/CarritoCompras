@@ -1,0 +1,47 @@
+.navbar {
+    background-color: #0d47a1 !important; /* Azul oscuro */
+  }
+  .navbar-brand {
+    font-weight: bold;
+    color: white !important;
+  }
+  .nav-link {
+    color: #bbdefb !important; /* Azul claro */
+  }
+  .nav-link:hover {
+    color: white !important;
+  }
+  .dropdown-menu {
+    background-color: #1565c0; /* Azul medio */
+  }
+  .dropdown-item {
+    color: #e3f2fd; /* Azul muy claro */
+  }
+  .dropdown-item:hover {
+    background-color: #0d47a1;
+    color: white;
+  }
+  .btn-login {
+    background-color: #1976d2;
+    color: white;
+    border: none;
+  }
+  .btn-login:hover {
+    background-color: #2196f3;
+    color: white;
+  }
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #2196f3;
+  }
+
+  .me-2 img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #2196f3;
+    margin-right: 10px;
+    object-fit: cover;
+  }
