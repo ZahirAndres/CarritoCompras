@@ -25,8 +25,8 @@ class ProductoModelo {
   public async update(producto: any) {
     const result = await pool.then(async (connection) => {
       return await connection.query(
-        "UPDATE productos SET nombreProducto=?, idCategoria=?, descripcion=?, precio=?, cantidadProducto=? WHERE idProducto=?",
-        [producto.nombreProducto, producto.idCategoria, producto.descripcion, producto.precio, producto.cantidadProducto, producto.idProducto]
+        "UPDATE productos SET nombreProducto=?, imagen = ?, idCategoria=?, descripcion=?, precio=?, cantidadProducto=? WHERE idProducto=?",
+        [producto.nombreProducto, producto.imagen, producto.idCategoria, producto.descripcion, producto.precio, producto.cantidadProducto, producto.idProducto]
       );
     });
     return result;
