@@ -8,3 +8,10 @@ export interface Producto {
     descripcion: string;
     fechaCreacion: Date;
 }
+
+export interface Compra {
+    idProducto: number;
+    idUsuario: number
+    cantidad: number;
+    totalProducto: number;
+}

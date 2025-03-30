@@ -13,11 +13,16 @@ export class VerProductosComponent implements OnInit {
   newProducto: Producto = this.initProducto();
   isAddDialogOpen: boolean = false;
   isEditDialogOpen: boolean = false;
+  isProducto: boolean = false;
+  mostrarDescripcionCompleta: boolean = false;
+  descripcionEsLarga: boolean = false;
 
+  
   constructor(private productoService: ProductosService) { }
 
   ngOnInit(): void {
     this.cargarProductos();
+    this.descripcionEsLarga = this.currentProducto.descripcion?.length > 50;
   }
 
   private initProducto(): Producto {
@@ -96,4 +101,14 @@ export class VerProductosComponent implements OnInit {
     this.currentProducto = { ...producto }; 
     this.isEditDialogOpen = true; 
   }
+
+  openProductoDialog(producto: Producto): void {
+    this.currentProducto = { ...producto };
+    console.log(this.currentProducto);  
+    this.isProducto = true;
+  }
+  toggleDescripcion(): void {
+    this.mostrarDescripcionCompleta = !this.mostrarDescripcionCompleta;
+  }
 }
+
