@@ -16,6 +16,7 @@ class UsuarioRoutes {
 
     private config() {
         this.router.get('/', usuarioController.list);        
+        this.router.get('/one/:idUsuario', usuarioController.listOne);        
         this.router.post('/', usuarioController.add)
         this.router.put('/', usuarioController.update)
         this.router.delete('/', usuarioController.delete)

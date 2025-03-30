@@ -6,59 +6,87 @@ import { User } from '../../interfaces/auth';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
+  loading = false;
+
   registerForm = this.fb.group({
-    fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/)]],
+    nombreUsuario: ['', Validators.required],
+    apellidoP: ['', Validators.required],
+    apellidoM: ['', Validators.required],
+    telefono: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+    ciudad: ['', Validators.required],
+    codigoPostal: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
+    calleNumero: ['', Validators.required],
+    colonia: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
+    password: ['', [Validators.required, Validators.minLength(6)]],
     confirmPassword: ['', Validators.required]
-  },  {
+  }, {
     validators: passwordMatchValidator
-  })
+  });
 
-  constructor(private fb:FormBuilder, private authService: AuthService,
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
     private messageService: MessageService,
-    private router:Router) {
-  }
+    private router: Router
+  ) {}
 
-  get fullName() {
-    return this.registerForm.controls['fullName'];
-  }
+  // Getters para facilitar la lectura de errores en la vista
+  get nombreUsuario() { return this.registerForm.get('nombreUsuario')!; }
+  get apellidoP() { return this.registerForm.get('apellidoP')!; }
+  get apellidoM() { return this.registerForm.get('apellidoM')!; }
+  get telefono() { return this.registerForm.get('telefono')!; }
+  get ciudad() { return this.registerForm.get('ciudad')!; }
+  get codigoPostal() { return this.registerForm.get('codigoPostal')!; }
+  get calleNumero() { return this.registerForm.get('calleNumero')!; }
+  get colonia() { return this.registerForm.get('colonia')!; }
+  get email() { return this.registerForm.get('email')!; }
+  get password() { return this.registerForm.get('password')!; }
+  get confirmPassword() { return this.registerForm.get('confirmPassword')!; }
 
-  get email() {
-    return this.registerForm.controls['email'];
-  }
+  async enviarRegistro() {
+    if (this.registerForm.invalid || this.loading) return;
 
-  get password() {
-    return this.registerForm.controls['password'];
-  }
+    this.loading = true;
+    const formValues = { ...this.registerForm.value };
 
-  get confirmPassword() {
-    return this.registerForm.controls['confirmPassword'];
-  }
+    const usuarioData = {
+      nombreUsuario: formValues.nombreUsuario || "",
+      apellidoP: formValues.apellidoP || "",
+      apellidoM: formValues.apellidoM || "",
+      telefono: formValues.telefono || "",
+      ciudad: formValues.ciudad || "",
+      codigoPostal: formValues.codigoPostal || "",
+      calleNumero: formValues.calleNumero || "",
+      colonia: formValues.colonia || "",
+      email: formValues.email,
+      password: formValues.password, // Aquí podrías encriptarla según tus necesidades
+      role: 2 // Valor por defecto para el rol de motociclista
+    };
 
-  enviarRegistro() {
-    const data = {...this.registerForm.value};
-
-    delete data.confirmPassword;
-
-    this.authService.registerUser(data as User).subscribe(
+    this.authService.registerUser(usuarioData as User).subscribe(
       response => {
-        console.log(response);
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Registrado Agregado' });
+        this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Usuario registrado correctamente' });
         this.router.navigate(['login']);
       },
       error => {
-        console.log(error)
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Algo salió mal' });
-
+        console.error('Error en la respuesta del backend:', error);
+        // Intentamos obtener un mensaje de error específico enviado desde el backend
+        let errorMsg = 'Error al registrar usuario';
+        if (error.error && error.error.message) {
+          errorMsg = error.error.message;
+        } else if (error.message) {
+          errorMsg = error.message;
+        }
+        
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMsg });
       }
-    )
+    ).add(() => this.loading = false);
   }
 }

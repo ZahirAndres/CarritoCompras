@@ -1,0 +1,101 @@
+/* Estilos para el formulario de dos columnas */
+:host ::ng-deep .p-card {
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  :host ::ng-deep .p-card .p-card-title {
+    color: #2a3990;
+    font-size: 1.5rem;
+  }
+  
+  :host ::ng-deep .p-button {
+    background-color: #2a3990;
+    border-color: #2a3990;
+  }
+  
+  :host ::ng-deep .p-button:hover {
+    background-color: #1e2b6e;
+    border-color: #1e2b6e;
+  }
+  
+  .text-primary {
+    color: #2a3990;
+  }
+  
+  /* Grid system */
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .formgrid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  
+  /* Para pantallas medianas y grandes */
+  @media screen and (min-width: 768px) {
+    .md\:col-6 {
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+    
+    .field-container {
+      padding-right: 1rem;
+    }
+  }
+  
+  /* Mejoras generales */
+  .min-h-screen {
+    min-height: 100vh;
+  }
+  
+  .w-full {
+    width: 100%;
+  }
+  
+  .mb-3 {
+    margin-bottom: 1rem;
+  }
+  
+  .mt-3 {
+    margin-top: 1rem;
+  }
+  
+  .mt-4 {
+    margin-top: 1.5rem;
+  }
+  
+  .block {
+    display: block;
+  }
+  
+  .flex {
+    display: flex;
+  }
+  
+  .justify-content-center {
+    justify-content: center;
+  }
+  
+  .align-items-center {
+    align-items: center;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .p-4 {
+    padding: 1rem;
+  }
+  
+  .p-error {
+    color: #f44336;
+  }

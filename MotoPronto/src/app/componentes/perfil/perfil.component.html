@@ -1,0 +1,205 @@
+<div class="perfil-page">
+        <div class="perfil-container">
+            <!-- Encabezado del perfil -->
+            <div class="perfil-header">
+                <div class="header-background"></div>
+                <div class="perfil-foto-container">
+                    <img [src]="usuario?.urlImagen || '../../assets/img/logo_MotoPronto.png'" alt="Foto de perfil" class="perfil-foto">
+                    <div class="foto-overlay" *ngIf="editMode">
+                        <button class="change-photo-btn"><i class="fas fa-camera"></i> Cambiar foto</button>
+                    </div>
+                </div>
+                <h2>{{ usuario?.nombreUsuario }} {{ usuario?.apellidoP }} {{ usuario?.apellidoM }}</h2>
+                <p class="perfil-correoElectronico"><i class="fas fa-envelope"></i> {{ usuario?.correoElectronico }}</p>
+                <button *ngIf="!editMode" (click)="activarEdicion()" class="edit-btn">
+                    <i class="fas fa-pencil-alt"></i> Editar Perfil
+                </button>
+            </div>
+            
+            <!-- Información del perfil - Modo visualización -->
+            <div class="perfil-info info-vista" *ngIf="!editMode">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-card">
+                            <h3><i class="fas fa-user me-2"></i> Datos Personales</h3>
+                            
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="info-text">
+                                    <p class="info-label">Teléfono</p>
+                                    <p class="info-value">{{ usuario?.telefono || 'No especificado' }}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="info-text">
+                                    <p class="info-label">Correo Electrónico</p>
+                                    <p class="info-value">{{ usuario?.correoElectronico || 'No especificado' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="info-card">
+                            <h3><i class="fas fa-map-marker-alt me-2"></i> Dirección</h3>
+                            
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-city"></i>
+                                </div>
+                                <div class="info-text">
+                                    <p class="info-label">Ciudad</p>
+                                    <p class="info-value">{{ usuario?.ciudad || 'No especificada' }}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-map-pin"></i>
+                                </div>
+                                <div class="info-text">
+                                    <p class="info-label">Colonia</p>
+                                    <p class="info-value">{{ usuario?.colonia || 'No especificada' }}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-road"></i>
+                                </div>
+                                <div class="info-text">
+                                    <p class="info-label">Calle y Número</p>
+                                    <p class="info-value">{{ usuario?.calleNumero || 'No especificado' }}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-mailbox"></i>
+                                </div>
+                                <div class="info-text">
+                                    <p class="info-label">Código Postal</p>
+                                    <p class="info-value">{{ usuario?.codigoPostal || 'No especificado' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Formulario de edición - Modo edición -->
+            <div class="perfil-info" *ngIf="editMode">
+                <h3 class="mb-4 text-center">Actualiza tus datos personales</h3>
+                
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label for="nombreUsuario" class="form-label">Nombre</label>
+                            <div class="position-relative">
+                                <i class="fas fa-user form-icon"></i>
+                                <input id="nombreUsuario" [(ngModel)]="usuario.nombreUsuario" type="text" class="form-control icon-input" placeholder="Tu nombre">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label for="apellidoP" class="form-label">Apellido Paterno</label>
+                            <input id="apellidoP" [(ngModel)]="usuario.apellidoP" type="text" class="form-control" placeholder="Apellido paterno">
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label for="apellidoM" class="form-label">Apellido Materno</label>
+                            <input id="apellidoM" [(ngModel)]="usuario.apellidoM" type="text" class="form-control" placeholder="Apellido materno">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <div class="position-relative">
+                                <i class="fas fa-phone form-icon"></i>
+                                <input id="telefono" [(ngModel)]="usuario.telefono" type="text" class="form-control icon-input" placeholder="Tu número de teléfono">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="correoElectronico" class="form-label">Correo electrónico</label>
+                            <div class="position-relative">
+                                <i class="fas fa-envelope form-icon"></i>
+                                <input id="correoElectronico" [(ngModel)]="usuario.correoElectronico" type="email" class="form-control icon-input" placeholder="Tu correo electrónico">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr class="my-4">
+                <h4 class="mb-3"><i class="fas fa-home me-2"></i> Información de dirección</h4>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="ciudad" class="form-label">Ciudad</label>
+                            <div class="position-relative">
+                                <i class="fas fa-city form-icon"></i>
+                                <input id="ciudad" [(ngModel)]="usuario.ciudad" type="text" class="form-control icon-input" placeholder="Tu ciudad">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="codigoPostal" class="form-label">Código Postal</label>
+                            <div class="position-relative">
+                                <i class="fas fa-mailbox form-icon"></i>
+                                <input id="codigoPostal" [(ngModel)]="usuario.codigoPostal" type="text" class="form-control icon-input" placeholder="Tu código postal">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="calleNumero" class="form-label">Calle y Número</label>
+                            <div class="position-relative">
+                                <i class="fas fa-road form-icon"></i>
+                                <input id="calleNumero" [(ngModel)]="usuario.calleNumero" type="text" class="form-control icon-input" placeholder="Calle y número">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="colonia" class="form-label">Colonia</label>
+                            <div class="position-relative">
+                                <i class="fas fa-map-marker-alt form-icon"></i>
+                                <input id="colonia" [(ngModel)]="usuario.colonia" type="text" class="form-control icon-input" placeholder="Tu colonia">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="btn-container">
+                    <button (click)="editMode = false" class="btn btn-cancelar">
+                        <i class="fas fa-times me-2"></i> Cancelar
+                    </button>
+                    <button (click)="guardarEdicion()" class="btn btn-guardar">
+                        <i class="fas fa-save me-2"></i> Guardar Cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

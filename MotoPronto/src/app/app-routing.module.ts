@@ -5,11 +5,16 @@ import { RegisterComponent } from './componentes/register/register.component';
 import { HomeComponent } from './componentes/home/home.component';
 import { authGuard } from './guards/auth.guard';
 import { VerProductosComponent } from './componentes/productos/ver-productos/ver-productos.component';
+import { PerfilComponent } from './componentes/perfil/perfil.component';
 
 const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path : 'perfil',
+    component: PerfilComponent,
   },
   {
     path: 'register',

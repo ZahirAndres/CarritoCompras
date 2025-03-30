@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +18,7 @@ import { VerProductosComponent } from './componentes/productos/ver-productos/ver
 import { CrearProductoComponent } from './componentes/productos/crear-producto/crear-producto.component';
 import { DetalleProductoComponent } from './componentes/productos/detalle-producto/detalle-producto.component';
 import { NavBarComponent } from './componentes/nav-bar/nav-bar.component';
+import { PerfilComponent } from './componentes/perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { NavBarComponent } from './componentes/nav-bar/nav-bar.component';
     VerProductosComponent,
     CrearProductoComponent,
     DetalleProductoComponent,
-    NavBarComponent
+    NavBarComponent,
+    PerfilComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +40,8 @@ import { NavBarComponent } from './componentes/nav-bar/nav-bar.component';
     HttpClientModule,
     PrimengModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [
     MessageService,

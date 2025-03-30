@@ -1,7 +1,13 @@
 export interface User {
-  id:string;
-  fullName: string;
-  email:string;
-  password:string
+  id?: string;  
+  nombreUsuario: string;
+  apellidoP: string;
+  apellidoM: string;
+  telefono: string;
+  ciudad: string;
+  codigoPostal: string;
+  calleNumero: string;
+  colonia: string;
+  email: string;
+  password: string;
 }
- 
