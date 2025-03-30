@@ -19,6 +19,7 @@ class UsuarioModelo {
                 " SELECT u.* "
                 + " FROM usuario u WHERE u.idUsuario = ? ", [usuario]);
         });
+              
         return result;
     }
 
@@ -31,6 +32,8 @@ class UsuarioModelo {
         });
         return result;
     }
+
+    
 
 
 
@@ -84,12 +87,22 @@ class UsuarioModelo {
     }
 
 
+
     public async delete(correoElectronico: string) {
         console.log('Eliminando');
         const result = await pool.then(async (connection) => {
+ 
             return await connection.query(
                 "DELETE FROM usuario where correoElectronico= ?", [correoElectronico]
             );
+               
+        });
+        return result;
+    }
+
+    public async getById(idUsuario: number) {
+        const result = await pool.then(async (connection) => {
+            return await connection.query("SELECT * FROM usuario WHERE idUsuario =?", [idUsuario]);
         });
         return result;
     }

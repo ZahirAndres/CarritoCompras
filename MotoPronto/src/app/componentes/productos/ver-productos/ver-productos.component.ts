@@ -66,8 +66,6 @@ export class VerProductosComponent implements OnInit {
     const hoy = new Date();
     const fecha = new Date(fechaCreacion); // Convertir a Date
     const diferenciaDias = Math.floor((hoy.getTime() - fecha.getTime()) / (1000 * 3600 * 24));
-
-    console.log("Dias", diferenciaDias, fechaCreacion);
     return diferenciaDias < 30 ? "Nuevo" : "";
   }
 
