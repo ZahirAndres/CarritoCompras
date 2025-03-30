@@ -72,17 +72,20 @@
         </a>
 
         <!-- Usuario logueado (mostrar condicionalmente) -->
-        <div class="d-flex align-items-center me-3">
+        <div *ngIf="usuario.idUsuario !== 0" class="d-flex align-items-center me-3">
+          <div class="me-user-2">
           <img
-            src="assets/img/user-avatar.png"
+            [src]="usuario.avatar"
             alt="Avatar de Usuario"
-            class="user-avatar me-2"
+            
           />
-          <span class="text-light d-none d-md-block">Usuario</span>
         </div>
-
+          <span class="text-light d-none d-md-block">
+            {{ usuario.nombreUsuario }} {{ usuario.apellidoP }}
+          </span>
+        </div>
         <!-- Botón de inicio de sesión -->
-        <button class="btn btn-login me-2">Iniciar Sesión</button>
+        <!-- <button class="btn btn-login me-2">Iniciar Sesión</button> -->
 
         <!-- Botón de cerrar sesión -->
         <!-- Botón de cerrar sesión -->

@@ -40,6 +40,7 @@ export class LoginComponent {
             sessionStorage.setItem('token', response.token);
             sessionStorage.setItem('idUsuario', response.idUsuario);
             sessionStorage.setItem('email', email as string);
+            sessionStorage.setItem('nombreRol',response.nombreRol);
             this.router.navigate(['/home']);
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Email o Contraseña Incorrecta' });
