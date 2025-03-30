@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import model from "../models/compraModelo";
+import modeloCarrito from "../models/carritoModelo";
 
 class CompraController {
 
@@ -18,17 +19,45 @@ class CompraController {
 
     public async add(req: Request, res: Response) {
         try {
-            let { idProducto, idCarrito, cantidad, totalProducto } = req.body;
-
-
-            await model.add({ idProducto, idCarrito, cantidad, totalProducto });
-
-            return res.json({ message: "compra agregado", code: 0 });
+            let { idProducto, idUsuario, cantidad, totalProducto } = req.body;
+    
+            // Obtener el carrito actual del usuario
+            let carritoActual = await modeloCarrito.obtenerCarrito(idUsuario);
+    
+            // Si no se encuentra un carrito con estatus "Proceso", creamos uno nuevo
+            if (!carritoActual || carritoActual.length === 0) {
+                const fechaCreacion = new Date();
+                const estatus = "Proceso";
+                const fechaPago = null;
+                const subTotal = totalProducto;
+                const total = subTotal * 1.16;
+    
+                // Crear un nuevo carrito
+                await modeloCarrito.add({ estatus, fechaPago, fechaCreacion, total, subTotal, idUsuario });
+    
+                carritoActual = await modeloCarrito.obtenerCarrito(idUsuario);
+            }
+    
+            if (!carritoActual || carritoActual.length === 0) {
+                return res.status(400).json({ message: "No se pudo obtener el carrito", code: 1 });
+            }
+    
+            const idCarrito = carritoActual[0].idCarrito;
+    
+            await model.add({
+                idProducto,
+                idCarrito,
+                cantidad,
+                totalProducto
+            });
+    
+            return res.json({ message: "Compra agregada", code: 0 });
         } catch (error: any) {
-            return res.status(500).json({ message: `${error.message}` });
+            console.error("Error al agregar al carrito:", error);
+            return res.status(500).json({ message: `Error: ${error.message}`, code: 500 });
         }
     }
-
+    
     public async update(req: Request, res: Response) {
         try {
             const { idProducto, idCarrito, cantidad, totalProducto, idCompra } = req.body;
@@ -70,7 +99,7 @@ class CompraController {
             const { idCarrito } = req.params;
             const productosCarrito = await model.getArticulosCarritos(idCarrito);
 
-            if(productosCarrito.length < 0) {
+            if (productosCarrito.length < 0) {
                 return res.status(407).json({ message: "No hay productos en el carrito", code: 3 });
             }
 
@@ -79,7 +108,7 @@ class CompraController {
                 productosCarrito: productosCarrito,
                 code: 200
             });
-        } catch (error: any) { 
+        } catch (error: any) {
             return res.status(500).json({ message: `${error.message}` });
         }
     }

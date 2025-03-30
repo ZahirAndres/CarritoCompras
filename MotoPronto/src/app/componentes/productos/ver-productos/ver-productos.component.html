@@ -37,9 +37,19 @@
                       getDisponibilidadProducto(producto.cantidadProducto)
                     }}</span>
                   </div>
-                  <p class="card-text small">
-                    {{ producto.descripcion }}
-                  </p>
+                  <div
+                  [ngClass]="{
+                    'overflow-hidden': !mostrarDescripcionCompleta
+                  }"
+                  [style.maxHeight]="
+                    mostrarDescripcionCompleta ? 'none' : '45px'
+                  "
+                >
+                <p class="card-text small">
+                  {{ producto.descripcion }}
+                </p>
+                </div>
+                 
                   <div class="d-flex justify-content-between mt-3">
                     <!-- Botón de editar con color invertido -->
                     <button
@@ -64,7 +74,7 @@
                       <i class="fas fa-shopping-cart me-1"></i> Añadir
                     </button>
                     <!-- Botón de ver detalles -->
-                    <button class="btn btn-outline-secondary">
+                    <button class="btn btn-outline-secondary" (click)="openProductoDialog(producto)">
                       Ver detalles
                     </button>
                   </div>
@@ -108,3 +118,8 @@
     </div>
   </div>
   
+  <div *ngIf="isProducto" class="edit-dialog">
+    <div class="dialog-content">
+      <app-detalle-producto [currentProducto]="currentProducto"></app-detalle-producto>
+    </div>
+  </div>
