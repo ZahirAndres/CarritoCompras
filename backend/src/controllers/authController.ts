@@ -24,8 +24,9 @@ class AuthController {
         result.then((isValid) => {
           if (isValid) {
             const newUser = {
-              email: lstUsers[0].email,
-              role: lstUsers[0].role
+              email: lstUsers[0].correoElectronico,
+              idUsuario : lstUsers[0].idUsuario,
+              idRol : lstUsers[0].idRol
             };
   
             const token = jwt.sign(newUser, process.env.SECRET || 'default_secret', { expiresIn: '1h' });

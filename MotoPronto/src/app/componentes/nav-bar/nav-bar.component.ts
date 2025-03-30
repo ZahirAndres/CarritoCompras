@@ -13,4 +13,8 @@ export class NavBarComponent {
     sessionStorage.clear()
     this.router.navigate(['login'])
   }
+
+  perfil() {
+    this.router.navigate(['perfil'])
+  }
 }
