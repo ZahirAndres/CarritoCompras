@@ -6,6 +6,7 @@ import { HomeComponent } from './componentes/home/home.component';
 import { authGuard } from './guards/auth.guard';
 import { VerProductosComponent } from './componentes/productos/ver-productos/ver-productos.component';
 import { PerfilComponent } from './componentes/perfil/perfil.component';
+import { CarritoComponent } from './componentes/compras/carrito/carrito.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,11 @@ const routes: Routes = [
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
+  },
+  {
+    path: 'carrito-compras',
+    component: CarritoComponent,
+    canActivate: [authGuard]
   }
 ];
 
