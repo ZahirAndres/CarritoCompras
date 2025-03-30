@@ -38,6 +38,7 @@ export class LoginComponent {
       response => {
         if (response.code === 0) {
             sessionStorage.setItem('token', response.token);
+            sessionStorage.setItem('idUsuario', response.idUsuario);
             sessionStorage.setItem('email', email as string);
             this.router.navigate(['/home']);
           } else {

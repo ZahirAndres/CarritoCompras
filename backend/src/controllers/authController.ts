@@ -24,13 +24,14 @@ class AuthController {
         result.then((isValid) => {
           if (isValid) {
             const newUser = {
+              idUsuario: lstUsers[0].idUsuario,
               email: lstUsers[0].email,
               role: lstUsers[0].role
             };
   
             const token = jwt.sign(newUser, process.env.SECRET || 'default_secret', { expiresIn: '1h' });
   
-            return res.json({ message: "Autenticación correcta", token, code: 0 });
+            return res.json({ message: "Autenticación correcta", token, idUsuario: newUser.idUsuario, code: 0 });
           } else {
             return res.status(401).json({ message: "Password Incorrecto", code: 1 });
           }
