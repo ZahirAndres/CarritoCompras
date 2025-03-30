@@ -50,7 +50,8 @@ class UsuarioModelo {
             colonia = ?,
             password = ?,
             idRol = ?,
-            correoElectronico = ?
+            correoElectronico = ?,
+            avatar = ?
           WHERE correoElectronico = ?
         `;
         const values = [
@@ -65,6 +66,7 @@ class UsuarioModelo {
             usuario.password,
             usuario.idRol,
             usuario.correoElectronico,
+            usuario.avatar,
             usuario.email
         ];
 

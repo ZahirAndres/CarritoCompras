@@ -25,7 +25,8 @@ export class RegisterComponent {
     colonia: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
-    confirmPassword: ['', Validators.required]
+    confirmPassword: ['', Validators.required],
+    avatar: ['', Validators.required]
   }, {
     validators: passwordMatchValidator
   });
@@ -49,6 +50,7 @@ export class RegisterComponent {
   get email() { return this.registerForm.get('email')!; }
   get password() { return this.registerForm.get('password')!; }
   get confirmPassword() { return this.registerForm.get('confirmPassword')!; }
+  get avatar() { return this.registerForm.get('avatar')!; }
 
   async enviarRegistro() {
     if (this.registerForm.invalid || this.loading) return;
@@ -67,6 +69,7 @@ export class RegisterComponent {
       colonia: formValues.colonia || "",
       email: formValues.email,
       password: formValues.password, // Aquí podrías encriptarla según tus necesidades
+      avatar: formValues.avatar || "",
       role: 2 // Valor por defecto para el rol de motociclista
     };
 
