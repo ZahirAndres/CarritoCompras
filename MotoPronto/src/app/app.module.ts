@@ -19,6 +19,7 @@ import { CrearProductoComponent } from './componentes/productos/crear-producto/c
 import { DetalleProductoComponent } from './componentes/productos/detalle-producto/detalle-producto.component';
 import { NavBarComponent } from './componentes/nav-bar/nav-bar.component';
 import { PerfilComponent } from './componentes/perfil/perfil.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { PerfilComponent } from './componentes/perfil/perfil.component';
     PrimengModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   providers: [
     MessageService,
