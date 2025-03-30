@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario';
 import { isPlatformBrowser } from '@angular/common';
+import { PerfilService } from '../../services/perfil.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -27,7 +28,7 @@ export class NavBarComponent implements OnInit {
   };
 
   constructor(private router: Router,
-    private usuarioService: UsuarioService,
+    private perfilService: PerfilService, 
     @Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngOnInit(): void {
@@ -43,23 +44,30 @@ export class NavBarComponent implements OnInit {
       console.warn('Intentando acceder a sessionStorage en un entorno no navegador.');
       return;
     }
-
-    const idUsuarioLocal = Number(sessionStorage.getItem('idUsuario'));
-
+  
+    const idUsuarioLocal = sessionStorage.getItem('idUsuario');
+  
     if (!idUsuarioLocal) {
       console.error('No hay usuario autenticado');
       return;
     }
-
-
-    this.usuarioService.getUsuarioById(idUsuarioLocal).subscribe({
+  
+    this.perfilService.getOnlyUsuario(idUsuarioLocal).subscribe({
       next: (data) => {
-        this.usuario = data.usuario;
-
+        // Acceder al primer elemento de 'usuario' que es un array
+        if (data.usuario && data.usuario.length > 0) {
+          this.usuario = data.usuario[0];
+        } else {
+          console.error('Usuario no encontrado');
+        }
       },
       error: (error) => {
         console.error('Error al obtener el usuario:', error);
       }
     });
+  }
+  
+  perfil() {
+    this.router.navigate(['perfil'])
   }
 }
