@@ -1,62 +1,46 @@
 <div class="login-container">
-  <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-card">
-      <div class="login-header">
-          <div class="header-background"></div>
-          <img src="../../assets/img/logo_MotoPronto.png" alt="MotoPronto Logo" class="login-logo">
-          <h2>Ingresar al Sistema</h2>
-      </div>
-      
-      <div class="login-body">
-          <div class="form-group">
-              <label for="email" class="form-label">Correo Electrónico</label>
-              <div class="position-relative">
-                  <i class="fas fa-envelope form-icon"></i>
-                  <input 
-                      type="text" 
-                      id="email" 
-                      formControlName="email" 
-                      name="email" 
-                      placeholder="Teclea tu Correo Electrónico" 
-                      class="form-control icon-input" 
-                      [ngClass]="{'is-invalid': email.invalid && (email.dirty || email.touched)}"
-                  >
-              </div>
-              <small *ngIf="email.invalid && (email.dirty || email.touched)" class="error-message">
-                  <div *ngIf="email.errors?.['required']">Email es requerido.</div>
-                  <div *ngIf="email.errors?.['email']">Email deberá ser válido</div>
-              </small>
-          </div>
-          
-          <div class="form-group">
-              <label for="password" class="form-label">Contraseña</label>
-              <div class="position-relative">
-                  <i class="fas fa-lock form-icon"></i>
-                  <input 
-                      type="password" 
-                      id="password" 
-                      formControlName="password" 
-                      name="password" 
-                      placeholder="Teclea tu contraseña" 
-                      class="form-control icon-input" 
-                      [ngClass]="{'is-invalid': password.invalid && (password.dirty || password.touched)}"
-                  >
-              </div>
-              <small *ngIf="password.invalid && (password.dirty || password.touched)" class="error-message">
-                  <div *ngIf="password.errors?.['required']">Contraseña es requerida.</div>
-              </small>
-          </div>
-          
-          <button 
-              type="submit" 
-              class="login-btn" 
-              [disabled]="loginForm.invalid"
-          >
-              <i class="fas fa-sign-in-alt me-2"></i> Ingresar
-          </button>
-          
-          <div class="register-link">
-              ¿No eres miembro? <a routerLink="/register">Regístrate</a>
-          </div>
-      </div>
-  </form>
+    <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-card">
+        <div class="login-header">
+            <div class="header-background"></div>
+            <img src="../../assets/img/logo_MotoPronto.png" alt="MotoPronto Logo" class="login-logo">
+            <h2>Ingresar al Sistema</h2>
+        </div>
+
+        <div class="login-body">
+            <div class="form-group">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                <div class="position-relative">
+                    <i class="fas fa-envelope form-icon"></i>
+                    <input type="text" id="email" formControlName="email" name="email"
+                        placeholder="Teclea tu Correo Electrónico" class="form-control icon-input"
+                        [ngClass]="{'is-invalid': email.invalid && (email.dirty || email.touched)}">
+                </div>
+                <small *ngIf="email.invalid && (email.dirty || email.touched)" class="error-message">
+                    <div *ngIf="email.errors?.['required']">Email es requerido.</div>
+                    <div *ngIf="email.errors?.['email']">Email deberá ser válido</div>
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Contraseña</label>
+                <div class="position-relative">
+                    <i class="fas fa-lock form-icon"></i>
+                    <input type="password" id="password" formControlName="password" name="password"
+                        placeholder="Teclea tu contraseña" class="form-control icon-input"
+                        [ngClass]="{'is-invalid': password.invalid && (password.dirty || password.touched)}">
+                </div>
+                <small *ngIf="password.invalid && (password.dirty || password.touched)" class="error-message">
+                    <div *ngIf="password.errors?.['required']">Contraseña es requerida.</div>
+                </small>
+            </div>
+
+            <button type="submit" class="login-btn" [disabled]="loginForm.invalid">
+                <i class="fas fa-sign-in-alt me-2"></i> Ingresar
+            </button>
+
+            <div class="register-link">
+                ¿No eres miembro? <a routerLink="/register">Regístrate</a>
+            </div>
+        </div>
+    </form>
 </div>
