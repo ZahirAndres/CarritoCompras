@@ -1,0 +1,87 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Tu Carrito de Compras</h2>
+
+  <!-- Mensaje de error si existe -->
+  <div *ngIf="errorMessage" class="alert alert-warning">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Muestra el carrito si hay datos y no hay mensaje de error -->
+  <div >
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <div class="row">
+          <div class="col-md-6">
+            <h5 class="mb-0">Detalles del Carrito</h5>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <p class="mb-0">ID de Carrito: {{ carritoActual.idCarrito }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <p><strong>Estado:</strong> {{ carritoActual.estatus }}</p>
+          <p><strong>Fecha de Creación:</strong> {{ carritoActual.fechaCreacion }}</p>
+          <p *ngIf="carritoActual.fechaPago"><strong>Fecha de Pago:</strong> {{ carritoActual.fechaPago }}</p>
+        </div>
+
+        <h5 class="mb-3">Productos en tu carrito</h5>
+        
+        <!-- Aquí iría la tabla de productos si tuvieras una relación con productos -->
+        <p class="text-muted">No hay información de productos disponible en el modelo actual.</p>
+        
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <div class="alert alert-info">
+              <p>Para agregar más productos, regresa a nuestra tienda.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">Resumen de Compra</h5>
+              </div>
+              <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                  <span>Subtotal:</span>
+                  <span>${{ carritoActual.subTotal }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                  <span>Impuestos:</span>
+                  <span>${{ carritoActual.total - carritoActual.subTotal }}</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between fw-bold">
+                  <span>Total:</span>
+                  <span>${{ carritoActual.total  }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <button class="btn btn-success me-2" [disabled]="carritoActual.estatus === 'PAGADO'">
+            Proceder al Pago
+          </button>
+          <button class="btn btn-outline-secondary">
+            Seguir Comprando
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Si no hay carrito y no hay error -->
+  <div *ngIf="!carritoActual && !errorMessage" class="text-center py-5">
+    <div class="mb-4">
+      <i class="bi bi-cart" style="font-size: 4rem;"></i>
+    </div>
+    <h3>Tu carrito está vacío</h3>
+    <p class="text-muted">¡Agrega productos a tu carrito para comenzar a comprar!</p>
+    <button class="btn btn-primary mt-3">
+      Explorar Productos
+    </button>
+  </div>
+</div>

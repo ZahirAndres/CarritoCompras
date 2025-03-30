@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductosService } from '../../../services/producto.service';
 import { Producto } from '../../../models/producto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ver-productos',
   templateUrl: './ver-productos.component.html',
-  styleUrls: ['./ver-productos.component.css'] // ✅ Corregido
+  styleUrls: ['./ver-productos.component.css']
 })
+
 export class VerProductosComponent implements OnInit {
   productos: Producto[] = [];
   currentProducto: Producto = this.initProducto();
@@ -17,8 +19,8 @@ export class VerProductosComponent implements OnInit {
   mostrarDescripcionCompleta: boolean = false;
   descripcionEsLarga: boolean = false;
 
-  
-  constructor(private productoService: ProductosService) { }
+
+  constructor(private productoService: ProductosService, private router: Router) { }
 
   ngOnInit(): void {
     this.cargarProductos();
@@ -81,7 +83,7 @@ export class VerProductosComponent implements OnInit {
 
   borrarProducto(idProducto: number): void {
     const producto = {
-      "idProducto" : idProducto
+      "idProducto": idProducto
     }
 
     console.log(producto);
@@ -96,17 +98,19 @@ export class VerProductosComponent implements OnInit {
     );
   }
   openEditDialog(producto: Producto): void {
-    this.currentProducto = { ...producto }; 
-    this.isEditDialogOpen = true; 
+    this.currentProducto = { ...producto };
+    this.isEditDialogOpen = true;
   }
 
   openProductoDialog(producto: Producto): void {
     this.currentProducto = { ...producto };
-    console.log(this.currentProducto);  
+    console.log(this.currentProducto);
     this.isProducto = true;
   }
   toggleDescripcion(): void {
     this.mostrarDescripcionCompleta = !this.mostrarDescripcionCompleta;
   }
+  irACarritoCompras() {
+    this.router.navigate(['carrito-compras']);
+  }
 }
-
