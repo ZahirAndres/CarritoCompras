@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output, PLATFORM_ID } from '@angular/core';
 import { Compra, Producto } from '../../../models/producto';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CompraService } from '../../../services/compra.service';
 import { VerProductosComponent } from '../ver-productos/ver-productos.component';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-detalle-producto',
@@ -17,7 +18,9 @@ export class DetalleProductoComponent implements OnInit {
   mostrarDescripcionCompleta: boolean = false;
   descripcionEsLarga: boolean = false;
 
-  constructor(private compraService: CompraService, private verProductos: VerProductosComponent) {
+  constructor(private compraService: CompraService, private verProductos: VerProductosComponent,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
     this.compraForm = new FormGroup({
       cantidadCompra: new FormControl(1, [Validators.required, Validators.min(1)])
     });
@@ -63,11 +66,17 @@ export class DetalleProductoComponent implements OnInit {
 
   agregarAlCarrito(): void {
     if (this.compraForm.invalid) return;
+    if (!isPlatformBrowser(this.platformId)) {
+      console.warn('Intentando acceder a sessionStorage en un entorno no navegador.');
+      return;
+    }
+
+    const idUsuarioLocal = Number(sessionStorage.getItem('idUsuario'));
 
     const cantidad = this.compraForm.value.cantidadCompra;
     const compraData: Compra = {
       idProducto: this.currentProducto.idProducto,
-      idUsuario: 5,
+      idUsuario: idUsuarioLocal,
       cantidad: cantidad,
       totalProducto: this.currentProducto.precio * cantidad
     };
