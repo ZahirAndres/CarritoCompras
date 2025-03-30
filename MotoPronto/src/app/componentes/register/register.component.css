@@ -1,101 +1,148 @@
-/* Estilos para el formulario de dos columnas */
+/* Variables and base styles */
+:root {
+  --primary-color: #ff5722;
+  --primary-light: #ffccbc;
+  --secondary-color: #263238;
+  --text-dark: #37474f;
+  --text-light: #78909c;
+  --white: #ffffff;
+  --gray-bg: #f5f7fa;
+  --error-color: #f44336;
+  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Form container styles */
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Card styles */
 :host ::ng-deep .p-card {
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background: var(--white);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  transition: all 0.3s ease;
+}
+
+:host ::ng-deep .p-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+:host ::ng-deep .p-card .p-card-header {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #ff8a65 100%);
+  padding: 25px 20px;
+  text-align: center;
+  color: var(--white);
+}
+
+/* Form field styles */
+.field {
+  margin-bottom: 25px;
+}
+
+.field label {
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  display: block;
+}
+
+:host ::ng-deep .p-inputtext {
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 12px 15px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+:host ::ng-deep .p-inputtext:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(255, 87, 34, 0.1);
+}
+
+:host ::ng-deep .p-inputtext.ng-invalid.ng-touched {
+  border-color: var(--error-color);
+}
+
+/* Error message styles */
+.p-error {
+  color: var(--error-color);
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+/* Button styles */
+:host ::ng-deep .p-button {
+  background: var(--primary-color);
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+:host ::ng-deep .p-button:enabled:hover {
+  background: #e64a19;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 87, 34, 0.2);
+}
+
+:host ::ng-deep .p-button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Section headers */
+h3.text-primary {
+  color: var(--primary-color);
+  font-weight: 700;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+/* Login link styles */
+.text-center a {
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.text-center a:hover {
+  color: #e64a19;
+  text-decoration: underline;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+form {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .field-container {
+    padding: 0 15px;
   }
   
-  :host ::ng-deep .p-card .p-card-title {
-    color: #2a3990;
-    font-size: 1.5rem;
+  :host ::ng-deep .p-card {
+    margin: 0 15px;
   }
-  
-  :host ::ng-deep .p-button {
-    background-color: #2a3990;
-    border-color: #2a3990;
-  }
-  
-  :host ::ng-deep .p-button:hover {
-    background-color: #1e2b6e;
-    border-color: #1e2b6e;
-  }
-  
-  .text-primary {
-    color: #2a3990;
-  }
-  
-  /* Grid system */
-  .grid {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .formgrid {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .col-12 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
-  
-  /* Para pantallas medianas y grandes */
-  @media screen and (min-width: 768px) {
-    .md\:col-6 {
-      flex: 0 0 50%;
-      max-width: 50%;
-    }
-    
-    .field-container {
-      padding-right: 1rem;
-    }
-  }
-  
-  /* Mejoras generales */
-  .min-h-screen {
-    min-height: 100vh;
-  }
-  
-  .w-full {
-    width: 100%;
-  }
-  
-  .mb-3 {
-    margin-bottom: 1rem;
-  }
-  
-  .mt-3 {
-    margin-top: 1rem;
-  }
-  
-  .mt-4 {
-    margin-top: 1.5rem;
-  }
-  
-  .block {
-    display: block;
-  }
-  
-  .flex {
-    display: flex;
-  }
-  
-  .justify-content-center {
-    justify-content: center;
-  }
-  
-  .align-items-center {
-    align-items: center;
-  }
-  
-  .text-center {
-    text-align: center;
-  }
-  
-  .p-4 {
-    padding: 1rem;
-  }
-  
-  .p-error {
-    color: #f44336;
-  }
+}
