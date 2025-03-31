@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { CarritoService } from '../../../services/carrito.service';
 import { isPlatformBrowser } from '@angular/common';
-import { Carrito } from '../../../models/carrito';
+import { Carrito, ProductoCarrito } from '../../../models/carrito';
+import { CompraService } from '../../../services/compra.service';
 
 @Component({
   selector: 'app-carrito',
@@ -18,14 +19,17 @@ export class CarritoComponent implements OnInit {
     subTotal: 0,
     idUsuario: 0
   };
-  
+
+
+  productosCarrito: ProductoCarrito[] = [];
 
   errorMessage: string = '';
 
   constructor(
     private carritoService: CarritoService,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private compraService: CompraService
+  ) { }
 
   ngOnInit(): void {
     this.getCarritoActual();
@@ -48,10 +52,9 @@ export class CarritoComponent implements OnInit {
     this.carritoService.obtenerCarrito(idUsuarioLocal).subscribe({
       next: (data) => {
         if (data && data.carritosPagados && data.carritosPagados.length > 0) {
-          this.carritoActual = data.carritosPagados[0]; 
-          console.log('Prueba de que se ve en consola',this.carritoActual);
+          this.carritoActual = data.carritosPagados[0];
+          this.getArticulosCarrito(this.carritoActual.idCarrito); // Ahora usa el ID correcto
         } else {
-     
           this.errorMessage = 'No hay un carrito activo para mostrar.';
         }
       },
@@ -60,5 +63,33 @@ export class CarritoComponent implements OnInit {
         this.errorMessage = 'Ocurrió un error al obtener los datos del carrito.';
       }
     });
+
   }
+
+  getArticulosCarrito(idCarrito: number) {
+    this.compraService.getArticulosCarrito(idCarrito).subscribe(
+      (data) => {
+        if (data && data.productosCarrito && data.productosCarrito.length > 0) {
+          this.productosCarrito = data.productosCarrito;
+          console.log(this.productosCarrito);
+        } else {
+          this.errorMessage = 'No hay productos en el carrito.';
+        }
+      },
+      error => console.error('Error al obtener los productos del carrito:', error)
+    );
+  }
+
+  procesarPago(){}
+ 
+  continuarComprando(){}
+
+  explorarProductos(){}
+
+  eliminarProducto(){}
+
+  incrementarCantidad(){}
+
+  decrementarCantidad(){}
+
 }

@@ -33,6 +33,6 @@ export class CompraService {
 
   // Obtener artículos de un carrito
   getArticulosCarrito(idCarrito: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/productosCarrito/${idCarrito}`);
+    return this.http.get<{ message: string, productosCarrito: any[], code: number }>(`${this.apiUrl}/productosCarrito/${idCarrito}`);
   }
 }
