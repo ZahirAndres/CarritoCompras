@@ -4,6 +4,8 @@ import { isPlatformBrowser } from '@angular/common';
 import { Carrito, ProductoCarrito } from '../../../models/carrito';
 import { CompraService } from '../../../services/compra.service';
 import { Compra } from '../../../models/producto';
+import { PaymentService } from '../../../services/payment.service';
+import { loadScript } from '@paypal/paypal-js';
 
 @Component({
   selector: 'app-carrito',
@@ -28,11 +30,13 @@ export class CarritoComponent implements OnInit {
   constructor(
     private carritoService: CarritoService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private compraService: CompraService
+    private compraService: CompraService,
+    private paymentService: PaymentService
   ) { }
 
   ngOnInit(): void {
     this.getCarritoActual();
+    this.inicializarPayPal();
   }
 
   getCarritoActual(): void {
@@ -154,4 +158,45 @@ export class CarritoComponent implements OnInit {
     );
   }
 
+  async inicializarPayPal() {
+    try {
+      const paypal = await loadScript({ clientId: 'AULQCTN4ABEA79aMNsn6xR0W-8tnbR8SS13vsQCpneI2Z3zxr5bE2sGO_rEQYnIP6QHhoT8Knp4BZMur' });
+  
+      if (!paypal || !paypal.Buttons) {
+        console.error('Error al cargar el botón de PayPal');
+        return;
+      }
+  
+      paypal.Buttons({
+        createOrder: async () => {
+          const total = this.carritoActual?.total || 0;
+          const res = await this.paymentService.crearOrden(total).toPromise();
+          
+          if (!res || !res.id) {
+            console.error('No se pudo crear la orden de PayPal');
+            return '';
+          }
+  
+          return res.id;
+        },
+        onApprove: async (data) => {
+          const captureResult = await this.paymentService.capturarOrden(data.orderID).toPromise();
+          
+          if (captureResult) {
+            alert('Pago exitoso');
+            this.getCarritoActual(); // Recargar el carrito después del pago
+          } else {
+            console.error('Error al capturar la orden');
+          }
+        },
+        onError: (err) => {
+          console.error('Error en PayPal:', err);
+        }
+      }).render('#paypal-button-container');
+  
+    } catch (error) {
+      console.error('Error al inicializar PayPal:', error);
+    }
+  }
+  
 }
