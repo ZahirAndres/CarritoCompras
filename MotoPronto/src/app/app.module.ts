@@ -22,6 +22,9 @@ import { NavBarComponent } from './componentes/nav-bar/nav-bar.component';
 import { PerfilComponent } from './componentes/perfil/perfil.component';
 import { CommonModule } from '@angular/common';
 import { HistorialComponent } from './componentes/historial/historial.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -46,11 +49,14 @@ import { HistorialComponent } from './componentes/historial/historial.component'
     ReactiveFormsModule,
     AppRoutingModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [
     MessageService,
-    provideClientHydration()
+    provideClientHydration(),
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

@@ -33,8 +33,6 @@ class UsuarioModelo {
         return result;
     }
 
-    
-
 
 
     public async update(usuario: any) {
@@ -49,7 +47,7 @@ class UsuarioModelo {
             calleNumero = ?,
             colonia = ?,
             password = ?,
-            idRol = ?,
+            idRol = 1,
             correoElectronico = ?,
             avatar = ?
           WHERE correoElectronico = ?

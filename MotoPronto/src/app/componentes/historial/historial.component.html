@@ -1,28 +1,92 @@
-<div class="container">
-    <h2>Carritos Pagados</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>ID Carrito</th>
-          <th>Estatus</th>
-          <th>Fecha de Pago</th>
-          <th>Fecha de Creación</th>
-          <th>Total</th>
-          <th>SubTotal</th>
-          <th>ID Usuario</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let carrito of carritosPagados">
-          <td>{{ carrito.idCarrito }}</td>
-          <td>{{ carrito.estatus }}</td>
-          <td>{{ carrito.fechaPago | date:'yyyy-MM-dd HH:mm' }}</td>
-          <td>{{ carrito.fechaCreacion | date:'yyyy-MM-dd HH:mm' }}</td>
-          <td>{{ carrito.total | currency }}</td>
-          <td>{{ carrito.subTotal | currency }}</td>
-          <td>{{ carrito.idUsuario }}</td>
-        </tr>
-      </tbody>
-    </table>
+<div class="carritos-container">
+    <div class="page-header">
+      <h2 class="page-title">
+        <i class="fas fa-shopping-cart"></i>
+        Carritos Pagados
+      </h2>
+      <div class="page-actions">
+        <button class="btn-action">
+          <i class="fas fa-filter"></i> Filtrar
+        </button>
+        <button class="btn-action">
+          <i class="fas fa-file-export"></i> Exportar
+        </button>
+      </div>
+    </div>
+    
+    <div class="data-card">
+      <div class="card-header">
+        <i class="fas fa-check-circle"></i> Transacciones Completadas
+      </div>
+      <div class="table-container">
+        <!-- Utilizamos mat-table para la tabla con los datos -->
+        <table mat-table [dataSource]="dataSource" class="data-table" id="tablaCarritosPagados">
+        
+          <!-- Columna: ID Carrito -->
+          <ng-container matColumnDef="idCarrito">
+            <th mat-header-cell *matHeaderCellDef>ID Carrito</th>
+            <td mat-cell *matCellDef="let carrito">
+              <span class="id-badge">#{{ carrito.idCarrito }}</span>
+            </td>
+          </ng-container>
+  
+          <!-- Columna: Estatus -->
+          <ng-container matColumnDef="estatus">
+            <th mat-header-cell *matHeaderCellDef>Estatus</th>
+            <td mat-cell *matCellDef="let carrito">
+              <span class="status-badge status-pagado">
+                <i class="fas fa-check-circle"></i> {{ carrito.estatus }}
+              </span>
+            </td>
+          </ng-container>
+  
+          <!-- Columna: Fecha de Pago -->
+          <ng-container matColumnDef="fechaPago">
+            <th mat-header-cell *matHeaderCellDef>Fecha de Pago</th>
+            <td mat-cell *matCellDef="let carrito">
+              <div class="fecha">
+                <span class="fecha-principal">{{ carrito.fechaPago | date:'yyyy-MM-dd' }}</span>
+                <span class="fecha-hora">{{ carrito.fechaPago | date:'HH:mm' }}</span>
+              </div>
+            </td>
+          </ng-container>
+  
+          <!-- Columna: Fecha de Creación -->
+          <ng-container matColumnDef="fechaCreacion">
+            <th mat-header-cell *matHeaderCellDef>Fecha de Creación</th>
+            <td mat-cell *matCellDef="let carrito">
+              <div class="fecha">
+                <span class="fecha-principal">{{ carrito.fechaCreacion | date:'yyyy-MM-dd' }}</span>
+                <span class="fecha-hora">{{ carrito.fechaCreacion | date:'HH:mm' }}</span>
+              </div>
+            </td>
+          </ng-container>
+  
+          <!-- Columna: SubTotal -->
+          <ng-container matColumnDef="subTotal">
+            <th mat-header-cell *matHeaderCellDef>SubTotal</th>
+            <td mat-cell *matCellDef="let carrito">
+              <span class="precio">{{ carrito.subTotal | currency }}</span>
+            </td>
+          </ng-container>
+          <!-- Columna: Total -->
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <td mat-cell *matCellDef="let carrito">
+              <span class="precio">{{ carrito.total | currency }}</span>
+            </td>
+          </ng-container>
+  
+  
+          <!-- Fila de encabezado y fila de datos -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+      <div class="pagination-container">
+        <!-- Utilizamos el paginator de Angular Material -->
+        <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
   </div>
   
