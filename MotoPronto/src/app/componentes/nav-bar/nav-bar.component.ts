@@ -74,4 +74,8 @@ export class NavBarComponent implements OnInit {
   historial() {
     this.router.navigate(['historial'])
   }
+
+  inicio(){
+    this.router.navigate(['home'])
+  }
 }
