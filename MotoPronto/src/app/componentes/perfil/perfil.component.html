@@ -4,7 +4,7 @@
             <div class="perfil-header">
                 <div class="header-background"></div>
                 <div class="perfil-foto-container">
-                    <img [src]="usuario?.urlImagen || '../../assets/img/logo_MotoPronto.png'" alt="Foto de perfil" class="perfil-foto">
+                    <img [src]="usuario?.avatar || '../../assets/img/logo_MotoPronto.png'" alt="Foto de perfil" class="perfil-foto">
                     <div class="foto-overlay" *ngIf="editMode">
                         <button class="change-photo-btn"><i class="fas fa-camera"></i> Cambiar foto</button>
                     </div>
