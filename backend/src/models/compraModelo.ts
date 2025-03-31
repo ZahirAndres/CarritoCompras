@@ -72,7 +72,7 @@ class CompraModelo {
     public async getArticulosCarritos(idCarrito: number) {
         const result = await pool.then(async (connection) => {
             return await connection.query(
-                "SELECT c.idCarrito, p.nombreProducto, SUM(c.cantidad) AS cantidadTotal, c.totalProducto " +
+                "SELECT c.idCarrito, p.imagen,p.nombreProducto, SUM(c.cantidad) AS cantidadTotal, c.totalProducto " +
                 "FROM compra c " +
                 "INNER JOIN productos p ON c.idProducto = p.idProducto " +
                 "WHERE c.idCarrito = ? " +
