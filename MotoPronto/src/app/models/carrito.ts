@@ -9,7 +9,9 @@ export interface Carrito {
   }
 
   export interface ProductoCarrito {
+    idCompra: number;
     idCarrito: number;
+    idProducto: number;
     imagen: string;
     nombreProducto: string;
     cantidadTotal: number;

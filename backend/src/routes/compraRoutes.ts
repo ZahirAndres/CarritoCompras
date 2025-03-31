@@ -14,6 +14,7 @@ class CompraRoutes {
     this.router.put("/", compraController.update);
     this.router.delete("/", compraController.delete);
     this.router.get("/productosCarrito/:idCarrito", compraController.getArticulosCarritos);
+    this.router.post("/restarCantidad", compraController.restarCantidadCompra);
   }
 }
 

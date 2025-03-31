@@ -60,11 +60,11 @@
               <div class="col-md-5">
                 <h5 class="product-name">{{productoCarrito.nombreProducto}}</h5>
                 <div class="quantity-control">
-                  <button class="btn btn-sm btn-outline-primary" (click)="decrementarCantidad()">
+                  <button class="btn btn-sm btn-outline-primary" (click)="decrementarCantidad(productoCarrito.idCompra)">
                     <i class="bi bi-dash"></i>
                   </button>
                   <span class="quantity-display">{{productoCarrito.cantidadTotal}}</span>
-                  <button class="btn btn-sm btn-outline-primary" (click)="incrementarCantidad()">
+                  <button class="btn btn-sm btn-outline-primary" (click)="incrementarCantidad(productoCarrito)">
                     <i class="bi bi-plus"></i>
                   </button>
                 </div>
@@ -73,7 +73,7 @@
                 <div class="price-tag">${{productoCarrito.totalProducto | number:'1.2-2'}}</div>
               </div>
               <div class="col-md-2 text-end">
-                <button class="btn btn-sm btn-outline-danger remove-btn" (click)="eliminarProducto()">
+                <button class="btn btn-sm btn-outline-danger remove-btn" (click)="eliminarProducto(productoCarrito)">
                   <i class="bi bi-trash"></i>
                 </button>
               </div>
@@ -96,6 +96,7 @@
               </div>
             </div>
           </div>
+
           <div class="col-md-6">
             <div class="card summary-card">
               <div class="card-header text-white summary-header">

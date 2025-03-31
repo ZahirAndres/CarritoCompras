@@ -14,6 +14,7 @@ export class DetalleProductoComponent implements OnInit {
   @Input() currentProducto: Producto = this.initProducto();
   @Output() close = new EventEmitter<void>();
   compraForm: FormGroup;
+  cantidadProductoCompra: number = 1;
 
   mostrarDescripcionCompleta: boolean = false;
   descripcionEsLarga: boolean = false;
@@ -30,6 +31,9 @@ export class DetalleProductoComponent implements OnInit {
     if (!this.currentProducto) {
       this.currentProducto = this.initProducto();
     }
+
+    this.compraForm.patchValue({ cantidadCompra: 1 }); // Asegura que cantidad inicial es 1
+
     this.verProductos.cargarProductos();
     this.descripcionEsLarga = this.currentProducto.descripcion?.length > 150;
   }
@@ -73,18 +77,18 @@ export class DetalleProductoComponent implements OnInit {
 
     const idUsuarioLocal = Number(sessionStorage.getItem('idUsuario'));
 
-    const cantidad = this.compraForm.value.cantidadCompra;
     const compraData: Compra = {
       idProducto: this.currentProducto.idProducto,
       idUsuario: idUsuarioLocal,
-      cantidad: cantidad,
-      totalProducto: this.currentProducto.precio * cantidad
+      cantidad: this.cantidadProductoCompra
     };
-    console.log(compraData);
+
     this.compraService.add(compraData).subscribe({
       next: () => alert('Producto agregado al carrito'),
       error: error => alert('Error al agregar el producto al carrito')
     });
+
+    this.cantidadProductoCompra = 1;
   }
 
   toggleDescripcion(): void {

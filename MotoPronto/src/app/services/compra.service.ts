@@ -35,4 +35,8 @@ export class CompraService {
   getArticulosCarrito(idCarrito: number): Observable<any> {
     return this.http.get<{ message: string, productosCarrito: any[], code: number }>(`${this.apiUrl}/productosCarrito/${idCarrito}`);
   }
+
+  restarCantidadCompra(compra:any){
+    return this.http.post<any>(`${this.apiUrl}/restarCantidad`, compra);
+  }
 }
