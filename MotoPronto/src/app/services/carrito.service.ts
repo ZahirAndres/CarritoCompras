@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../enviroments/enviroments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarritoService {
-  private apiUri = 'http://localhost:3000/carrito'; // Ajusta la URL según tu backend
+  private apiUri = environment.apiUrl + '/carrito'; // Ajusta la URL según tu backend
 
   constructor(private http: HttpClient) { }
 

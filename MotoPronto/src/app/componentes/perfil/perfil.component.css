@@ -1,6 +1,6 @@
 :root {
   --primary-color: #ff5722;
-  --primary-light: #ffccbc;
+  --primary-light: #ffccbc; 
   --secondary-color: #263238;
   --text-dark: #37474f;
   --text-light: #78909c;
@@ -48,8 +48,7 @@ body {
   left: 0;
   right: 0;
   height: 100%;
-  opacity: 0.1;
-  background-image: url('../../../assets/img/logo_MotoPronto.png');
+  opacity: 0.21;
   background-size: cover;
   z-index: 1;
   pointer-events: none;

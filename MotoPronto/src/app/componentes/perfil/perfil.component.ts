@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { PerfilService } from '../../services/perfil.service';
 import { get } from 'http';
+import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-perfil',
@@ -10,7 +11,9 @@ import { get } from 'http';
 export class PerfilComponent implements OnInit {
   usuario: any;
   editMode: boolean = false; 
-  constructor(private perfilService: PerfilService, private cdr: ChangeDetectorRef) { }
+
+
+  constructor(private perfilService: PerfilService) { }
   ngOnInit() {
     // Verificar si estamos en el navegador antes de usar sessionStorage
     if (typeof window !== 'undefined') {

@@ -60,7 +60,7 @@ class UsuarioController {
 
     public async add(req: Request, res: Response) {
         try {
-            let { email, password, role, nombreUsuario, apellidoP, apellidoM, telefono, ciudad, codigoPostal, calleNumero, colonia } = req.body;
+            let { email, password, role, nombreUsuario, apellidoP, apellidoM, telefono, ciudad, codigoPostal, calleNumero, colonia, avatar } = req.body;
 
             // Validación de email
             if (!email || !validator.isEmail(email)) {
@@ -92,7 +92,8 @@ class UsuarioController {
                 colonia: colonia || "",
                 correoElectronico: email,
                 password: encryptedText,
-                idRol: idRol
+                idRol: idRol,
+                avatar: avatar || "", 
             };
 
             // Guardar el usuario
@@ -119,7 +120,8 @@ class UsuarioController {
             codigoPostal, 
             calleNumero, 
             colonia, 
-            correoElectronicoC 
+            correoElectronicoC, 
+            avatar
           } = req.body;
       
           // Validación de email
@@ -149,7 +151,8 @@ class UsuarioController {
             correoElectronico: correoElectronico || usuarioExistente.correoElectronico,
             password: usuarioExistente.password, // Mantener la contraseña anterior
             idRol: idRol,
-            email: correoElectronicoC // Este es el email que se va a actualizar
+            email: correoElectronicoC, // Este es el email que se va a actualizar,
+            avatar: avatar || usuarioExistente.avatar,
           };
       
           // Actualizar el usuario
@@ -183,13 +186,13 @@ class UsuarioController {
       
      
       
-          // Estructurar el objeto actualizado: si algún campo no se envía, se mantiene el valor anterior
-          const updatedUser = {
+          const usuario = {
             correoElectronico: email,
+            idRol: 1,
           };
       
           // Actualizar el usuario
-          await model.update(updatedUser);
+          await model.ascender(usuario);
       
           return res.status(200).json({ message: "Usuario ascendido correctamente", code: 0 });
         } catch (error: any) {

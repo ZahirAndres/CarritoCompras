@@ -33,8 +33,6 @@ class UsuarioModelo {
         return result;
     }
 
-    
-
 
 
     public async update(usuario: any) {
@@ -49,8 +47,9 @@ class UsuarioModelo {
             calleNumero = ?,
             colonia = ?,
             password = ?,
-            idRol = ?,
-            correoElectronico = ?
+            idRol = 1,
+            correoElectronico = ?,
+            avatar = ?
           WHERE correoElectronico = ?
         `;
         const values = [
@@ -65,6 +64,7 @@ class UsuarioModelo {
             usuario.password,
             usuario.idRol,
             usuario.correoElectronico,
+            usuario.avatar,
             usuario.email
         ];
 

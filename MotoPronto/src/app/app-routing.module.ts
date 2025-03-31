@@ -7,6 +7,7 @@ import { authGuard } from './guards/auth.guard';
 import { VerProductosComponent } from './componentes/productos/ver-productos/ver-productos.component';
 import { PerfilComponent } from './componentes/perfil/perfil.component';
 import { CarritoComponent } from './componentes/compras/carrito/carrito.component';
+import { HistorialComponent } from './componentes/historial/historial.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,12 @@ const routes: Routes = [
   {
     path : 'perfil',
     component: PerfilComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path : 'historial',
+    component: HistorialComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'register',

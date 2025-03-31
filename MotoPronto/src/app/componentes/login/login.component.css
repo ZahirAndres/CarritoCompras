@@ -1,0 +1,193 @@
+:root {
+    --primary-color: #ff5722;
+    --primary-light: #ffccbc;
+    --secondary-color: #263238;
+    --text-dark: #37474f;
+    --text-light: #78909c;
+    --white: #ffffff;
+    --gray-bg: #f5f7fa;
+    --error-color: #f44336;
+    --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+    min-height: 100vh;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.login-card {
+    background: var(--white);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    width: 100%;
+    max-width: 420px;
+    transition: all 0.3s ease;
+}
+
+.login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.login-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #ff8a65 100%);
+    padding: 25px 20px;
+    text-align: center;
+    color: var(--white);
+    position: relative;
+}
+
+.header-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    opacity: 0.1;
+    background-image: url('../../../assets/img/logo_MotoPronto.png');
+    background-size: cover;
+}
+
+.login-header h2 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.login-logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 15px;
+    display: block;
+    border-radius: 50%;
+    background: var(--white);
+    padding: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.login-body {
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-control {
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(255, 87, 34, 0.1);
+}
+
+.form-control.is-invalid {
+    border-color: var(--error-color);
+}
+
+.form-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 15px;
+    color: var(--text-light);
+}
+
+.icon-input {
+    padding-left: 45px;
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
+.login-btn {
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.login-btn:hover:not(:disabled) {
+    background: #e64a19;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 87, 34, 0.2);
+}
+
+.login-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.register-link a {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.register-link a:hover {
+    color: #e64a19;
+    text-decoration: underline;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.login-body {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Responsividad */
+@media (max-width: 480px) {
+    .login-card {
+        margin: 0 15px;
+    }
+    
+    .login-body {
+        padding: 20px 15px;
+    }
+}
