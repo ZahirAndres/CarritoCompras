@@ -41,6 +41,14 @@ class CompraModelo {
         }
     }
 
+
+    public async obtenerProductoPrecio(compra: any) {
+        const result = await pool.then(async (connection) => {
+            return await connection.query("SELECT (precio*?) AS subTotal FROM productos WHERE idProducto = ?", [compra.cantidad,compra.idProducto]);
+        });
+        return result;
+    }
+
     public async update(compra: any) {
         const result = await pool.then(async (connection) => {
             return await connection.query(
@@ -64,10 +72,11 @@ class CompraModelo {
     public async getArticulosCarritos(idCarrito: number) {
         const result = await pool.then(async (connection) => {
             return await connection.query(
-                "SELECT c.idCarrito, p.nombreProducto, c.cantidad, c.totalProducto " +
+                "SELECT c.idCarrito, p.nombreProducto, SUM(c.cantidad) AS cantidadTotal, c.totalProducto " +
                 "FROM compra c " +
                 "INNER JOIN productos p ON c.idProducto = p.idProducto " +
-                "WHERE c.idCarrito = ?", [idCarrito]
+                "WHERE c.idCarrito = ? " +
+                "GROUP BY c.idProducto, p.nombreProducto, c.idCarrito", [idCarrito]
             );
         });
         return result;
