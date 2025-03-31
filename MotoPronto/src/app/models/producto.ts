@@ -13,5 +13,4 @@ export interface Compra {
     idProducto: number;
     idUsuario: number
     cantidad: number;
-    totalProducto: number;
 }

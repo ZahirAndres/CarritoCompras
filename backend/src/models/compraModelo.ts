@@ -2,7 +2,7 @@ import pool from '../config/connection';
 
 
 class CompraModelo {
-    
+
     public async list() {
         const result = await pool.then(async (connection) => {
             return await connection.query("SELECT c.* FROM compra c");
@@ -11,7 +11,7 @@ class CompraModelo {
     }
 
     public async add(compra: any) {
-        const connection = await (await pool).getConnection(); 
+        const connection = await (await pool).getConnection();
 
         try {
             await connection.beginTransaction();
@@ -35,7 +35,7 @@ class CompraModelo {
             return result;
         } catch (error) {
             await connection.rollback();
-            throw error; 
+            throw error;
         } finally {
             connection.release();
         }
@@ -44,7 +44,7 @@ class CompraModelo {
 
     public async obtenerProductoPrecio(compra: any) {
         const result = await pool.then(async (connection) => {
-            return await connection.query("SELECT (precio*?) AS subTotal FROM productos WHERE idProducto = ?", [compra.cantidad,compra.idProducto]);
+            return await connection.query("SELECT (precio*?) AS subTotal FROM productos WHERE idProducto = ?", [compra.cantidad, compra.idProducto]);
         });
         return result;
     }
@@ -72,15 +72,39 @@ class CompraModelo {
     public async getArticulosCarritos(idCarrito: number) {
         const result = await pool.then(async (connection) => {
             return await connection.query(
-                "SELECT c.idCarrito, p.imagen,p.nombreProducto, SUM(c.cantidad) AS cantidadTotal, c.totalProducto " +
+                "SELECT c.idCompra, c.idCarrito, p.imagen,p.nombreProducto, p.idProducto ,cantidad AS cantidadTotal, c.totalProducto " +
                 "FROM compra c " +
                 "INNER JOIN productos p ON c.idProducto = p.idProducto " +
-                "WHERE c.idCarrito = ? " +
-                "GROUP BY c.idProducto, p.nombreProducto, c.idCarrito", [idCarrito]
+                "WHERE c.idCarrito = ? ", [idCarrito]
             );
         });
         return result;
     }
+
+    public async obtenerProductoEnCarrito(idCarrito: number, idProducto: number) {
+        const result = await pool.then(async (connection) => {
+            return await connection.query("SELECT * FROM compra WHERE idCarrito =? AND idProducto =?", [idCarrito, idProducto]);
+        });
+        return result;
+    }
+
+    public async actualizarCantidadProducto(idCompra :number, nuevaCantidad:number, nuevoTotalProducto:number){
+        const result = await pool.then(async (connection) => {
+            return await connection.query(
+                "UPDATE compra SET cantidad =?, totalProducto =? WHERE idCompra =?",
+                [nuevaCantidad, nuevoTotalProducto, idCompra]
+            );
+        });
+        return result;
+    }
+
+    public async obtenerCompraById(idCompra: number){
+        const result = await pool.then(async (connection) => {
+            return await connection.query("SELECT * FROM compra WHERE idCompra =?", [idCompra]);
+        });
+        return result;
+    }
+
 }
 
 const model = new CompraModelo();
