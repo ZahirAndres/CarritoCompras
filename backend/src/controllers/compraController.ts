@@ -20,23 +20,29 @@ class CompraController {
     public async add(req: Request, res: Response) {
         try {
             let { idProducto, idUsuario, cantidad } = req.body;
-    
             // Obtener el carrito actual del usuario
             let carritoActual = await modeloCarrito.obtenerCarrito(idUsuario);
+            let precioCalculado = await model.obtenerProductoPrecio({idProducto, cantidad});
     
             // Si no se encuentra un carrito con estatus "Proceso", creamos uno nuevo
             if (!carritoActual || carritoActual.length === 0) {
                 const fechaCreacion = new Date();
                 const estatus = "Proceso";
                 const fechaPago = null;
+                const subTotal = precioCalculado[0].subTotal;
                 const total = 0;
-                const subTotal = 0;
 
     
                 // Crear un nuevo carrito
                 await modeloCarrito.add({ estatus, fechaPago, fechaCreacion, idUsuario, total, subTotal });
     
                 carritoActual = await modeloCarrito.obtenerCarrito(idUsuario);
+            }else{
+                // Si ya existe un carrito, actualizamos el subtotal
+                const subtotalActual = carritoActual[0].subTotal;
+                const nuevoSubtotal = subtotalActual + precioCalculado[0].subTotal;
+    
+                await modeloCarrito.updateSubtotal(carritoActual[0].idCarrito, nuevoSubtotal);
             }
     
             if (!carritoActual || carritoActual.length === 0) {
@@ -44,8 +50,8 @@ class CompraController {
             }
     
             const idCarrito = carritoActual[0].idCarrito;
-            let precio = await model.obtenerProductoPrecio({idProducto, cantidad});
-            const totalProducto = precio[0].subTotal;
+            const totalProducto = precioCalculado[0].subTotal;
+
             await model.add({
                 idProducto,
                 idCarrito,
