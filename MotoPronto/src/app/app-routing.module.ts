@@ -8,6 +8,7 @@ import { VerProductosComponent } from './componentes/productos/ver-productos/ver
 import { PerfilComponent } from './componentes/perfil/perfil.component';
 import { CarritoComponent } from './componentes/compras/carrito/carrito.component';
 import { HistorialComponent } from './componentes/historial/historial.component';
+import { PagoComponent } from './componentes/pago/pago.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,11 @@ const routes: Routes = [
   {
     path : 'historial',
     component: HistorialComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path : 'pago',
+    component: PagoComponent,
     canActivate: [authGuard]
   },
   {
