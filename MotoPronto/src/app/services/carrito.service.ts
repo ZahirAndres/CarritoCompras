@@ -40,4 +40,8 @@ export class CarritoService {
   deleteCarrito(idCarrito: number): Observable<any> {
     return this.http.delete(`${this.apiUri}/delete/${idCarrito}`);
   }
+
+  updateEstado(idCarrito : number): Observable<any> {
+    return this.http.put(`${this.apiUri}/estado/${idCarrito}`, {});
+  }
 }
