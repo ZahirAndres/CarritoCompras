@@ -25,6 +25,7 @@ import { HistorialComponent } from './componentes/historial/historial.component'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { PagoComponent } from './componentes/pago/pago.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { MatTableModule } from '@angular/material/table';
     DetalleProductoComponent,
     NavBarComponent,
     PerfilComponent,
-    HistorialComponent
+    HistorialComponent,
+    PagoComponent
   ],
   imports: [
     BrowserModule,

@@ -54,6 +54,14 @@ class CarritoModelo {
     });
     return result;
   }
+
+  public async updateSubtotal(idCarrito: number, subtotal: number, total: number) {
+    const result = await pool.then(async (connection) => {
+      return await connection.query("UPDATE carrito SET subTotal = ?, total = ? WHERE idCarrito = ?", [subtotal, total,idCarrito]);
+    });
+    return result;
+  }
+
 }
 
 const carritoModelo = new CarritoModelo();
