@@ -30,7 +30,7 @@ class CompraController {
                 const estatus = "Proceso";
                 const fechaPago = null;
                 const subTotal = precioCalculado[0].subTotal;
-                const total = subTotal * 1.6;
+                const total = subTotal * 1.16;
 
     
                 // Crear un nuevo carrito
@@ -41,7 +41,7 @@ class CompraController {
                 // Si ya existe un carrito, actualizamos el subtotal
                 const subtotalActual = carritoActual[0].subTotal;
                 const nuevoSubtotal = subtotalActual + precioCalculado[0].subTotal;
-                const total = nuevoSubtotal * 1.6;
+                const total = nuevoSubtotal * 1.16;
     
                 await modeloCarrito.updateSubtotal(carritoActual[0].idCarrito, nuevoSubtotal, total);
             }
