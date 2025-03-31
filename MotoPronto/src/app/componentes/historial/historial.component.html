@@ -1,0 +1,28 @@
+<div class="container">
+    <h2>Carritos Pagados</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID Carrito</th>
+          <th>Estatus</th>
+          <th>Fecha de Pago</th>
+          <th>Fecha de Creación</th>
+          <th>Total</th>
+          <th>SubTotal</th>
+          <th>ID Usuario</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let carrito of carritosPagados">
+          <td>{{ carrito.idCarrito }}</td>
+          <td>{{ carrito.estatus }}</td>
+          <td>{{ carrito.fechaPago | date:'yyyy-MM-dd HH:mm' }}</td>
+          <td>{{ carrito.fechaCreacion | date:'yyyy-MM-dd HH:mm' }}</td>
+          <td>{{ carrito.total | currency }}</td>
+          <td>{{ carrito.subTotal | currency }}</td>
+          <td>{{ carrito.idUsuario }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

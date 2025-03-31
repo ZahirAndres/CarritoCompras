@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,6 +21,7 @@ import { DetalleProductoComponent } from './componentes/productos/detalle-produc
 import { NavBarComponent } from './componentes/nav-bar/nav-bar.component';
 import { PerfilComponent } from './componentes/perfil/perfil.component';
 import { CommonModule } from '@angular/common';
+import { HistorialComponent } from './componentes/historial/historial.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { CommonModule } from '@angular/common';
     CrearProductoComponent,
     DetalleProductoComponent,
     NavBarComponent,
-    PerfilComponent
+    PerfilComponent,
+    HistorialComponent
   ],
   imports: [
     BrowserModule,
