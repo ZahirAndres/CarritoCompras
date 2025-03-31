@@ -86,6 +86,23 @@ class CarritoController {
         }
     }
 
+    public async updateEstado(req: Request, res: Response) {
+        try {
+            let { idCarrito } = req.params;
+
+
+            const fechaPago = new Date().toISOString().split('T')[0];
+
+            await model.updateEstado({ idCarrito, fechaPago, estatus: "Pagado" });
+
+
+
+            return res.json({ message: "Carrito actualizado correctamente", code: 0 });
+        } catch (error: any) {
+            return res.status(500).json({ message: `${error.message}` });
+        }
+    }
+
     public async delete(req: Request, res: Response) {
         try {
             let { idCarrito } = req.params;

@@ -33,6 +33,17 @@ class CarritoModelo {
     return result;
   }
 
+  public async updateEstado(producto: any) {
+    const result = await pool.then(async (connection) => {
+      return await connection.query(
+        "UPDATE carrito SET estatus=?, fechaPago=? WHERE idCarrito=?",
+        [producto.estatus, producto.fechaPago, producto.idCarrito]
+      );
+    });
+    return result;
+  }
+
+
   public async delete(id: number) {
     const result = await pool.then(async (connection) => {
       return await connection.query("DELETE FROM carrito WHERE idCarrito = ?", [id]);
