@@ -186,13 +186,13 @@ class UsuarioController {
       
      
       
-          // Estructurar el objeto actualizado: si algún campo no se envía, se mantiene el valor anterior
-          const updatedUser = {
+          const usuario = {
             correoElectronico: email,
+            idRol: 1,
           };
       
           // Actualizar el usuario
-          await model.update(updatedUser);
+          await model.ascender(usuario);
       
           return res.status(200).json({ message: "Usuario ascendido correctamente", code: 0 });
         } catch (error: any) {

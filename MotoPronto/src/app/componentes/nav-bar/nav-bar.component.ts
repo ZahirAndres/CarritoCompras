@@ -70,4 +70,8 @@ export class NavBarComponent implements OnInit {
   perfil() {
     this.router.navigate(['perfil'])
   }
+
+  historial() {
+    this.router.navigate(['historial'])
+  }
 }
