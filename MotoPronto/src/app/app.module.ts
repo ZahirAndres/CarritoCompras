@@ -26,6 +26,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { PagoComponent } from './componentes/pago/pago.component';
+import { CarritoComponent } from './componentes/compras/carrito/carrito.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { PagoComponent } from './componentes/pago/pago.component';
     NavBarComponent,
     PerfilComponent,
     HistorialComponent,
+    CarritoComponent,
     PagoComponent
   ],
   imports: [

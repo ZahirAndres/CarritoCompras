@@ -7,4 +7,12 @@ export interface Carrito {
     subTotal: number;
     idUsuario: number;
   }
+
+  export interface ProductoCarrito {
+    idCarrito: number;
+    imagen: string;
+    nombreProducto: string;
+    cantidadTotal: number;
+    totalProducto: number;
+  }
   
