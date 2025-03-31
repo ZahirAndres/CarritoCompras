@@ -46,7 +46,6 @@
             <td mat-cell *matCellDef="let carrito">
               <div class="fecha">
                 <span class="fecha-principal">{{ carrito.fechaPago | date:'yyyy-MM-dd' }}</span>
-                <span class="fecha-hora">{{ carrito.fechaPago | date:'HH:mm' }}</span>
               </div>
             </td>
           </ng-container>
@@ -57,7 +56,6 @@
             <td mat-cell *matCellDef="let carrito">
               <div class="fecha">
                 <span class="fecha-principal">{{ carrito.fechaCreacion | date:'yyyy-MM-dd' }}</span>
-                <span class="fecha-hora">{{ carrito.fechaCreacion | date:'HH:mm' }}</span>
               </div>
             </td>
           </ng-container>

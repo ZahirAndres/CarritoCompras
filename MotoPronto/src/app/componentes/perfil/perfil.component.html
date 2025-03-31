@@ -2,7 +2,7 @@
     <div class="perfil-container">
       <!-- Encabezado del perfil -->
       <div class="perfil-header">
-        <div class="header-background"></div>
+        <div class="header-background" [ngStyle]="{'background-image': 'url(' + (usuario?.avatar || '../../assets/img/logo_MotoPronto.png') + ')'}"></div>
         <div class="perfil-foto-container">
           <img [src]="usuario?.avatar || '../../assets/img/logo_MotoPronto.png'" alt="Foto de perfil" class="perfil-foto">
           <div class="foto-overlay" *ngIf="editMode">

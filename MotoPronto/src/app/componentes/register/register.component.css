@@ -167,7 +167,7 @@ body {
 
 .submit-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(249, 115, 22, 0.3);
+  box-shadow: 0 6px 8px rgba(249, 116, 22, 0.454);
 }
 
 .submit-button:focus {
@@ -240,20 +240,20 @@ body {
 }
 
 
-
-.btn-guardar {
-  background: var(--primary-color);
-  color: var(--white);
-  border: none;
-  border-radius: 50px;
-  font-weight: 600;
-  transition: all 0.3s ease;
+.avatar-preview {
+  max-width: 60%;       /* Ancho máximo para la previsualización */
+  max-height: 150px;      /* Alto máximo para la previsualización */
+  margin-top: 0.5rem; 
+  margin-left: 20%;    /* Separación desde el input */
+  margin-right: 20%;    /* Separación desde el input */
+  border: 1px solid #e5e7eb; /* Borde sutil */
+  border-radius: 0.5rem;  /* Bordes redondeados */
+  overflow: hidden;       /* Corta cualquier exceso de imagen */
+  align-items: center;
 }
 
-.btn-guardar:hover {
-  background: #ffffff00;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 87, 34, 0.2);
+.avatar-preview img {
+  width: 100%;            /* La imagen se ajusta al ancho del contenedor */
+  height: auto;           /* Mantiene la proporción */
+  display: block;         /* Elimina espacios inferiores */
 }
-
-
