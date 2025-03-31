@@ -19,7 +19,7 @@ class CompraController {
 
     public async add(req: Request, res: Response) {
         try {
-            let { idProducto, idUsuario, cantidad, totalProducto } = req.body;
+            let { idProducto, idUsuario, cantidad } = req.body;
     
             // Obtener el carrito actual del usuario
             let carritoActual = await modeloCarrito.obtenerCarrito(idUsuario);
@@ -29,11 +29,12 @@ class CompraController {
                 const fechaCreacion = new Date();
                 const estatus = "Proceso";
                 const fechaPago = null;
-                const subTotal = totalProducto;
-                const total = subTotal * 1.16;
+                const total = 0;
+                const subTotal = 0;
+
     
                 // Crear un nuevo carrito
-                await modeloCarrito.add({ estatus, fechaPago, fechaCreacion, total, subTotal, idUsuario });
+                await modeloCarrito.add({ estatus, fechaPago, fechaCreacion, idUsuario, total, subTotal });
     
                 carritoActual = await modeloCarrito.obtenerCarrito(idUsuario);
             }
@@ -43,7 +44,8 @@ class CompraController {
             }
     
             const idCarrito = carritoActual[0].idCarrito;
-    
+            let precio = await model.obtenerProductoPrecio({idProducto, cantidad});
+            const totalProducto = precio[0].subTotal;
             await model.add({
                 idProducto,
                 idCarrito,
@@ -99,7 +101,7 @@ class CompraController {
             const { idCarrito } = req.params;
             const productosCarrito = await model.getArticulosCarritos(idCarrito);
 
-            if (productosCarrito.length < 0) {
+            if (productosCarrito.length === 0) {
                 return res.status(407).json({ message: "No hay productos en el carrito", code: 3 });
             }
 

@@ -14,9 +14,10 @@ class CarritoModelo {
     });
     return result;
   }
-
+ 
   public async add(producto: any) {
     const result = await pool.then(async (connection) => {
+      
       return await connection.query("INSERT INTO carrito SET ?", [producto]);
     });
     return result;
