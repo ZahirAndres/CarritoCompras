@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Producto } from '../../../models/producto';
 import { ProductosService } from '../../../services/producto.service';
 import { VerProductosComponent } from '../ver-productos/ver-productos.component';
+import { CategoriaService } from '../../../services/categoria.service';
 
 @Component({
   selector: 'app-crear-producto',
@@ -20,14 +21,6 @@ export class CrearProductoComponent implements OnInit {
   newProducto: Producto = this.initProducto();
   mensajeExitoso: string = "";
 
-  categorias = [
-    { id: 1, nombre: 'Deportiva' },
-    { id: 2, nombre: 'Cruiser' },
-    { id: 3, nombre: 'Touring' },
-    { id: 4, nombre: 'Scooter' },
-    { id: 5, nombre: 'Off-Road' }
-  ];
-
   private initProducto(): Producto {
     return {
       idProducto: 0,
@@ -41,8 +34,12 @@ export class CrearProductoComponent implements OnInit {
     };
   }
 
+  categorias: any[] = [];
+  errorMessage: string = '';
+
+
   constructor(private fb: FormBuilder, private productoService: ProductosService,
-    private verProductos: VerProductosComponent,
+    private verProductos: VerProductosComponent, private categoriaService: CategoriaService
   ) {
     this.productoForm = this.fb.group({
       nombreProducto: ['', Validators.required],
@@ -69,8 +66,24 @@ export class CrearProductoComponent implements OnInit {
       this.imagenPreview = this.currentProducto.imagen;
       this.mostrarPreview = this.imagenPreview != null;
     }
+    this.obtenerCategorias();
   }
 
+  obtenerCategorias(): void {
+    this.categoriaService.listarCategorias().subscribe({
+      next: (response) => {
+        if (response.code === 200) {
+          this.categorias = response.categorias;
+        } else {
+          this.errorMessage = 'Error al obtener categorías';
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener categorías:', error);
+        this.errorMessage = 'No se pudo cargar la lista de categorías';
+      }
+    });
+  }
   // Método para manejar la URL de la imagen
   onUrlImagenSeleccionada(event: any): void {
     const url = event.target.value;
