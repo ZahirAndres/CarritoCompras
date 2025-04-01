@@ -100,7 +100,7 @@ export class VerProductosComponent implements OnInit, OnDestroy {
     }
   }
 
-  getCarritoActual(): void {
+  getCarritoActual() {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
@@ -151,7 +151,7 @@ export class VerProductosComponent implements OnInit, OnDestroy {
     };
   }
 
-  cargarProductos(): void {
+  cargarProductos() {
     if (this.loadingProducts) return;
 
     this.loadingProducts = true;
@@ -159,7 +159,6 @@ export class VerProductosComponent implements OnInit, OnDestroy {
       (data) => {
         if (data && Array.isArray(data.productos)) {
           this.productos = [...data.productos];
-          console.log("Productos Cargados Correctamente", this.productos);
         } else {
           console.error("Formato de datos incorrecto:", data);
         }
@@ -192,9 +191,10 @@ export class VerProductosComponent implements OnInit, OnDestroy {
     this.isAddDialogOpen = true;
   }
 
-  closeAddDialog(): void {
+  closeAddDialog() {
     this.isAddDialogOpen = false;
-    this.cargarProductos();
+    this.isEditDialogOpen = false;
+    this.router.navigate(['/home']);
   }
 
   borrarProducto(idProducto: number): void {
@@ -243,7 +243,6 @@ export class VerProductosComponent implements OnInit, OnDestroy {
       (data) => {
         if (data && Array.isArray(data.productos)) {
           this.productos = [...data.productos];
-          console.log("Productos filtrados por categoría:", this.productos);
         } else {
           console.error("Formato de datos incorrecto:", data);
         }
@@ -259,7 +258,6 @@ export class VerProductosComponent implements OnInit, OnDestroy {
       (data) => {
         if (data && Array.isArray(data.productos)) {
           this.productos = [...data.productos];
-          console.log("Productos encontrados:", this.productos);
         } else {
           console.error("Formato de datos incorrecto:", data);
         }

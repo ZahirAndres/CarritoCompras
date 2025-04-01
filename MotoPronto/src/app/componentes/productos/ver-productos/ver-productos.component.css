@@ -19,10 +19,7 @@
   
   /* Estilos generales */
   .body-all-pages {
-    background-color: #f8f9fa;
-    background-image: linear-gradient(135deg, #f5f7fa 0%, #e8ebf2 100%);
     padding: 30px 0;
-    min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
   
@@ -139,11 +136,14 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    
   }
   
   .product-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
   }
   
   .product-badges {
@@ -375,66 +375,77 @@
     opacity: 1;
   }
   
-  /* Modales/Diálogos estilizados */
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    animation: fadeIn 0.3s ease;
-    backdrop-filter: blur(3px);
-  }
-  
-  .modal-container {
-    background-color: white;
-    border-radius: var(--border-radius);
-    width: 90%;
-    max-width: 800px;
-    max-height: 90vh;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    animation: slideUp 0.4s ease;
-  }
-  
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    border-bottom: 1px solid var(--light-gray);
-    background-color: #f8f9fa;
-  }
-  
-  .modal-header h4 {
-    margin: 0;
-    color: var(--dark-color);
-    font-weight: 600;
-  }
-  
-  .close-btn {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: var(--gray-color);
-    transition: all 0.2s;
-  }
-  
-  .close-btn:hover {
-    color: var(--danger-color);
-  }
-  
-  .modal-body {
-    padding: 20px;
-    overflow-y: auto;
-    max-height: calc(90vh - 70px);
-  }
+  /* Add these styles to your global styles.css or component's CSS file */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+  backdrop-filter: blur(3px);
+}
+
+.modal-container {
+  background-color: white;
+  border-radius: var(--border-radius);
+  width: 90%;
+  max-width: 1000px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--light-gray);
+  background-color: #4361ee;
+}
+
+.modal-header h4 {
+  margin: 0;
+  color: white;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: white;
+  transition: all 0.2s;
+}
+
+.close-btn:hover {
+  color: var(--danger-color);
+}
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  max-height: calc(90vh - 70px);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
   
   /* Diseño en dos columnas para los formularios */
   .modal-body form {

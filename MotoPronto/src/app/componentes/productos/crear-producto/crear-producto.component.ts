@@ -129,6 +129,8 @@ export class CrearProductoComponent implements OnInit {
             this.newProducto = this.initProducto();
             this.mensajeExitoso = "Producto creado exitosamente";
             this.verProductos.cargarProductos();
+            this.resetForm();
+
           },
           (error) => {
             console.error(error);
@@ -160,8 +162,6 @@ export class CrearProductoComponent implements OnInit {
     this.productoCreado = false;
     this.mostrarPreview = false;
     this.imagenPreview = null;
-    this.verProductos.isEditDialogOpen = false;
-    this.close.emit();
   }
 
   // Métodos de ayuda para validación
