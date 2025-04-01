@@ -1,6 +1,10 @@
+import { MatDialog } from '@angular/material/dialog';
 import { Component } from '@angular/core';
 import { PaymentService } from '../../services/payment.service';
 import { CarritoService } from '../../services/carrito.service';
+import { Router } from '@angular/router';
+import { PagoExitosoDialogComponent } from '../pago-exitoso-dialog/pago-exitoso-dialog.component';
+
 declare var paypal: any;
 
 @Component({
@@ -11,48 +15,42 @@ declare var paypal: any;
 export class PagoComponent {
   idUsuario = sessionStorage.getItem("idUsuario") ? parseInt(sessionStorage.getItem("idUsuario")!) : 0;
 
-  constructor(private paymentService: PaymentService, private carritoService : CarritoService) { }
+  constructor(
+    private paymentService: PaymentService, 
+    private carritoService: CarritoService, 
+    private router: Router,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-    // Primero, obtenemos el carrito actual
-    this.paymentService.obtenerCarrito(this.idUsuario).subscribe(
-      (response) => {
-        if (response && response.carritosPagados && response.carritosPagados.length > 0) {
-          const carrito = response.carritosPagados[0];
-          const total = carrito.total; // Asegúrate que 'total' tenga el formato adecuado, por ejemplo "10.00"
+    this.paymentService.obtenerCarrito(this.idUsuario).subscribe((response) => {
+      if (response && response.carritosPagados && response.carritosPagados.length > 0) {
+        const carrito = response.carritosPagados[0];
+        const total = carrito.total;
 
-          // Renderizar el botón de PayPal con el total obtenido
-          paypal.Buttons({
-            createOrder: (data: any, actions: any) => {
-              return this.paymentService.crearOrden(total).toPromise()
-                .then(order => order?.id);
-            },
-            onApprove: (data: any, actions: any) => {
-              // Una vez aprobado, se captura el pago
-              return this.paymentService.capturarOrden(data.orderID).toPromise()
-                .then((captureResponse: any) => {
-                  alert("Pago exitoso");
-                  this.carritoService.updateEstado(carrito.idCarrito).subscribe(
-                    (response) => {
-                      console.log("Estado actualizado:", response);
-                      alert("Estado del carrito actualizado a 'Pagado'.");
-                    }
-                  );
+        paypal.Buttons({
+          createOrder: (data: any, actions: any) => {
+            return this.paymentService.crearOrden(total).toPromise().then(order => order?.id);
+          },
+          onApprove: (data: any, actions: any) => {
+            return this.paymentService.capturarOrden(data.orderID).toPromise().then(() => {
+              this.carritoService.updateEstado(carrito.idCarrito).subscribe(() => {
+                // Mostrar modal de éxito
+                const dialogRef = this.dialog.open(PagoExitosoDialogComponent, {
+                  width: '400px'
                 });
-            },
-            onError: (err: any) => {
-              console.error("Error en el proceso de PayPal", err);
-              alert("Ocurrió un error en el pago.");
-            }
-          }).render("#paypal-button-container");
-        } else {
-          alert("No se encontró un carrito en proceso.");
-        }
-      },
-      (error) => {
-        console.error("Error al obtener el carrito:", error);
-        alert("Error al obtener el carrito.");
+
+                dialogRef.afterClosed().subscribe(() => {
+                  this.router.navigate(['/home']);
+                });
+              });
+            });
+          },
+          onError: (err: any) => {
+            console.error("Error en el proceso de PayPal", err);
+          }
+        }).render("#paypal-button-container");
       }
-    );
+    });
   }
 }
