@@ -1,161 +1,151 @@
-<div
-  class="modal-container position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-  style="background-color: rgba(0, 0, 0, 0.5); z-index: 1050"
->
-  <div
-    class="modal-content bg-white rounded shadow-lg"
-    style="max-width: 90%; max-height: 90vh; width: 900px; overflow: hidden"
-  >
-    <!-- Cabecera con botón de cierre -->
-    <div
-      class="modal-header bg-primary text-white py-2 px-3 d-flex justify-content-between align-items-center"
-    >
-      <h5 class="mb-0">Detalle del Producto</h5>
-      <button
-        class="btn btn-close btn-close-white"
-        (click)="closeEditDialog()"
-      ></button>
+<div class="product-detail-card">
+  <div class="row g-0">
+    <!-- Columna de imagen con efectos -->
+    <div class="col-md-5">
+      <div class="image-container">
+        <img
+          [src]="currentProducto.imagen"
+          class="product-image"
+          alt="{{ currentProducto.nombreProducto }}"
+        />
+        <div class="image-overlay"></div>
+        
+        <!-- Badges flotantes -->
+        <div class="badges-container">
+          <span
+            *ngIf="getEstadoProducto(currentProducto.fechaCreacion)"
+            class="badge-new"
+          >{{ getEstadoProducto(currentProducto.fechaCreacion) }}</span>
+          
+          <span class="badge-stock" [ngClass]="{'out-of-stock': currentProducto.cantidadProducto <= 0}">
+            {{getDisponibilidadProducto(currentProducto.cantidadProducto)}}
+          </span>
+        </div>
+      </div>
     </div>
-
-    <!-- Cuerpo con scroll -->
-    <div
-      class="modal-body p-0"
-      style="overflow-y: auto; max-height: calc(90vh - 60px)"
-    >
-      <div class="container-fluid py-3">
-        <div class="card border-0 shadow-none">
-          <div class="row g-0">
-            <!-- Imagen a la izquierda -->
-            <div class="col-md-5">
-              <div
-                class="position-relative h-100 d-flex align-items-center justify-content-center bg-light"
-              >
-                <img
-                  [src]="currentProducto.imagen"
-                  class="img-fluid rounded-start object-fit-contain"
-                  style="max-height: 400px; width: 100%"
-                  alt="{{ currentProducto.nombreProducto }}"
-                />
-                <span
-                  class="badge bg-danger position-absolute top-0 end-0 mt-2 me-2"
-                  >{{ getEstadoProducto(currentProducto.fechaCreacion) }}</span
-                >
-              </div>
+    
+    <!-- Columna de información -->
+    <div class="col-md-7">
+      <div class="product-info">
+        <!-- Encabezado del producto -->
+        <div class="product-header">
+          <h2 class="product-title">{{ currentProducto.nombreProducto }}</h2>
+          <div class="category-badge">
+            <i class="bi bi-tag-fill me-1"></i>
+            {{ currentProducto.nombreCategoria }}
+          </div>
+        </div>
+        
+        <!-- Precio y calificación -->
+        <div class="price-section">
+          <h3 class="product-price">${{ currentProducto.precio.toFixed(2) }}</h3>
+          <div class="rating">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+          </div>
+        </div>
+        
+        <!-- Línea separadora con gradiente -->
+        <div class="gradient-divider"></div>
+        
+        <!-- Descripción con efecto de expansión -->
+        <div class="description-section">
+          <h5 class="section-title">
+            <i class="bi bi-info-circle-fill me-2"></i>Descripción
+          </h5>
+          <div class="description-container">
+            <div
+              class="description-content"
+              [ngClass]="{'expanded': mostrarDescripcionCompleta}"
+            >
+              <p>{{ currentProducto.descripcion }}</p>
             </div>
-            <!-- Contenido a la derecha -->
-            <div class="col-md-7">
-              <div class="card-body p-4">
-                <h2 class="card-title fw-bold text-primary mb-3">
-                  {{ currentProducto.nombreProducto }}
-                </h2>
-
-                <div class="badge bg-info text-white mb-3 py-2 px-3">
-                  Categoría: {{ currentProducto.nombreCategoria }}
-                </div>
-
-                <div
-                  class="d-flex justify-content-between align-items-center my-4"
-                >
-                  <h3 class="text-primary fw-bold mb-0">
-                    ${{ currentProducto.precio }}
-                  </h3>
-                  <span class="badge bg-success py-2 px-3">{{
-                    getDisponibilidadProducto(currentProducto.cantidadProducto)
-                  }}</span>
-                </div>
-
-                <!-- Descripción con "ver más" -->
-                <div class="bg-light p-3 rounded mb-4">
-                  <h5 class="text-primary mb-2">Descripción:</h5>
-                  <div class="position-relative">
-                    <div
-                      [ngClass]="{
-                        'overflow-hidden': !mostrarDescripcionCompleta
-                      }"
-                      [style.maxHeight]="
-                        mostrarDescripcionCompleta ? 'none' : '80px'
-                      "
-                    >
-                      <p>{{ currentProducto.descripcion }}</p>
-                    </div>
-                    <div
-                      *ngIf="descripcionEsLarga && !mostrarDescripcionCompleta"
-                      class="position-absolute bottom-0 start-0 w-100"
-                      style="
-                        height: 30px;
-                        background: linear-gradient(
-                          to bottom,
-                          rgba(241, 245, 249, 0),
-                          rgba(241, 245, 249, 1)
-                        );
-                      "
-                    ></div>
-                  </div>
-                  <div class="text-center mt-2" *ngIf="descripcionEsLarga">
-                    <button
-                      class="btn btn-sm btn-outline-primary"
-                      (click)="toggleDescripcion()"
-                    >
-                      {{ mostrarDescripcionCompleta ? "Ver menos" : "Ver más" }}
-                      <i
-                        class="bi"
-                        [ngClass]="{
-                          'bi-chevron-down': !mostrarDescripcionCompleta,
-                          'bi-chevron-up': mostrarDescripcionCompleta
-                        }"
-                      ></i>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="d-flex align-items-center mb-4">
-                  <i class="bi bi-box-seam text-primary me-2"></i>
-                  <span
-                    >Cantidad disponible:
-                    <strong>{{ currentProducto.cantidadProducto }}</strong>
-                  </span>
-                </div>
-
-                <div class="d-flex align-items-center mb-4">
-                  <i class="bi bi-calendar-date text-primary me-2"></i>
-                  <span
-                    >Fecha de creación:
-                    <strong>{{
-                      currentProducto.fechaCreacion | date : "dd/MM/yyyy"
-                    }}</strong>
-                  </span>
-                </div>
-
-                <form class="row mt-4">
-                  <div class="col-md-6 mb-3">
-                    <div class="input-group">
-                      <span class="input-group-text bg-primary text-white"
-                        >Cantidad</span
-                      >
-                      <input
-                        type="number"
-                        class="form-control"
-                        min="1"
-                        max="{{ currentProducto.cantidadProducto }}"
-                        [(ngModel)]="cantidadProductoCompra"
-                        name="cantidadCompra"
-                      />
-                    </div>
-                  </div>
-                </form>
-
-                <div class="d-flex flex-wrap gap-2 mt-3">
-                  <button
-                    class="btn btn-primary btn-lg"
-                    (click)="agregarAlCarrito()"
-                  >
-                    <i class="bi bi-cart-plus me-1"></i> Añadir al Carrito
-                  </button>
-                </div>
-              </div>
+            <div
+              *ngIf="descripcionEsLarga && !mostrarDescripcionCompleta"
+              class="description-fade"
+            ></div>
+          </div>
+          <button 
+            *ngIf="descripcionEsLarga"
+            class="description-toggle"
+            (click)="toggleDescripcion()"
+          >
+            {{ mostrarDescripcionCompleta ? "Ver menos" : "Ver más" }}
+            <i class="bi" [ngClass]="{
+              'bi-chevron-down': !mostrarDescripcionCompleta,
+              'bi-chevron-up': mostrarDescripcionCompleta
+            }"></i>
+          </button>
+        </div>
+        
+        <!-- Información del producto -->
+        <div class="product-details">
+          <div class="detail-item">
+            <i class="bi bi-box-seam"></i>
+            <div class="detail-content">
+              <span class="detail-label">Stock:</span>
+              <span class="detail-value">{{ currentProducto.cantidadProducto }} unidades</span>
+            </div>
+          </div>
+          
+          <div class="detail-item">
+            <i class="bi bi-calendar-date"></i>
+            <div class="detail-content">
+              <span class="detail-label">Fecha de creación:</span>
+              <span class="detail-value">{{ currentProducto.fechaCreacion | date : "dd/MM/yyyy" }}</span>
+            </div>
+          </div>
+          
+          <div class="detail-item">
+            <i class="bi bi-truck"></i>
+            <div class="detail-content">
+              <span class="detail-label">Envío:</span>
+              <span class="detail-value">Gratis</span>
             </div>
           </div>
         </div>
+        
+        <!-- Cantidad y botón de compra -->
+        <div class="purchase-section">
+          <div class="quantity-selector">
+            <button 
+              class="qty-btn" 
+              (click)="cantidadProductoCompra = cantidadProductoCompra > 1 ? cantidadProductoCompra - 1 : 1"
+              [disabled]="currentProducto.cantidadProducto <= 0"
+            >
+              <i class="bi bi-dash"></i>
+            </button>
+            <input
+              type="number"
+              class="qty-input"
+              min="1"
+              max="{{ currentProducto.cantidadProducto }}"
+              [(ngModel)]="cantidadProductoCompra"
+              name="cantidadCompra"
+              [disabled]="currentProducto.cantidadProducto <= 0"
+            />
+            <button 
+              class="qty-btn" 
+              (click)="cantidadProductoCompra = cantidadProductoCompra < currentProducto.cantidadProducto ? cantidadProductoCompra + 1 : currentProducto.cantidadProducto"
+              [disabled]="currentProducto.cantidadProducto <= 0"
+            >
+              <i class="bi bi-plus"></i>
+            </button>
+          </div>
+          
+          <button
+            class="add-to-cart-btn"
+            (click)="agregarAlCarrito()"
+            [disabled]="currentProducto.cantidadProducto <= 0"
+          >
+            <i class="bi bi-cart-plus me-2"></i>
+            <span>Añadir al Carrito</span>
+          </button>
+        </div>
+        
       </div>
     </div>
   </div>

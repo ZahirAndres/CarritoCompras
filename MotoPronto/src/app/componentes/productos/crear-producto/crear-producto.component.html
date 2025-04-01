@@ -1,231 +1,270 @@
-<!-- Modal de Crear Producto -->
-<div
-  class="dialog-content"
-  id="crearProductoModal"
-  tabindex="-1"
-  aria-labelledby="crearProductoModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content border-0 shadow">
-      <!-- Cabecera del modal (fija) -->
-      <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="crearProductoModalLabel">
-          <i class="bi bi-motorcycle me-2"></i>Crear Nueva Moto
-        </h5>
+<!-- Modal de Crear Producto con diseño moderno -->
+<div  class="modal-overlay">
+  <div class="modal-container">
+
+    <!-- Cuerpo del modal con diseño mejorado -->
+    <div >
+      <!-- Toast de éxito -->
+      <div 
+        *ngIf="productoCreado" 
+        class="toast show position-relative mb-4 border-0 shadow-sm"
+        style="background-color: #ecfdf5; border-left: 4px solid #10b981 !important;"
+      >
+        <div class="toast-body d-flex align-items-center">
+          <i class="bi bi-check-circle-fill me-2" style="color: #10b981; font-size: 1.2rem;"></i>
+          <span class="fw-medium">{{ mensajeExitoso }}</span>
+          <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
       </div>
 
-      <!-- Cuerpo del modal con formulario (desplazable) -->
-      <div class="modal-body">
-        <!-- Alerta de éxito (oculta por defecto) -->
-        <div
-          class="alert alert-success alert-dismissible fade show"
-          *ngIf="productoCreado"
-          role="alert"
-        >
-          <i class="bi bi-check-circle-fill me-2"></i> {{
-            mensajeExitoso
-          }}
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-          ></button>
-        </div>
-
-        <form [formGroup]="productoForm">
-          <div class="row g-3">
-            <!-- Nombre del producto -->
-            <div class="col-md-6">
-              <label
-                for="nombreProducto"
-                class="form-label fw-bold text-primary"
-                >Nombre de la Moto</label
-              >
-              <div class="input-group">
-                <span class="input-group-text bg-light"
-                  ><i class="bi bi-tag"></i
-                ></span>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="nombreProducto"
-                  formControlName="nombreProducto"
-                  [ngClass]="{ 'is-invalid': campoInvalido('nombreProducto') }"
-                />
-                <div
-                  class="invalid-feedback"
-                  *ngIf="campoInvalido('nombreProducto')"
-                >
-                  Ingrese el nombre de la moto
+      <form [formGroup]="productoForm">
+        <div class="row g-4">
+          <!-- Primera fila -->
+          <div class="col-12">
+            <div class="card border-0 bg-light shadow-sm p-3">
+              <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-info-circle text-primary me-2"></i>
+                <h6 class="mb-0 fw-bold">Información Básica</h6>
+              </div>
+              <div class="row g-3">
+                <!-- Nombre del producto -->
+                <div class="col-md-6">
+                  <label for="nombreProducto" class="form-label text-dark fw-medium">
+                    Nombre de la Moto
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0">
+                      <i class="bi bi-tag text-primary"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control border-start-0 shadow-none"
+                      id="nombreProducto"
+                      placeholder="Ejemplo: Honda CBR 500R"
+                      formControlName="nombreProducto"
+                      [ngClass]="{ 'is-invalid': campoInvalido('nombreProducto') }"
+                    />
+                    <div
+                      class="invalid-feedback"
+                      *ngIf="campoInvalido('nombreProducto')"
+                    >
+                      Ingrese el nombre de la moto
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <!-- Precio -->
-            <div class="col-md-6">
-              <label for="precio" class="form-label fw-bold text-primary"
-                >Precio</label
-              >
-              <div class="input-group">
-                <span class="input-group-text bg-light">$</span>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="precio"
-                  formControlName="precio"
-                  [ngClass]="{ 'is-invalid': campoInvalido('precio') }"
-                />
-                <div class="invalid-feedback" *ngIf="campoInvalido('precio')">
-                  Ingrese un precio válido
+                <!-- Precio -->
+                <div class="col-md-6">
+                  <label for="precio" class="form-label text-dark fw-medium">
+                    Precio
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0">
+                      <i class="bi bi-cash text-primary"></i>
+                    </span>
+                    <input
+                      type="number"
+                      class="form-control border-start-0 shadow-none"
+                      id="precio"
+                      placeholder="Ejemplo: 12999.99"
+                      formControlName="precio"
+                      [ngClass]="{ 'is-invalid': campoInvalido('precio') }"
+                    />
+                    <div class="invalid-feedback" *ngIf="campoInvalido('precio')">
+                      Ingrese un precio válido
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-
-            <!-- Cantidad -->
-            <div class="col-md-6">
-              <label
-                for="cantidadProducto"
-                class="form-label fw-bold text-primary"
-                >Cantidad Disponible</label
-              >
-              <div class="input-group">
-                <span class="input-group-text bg-light"
-                  ><i class="bi bi-123"></i
-                ></span>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="cantidadProducto"
-                  formControlName="cantidadProducto"
-                  [ngClass]="{
-                    'is-invalid': campoInvalido('cantidadProducto')
-                  }"
-                />
-                <div
-                  class="invalid-feedback"
-                  *ngIf="campoInvalido('cantidadProducto')"
-                >
-                  Ingrese la cantidad disponible
-                </div>
-              </div>
-            </div>
-
-            <!-- Categoría -->
-            <div class="col-md-6">
-              <label for="idCategoria" class="form-label fw-bold text-primary"
-                >Categoría</label
-              >
-              <select
-                class="form-select"
-                id="idCategoria"
-                formControlName="idCategoria"
-                [ngClass]="{ 'is-invalid': campoInvalido('idCategoria') }"
-              >
-                <option value="" selected disabled>
-                  Seleccione una categoría
-                </option>
-                <option
-                  *ngFor="let categoria of categorias"
-                  [value]="categoria.idCategoria"
-                >
-                  {{ categoria.nombreCategoria }}
-                </option>
-              </select>
-              <div
-                class="invalid-feedback"
-                *ngIf="campoInvalido('idCategoria')"
-              >
-                Seleccione una categoría
-              </div>
-            </div>
-
-            <!-- Imagen -->
-            <div class="col-12">
-              <label for="imagen" class="form-label fw-bold text-primary"
-                >Imagen (URL)</label
-              >
-              <div class="input-group mb-3">
-                <span class="input-group-text bg-light"
-                  ><i class="bi bi-link-45deg"></i
-                ></span>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="imagen"
-                  formControlName="imagen"
-                  placeholder="Ingrese la URL de la imagen"
-                  [ngClass]="{ 'is-invalid': campoInvalido('imagen') }"
-                />
-                <div class="invalid-feedback" *ngIf="campoInvalido('imagen')">
-                  Ingrese una URL válida de imagen
-                </div>
-              </div>
-
-              <!-- Vista previa de imagen -->
-              <div class="text-center mb-3" *ngIf="mostrarPreview">
-                <img
-                  [src]="imagenPreview"
-                  alt="Vista previa"
-                  class="img-fluid img-thumbnail"
-                  style="max-height: 200px"
-                />
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-danger mt-2"
-                  (click)="eliminarImagen()"
-                >
-                  <i class="bi bi-trash"></i> Eliminar imagen
-                </button>
-              </div>
-            </div>
-
-            <!-- Descripción -->
-            <div class="col-12">
-              <label for="descripcion" class="form-label fw-bold text-primary"
-                >Descripción</label
-              >
-              <textarea
-                class="form-control"
-                id="descripcion"
-                rows="4"
-                formControlName="descripcion"
-                [ngClass]="{ 'is-invalid': campoInvalido('descripcion') }"
-              ></textarea>
-              <div
-                class="invalid-feedback"
-                *ngIf="campoInvalido('descripcion')"
-              >
-                Ingrese una descripción para la moto
-              </div>
-              <div class="form-text text-muted">
-                <i class="bi bi-info-circle me-1"></i>Describa las
-                características principales, cilindrada, potencia, etc.
               </div>
             </div>
           </div>
-        </form>
-      </div>
 
-      <!-- Pie del modal (fijo) -->
-      <div class="modal-footer bg-light">
-        <button
-          type="button"
-          class="btn btn-outline-secondary me-3"
-          data-bs-dismiss="modal"
-          (click)="resetForm()"
-        >
-          <i class="bi bi-x-lg me-1"></i>Cancelar
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="guardarProducto()"
-        >
-          <i class="bi bi-save me-1"></i>Guardar Producto
-        </button>
-      </div>
+          <!-- Segunda fila -->
+          <div class="col-12">
+            <div class="card border-0 bg-light shadow-sm p-3">
+              <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-box text-primary me-2"></i>
+                <h6 class="mb-0 fw-bold">Inventario y Categorización</h6>
+              </div>
+              <div class="row g-3">
+                <!-- Cantidad -->
+                <div class="col-md-6">
+                  <label for="cantidadProducto" class="form-label text-dark fw-medium">
+                    Cantidad Disponible
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0">
+                      <i class="bi bi-123 text-primary"></i>
+                    </span>
+                    <input
+                      type="number"
+                      class="form-control border-start-0 shadow-none"
+                      id="cantidadProducto"
+                      placeholder="Ejemplo: 10"
+                      formControlName="cantidadProducto"
+                      [ngClass]="{
+                        'is-invalid': campoInvalido('cantidadProducto')
+                      }"
+                    />
+                    <div
+                      class="invalid-feedback"
+                      *ngIf="campoInvalido('cantidadProducto')"
+                    >
+                      Ingrese la cantidad disponible
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Categoría -->
+                <div class="col-md-6">
+                  <label for="idCategoria" class="form-label text-dark fw-medium">
+                    Categoría
+                  </label>
+                  <select
+                    class="form-select shadow-none"
+                    id="idCategoria"
+                    formControlName="idCategoria"
+                    [ngClass]="{ 'is-invalid': campoInvalido('idCategoria') }"
+                  >
+                    <option value="" selected disabled>
+                      Seleccione una categoría
+                    </option>
+                    <option
+                      *ngFor="let categoria of categorias"
+                      [value]="categoria.idCategoria"
+                    >
+                      {{ categoria.nombreCategoria }}
+                    </option>
+                  </select>
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="campoInvalido('idCategoria')"
+                  >
+                    Seleccione una categoría
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tercera fila -->
+          <div class="col-12">
+            <div class="card border-0 bg-light shadow-sm p-3">
+              <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-card-image text-primary me-2"></i>
+                <h6 class="mb-0 fw-bold">Imagen del Producto</h6>
+              </div>
+              <div class="row g-3">
+                <!-- Imagen -->
+                <div class="col-12">
+                  <label for="imagen" class="form-label text-dark fw-medium">
+                    URL de la Imagen
+                  </label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text bg-white border-end-0">
+                      <i class="bi bi-link-45deg text-primary"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control border-start-0 shadow-none"
+                      id="imagen"
+                      formControlName="imagen"
+                      placeholder="https://ejemplo.com/imagen-moto.jpg"
+                      [ngClass]="{ 'is-invalid': campoInvalido('imagen') }"
+                    />
+                    <button 
+                      class="btn btn-outline-primary" 
+                      type="button"
+                      *ngIf="!mostrarPreview"
+                      (click)="mostrarPreview = true"
+                    >
+                      <i class="bi bi-eye me-1"></i>Ver
+                    </button>
+                    <div class="invalid-feedback" *ngIf="campoInvalido('imagen')">
+                      Ingrese una URL válida de imagen
+                    </div>
+                  </div>
+
+                  <!-- Vista previa de imagen -->
+                  <div *ngIf="mostrarPreview" class="card border-0 shadow-sm p-0 mt-2">
+                    <div class="position-relative">
+                      <img
+                        [src]="imagenPreview"
+                        alt="Vista previa"
+                        class="img-fluid rounded w-100"
+                        style="max-height: 200px; object-fit: cover;"
+                      />
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2"
+                        (click)="eliminarImagen()"
+                      >
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cuarta fila -->
+          <div class="col-12">
+            <div class="card border-0 bg-light shadow-sm p-3">
+              <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-file-text text-primary me-2"></i>
+                <h6 class="mb-0 fw-bold">Descripción del Producto</h6>
+              </div>
+              <div class="row">
+                <!-- Descripción -->
+                <div class="col-12">
+                  <label for="descripcion" class="form-label text-dark fw-medium">
+                    Especificaciones y Detalles
+                  </label>
+                  <textarea
+                    class="form-control shadow-none"
+                    id="descripcion"
+                    rows="4"
+                    formControlName="descripcion"
+                    placeholder="Describa las características principales, cilindrada, potencia, etc."
+                    [ngClass]="{ 'is-invalid': campoInvalido('descripcion') }"
+                  ></textarea>
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="campoInvalido('descripcion')"
+                  >
+                    Ingrese una descripción para la moto
+                  </div>
+                  <div class="form-text mt-2">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-lightbulb text-warning me-2"></i>
+                      <span>Incluya detalles técnicos para ayudar a los clientes a tomar decisiones</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Pie del modal moderno -->
+    <div class="modal-footer d-flex justify-content-between p-3" style="background-color: #f8f9fa; border-top: 1px solid #e9ecef;">
+      <button
+        type="button"
+        class="btn btn-light"
+        (click)="resetForm()"
+      >
+        <i class="bi bi-x-lg me-1"></i>Cancelar
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary px-4"
+        (click)="guardarProducto()"
+      >
+        <i class="bi bi-save me-1"></i>Guardar Moto
+      </button>
     </div>
   </div>
 </div>

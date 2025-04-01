@@ -11,16 +11,6 @@
       </div>
     </div>
 
-    <!-- Filtro simple -->
-    <!-- <div class="row mb-4">
-      <div class="col-md-8 col-lg-6 mx-auto">
-        <div class="search-container">
-          <i class="bi bi-search search-icon"></i>
-          <input type="text" class="form-control search-input" placeholder="Buscar productos...">
-        </div>
-      </div>
-    </div> -->
-
     <!-- Productos -->
     <div class="row">
       <div class="col-md-6 col-lg-4 mb-4" *ngFor="let producto of productos">
@@ -115,14 +105,14 @@
   <!-- Diálogos -->
   <div *ngIf="isAddDialogOpen && idRol === 1"  class="modal-overlay">
     <div class="modal-container">
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: #4361ee; color: white">
         <h4>Agregar Nuevo Producto</h4>
         <button class="close-btn" (click)="closeAddDialog()">
           <i class="bi bi-x-lg"></i>
         </button>
       </div>
       <div class="modal-body">
-        <app-crear-producto (close)="closeAddDialog()"></app-crear-producto>
+        <app-crear-producto></app-crear-producto>
       </div>
     </div>
   </div>
@@ -132,14 +122,13 @@
     <div class="modal-container">
       <div class="modal-header">
         <h4>Editar Producto</h4>
-        <button class="close-btn" (click)="isEditDialogOpen = false">
+        <button class="close-btn" (click)="closeAddDialog()">
           <i class="bi bi-x-lg"></i>
         </button>
       </div>
       <div class="modal-body">
         <app-crear-producto
           [currentProducto]="currentProducto"
-          (close)="isEditDialogOpen = false; cargarProductos()"
         ></app-crear-producto>
       </div>
     </div>
