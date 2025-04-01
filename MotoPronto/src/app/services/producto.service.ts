@@ -10,16 +10,16 @@ export class ProductosService {
 
   constructor(private http: HttpClient) { }
 
-  getProductos(){
+  getProductos() {
     return this.http.get<{ message: string, productos: any[], code: number }>(`${this.apiUri}`);
   }
-  
 
-  crearProductos(producto: any){
+
+  crearProductos(producto: any) {
     return this.http.post<any[]>(`${this.apiUri}`, producto);
   }
 
-  editarProductos(producto: any){
+  editarProductos(producto: any) {
     return this.http.put<any[]>(`${this.apiUri}`, producto);
   }
 
@@ -29,5 +29,11 @@ export class ProductosService {
       body: producto
     });
   }
-  
+  buscarPorCategoria(idCategoria: number) {
+    return this.http.get<{ message: string, productos: any[], code: number }>(`${this.apiUri}/buscarCategoria/${idCategoria}`);
+  }
+
+  buscarPorNombre(nombreProducto: string) {
+    return this.http.get<{ message: string, productos: any[], code: number }>(`${this.apiUri}/buscarNombre/${nombreProducto}`);
+  }
 }

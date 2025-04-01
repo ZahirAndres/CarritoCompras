@@ -16,17 +16,17 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path : 'perfil',
+    path: 'perfil',
     component: PerfilComponent,
     canActivate: [authGuard]
   },
   {
-    path : 'historial',
+    path: 'historial',
     component: HistorialComponent,
     canActivate: [authGuard]
   },
   {
-    path : 'pago',
+    path: 'pago',
     component: PagoComponent,
     canActivate: [authGuard]
   },
@@ -37,6 +37,14 @@ const routes: Routes = [
   {
     path: 'home',
     component: VerProductosComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'home/:idCategoria', component: VerProductosComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'home/buscarNombre/:nombreProducto', component: VerProductosComponent,
     canActivate: [authGuard]
   },
   {
