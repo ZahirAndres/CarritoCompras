@@ -51,7 +51,8 @@ export class DetalleProductoComponent implements OnInit {
       cantidadProducto: 0,
       idCategoria: 0,
       descripcion: '',
-      fechaCreacion: new Date()
+      fechaCreacion: new Date(),
+      nombreCategoria:''
     };
   }
 
@@ -84,8 +85,12 @@ export class DetalleProductoComponent implements OnInit {
     };
 
     this.compraService.add(compraData).subscribe({
-      next: () => alert('Producto agregado al carrito'),
-      error: error => alert('Error al agregar el producto al carrito')
+      next: () => {alert('Producto agregado al carrito')
+        this.verProductos.cargarProductos();
+      },
+      error: error => alert('Error al agregar el producto al carrito'),
+      
+      
     });
 
     this.cantidadProductoCompra = 1;

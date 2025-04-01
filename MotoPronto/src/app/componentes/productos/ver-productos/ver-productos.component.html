@@ -1,125 +1,164 @@
 <body class="body-all-pages">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 mb-4" *ngFor="let producto of productos">
-          <div class="card h-100 shadow-sm">
-            <div class="row g-0 align-items-center">
-              <!-- Imagen a la izquierda -->
-              <div class="col-md-5">
-                <div class="position-relative">
-                  <img
-                    [src]="producto.imagen"
-                    class="img-fluid rounded-start"
-                    alt="{{ producto.nombreProducto }}"
-                  />
-                  <span
-                    class="badge bg-danger position-absolute top-0 end-0 mt-2 me-2"
-                    >{{ getEstadoProducto(producto.fechaCreacion) }}</span
-                  >
-                </div>
-              </div>
-              <!-- Contenido a la derecha -->
-              <div class="col-md-7">
-                <div class="card-body">
-                  <h5 class="card-title fw-bold">
-                    {{ producto.nombreProducto }}
-                  </h5>
-                  <p class="card-text text-muted mb-1">
-                    {{ producto.idCategoria }}
-                  </p>
-                  <div
-                    class="d-flex justify-content-between align-items-center mb-2"
-                  >
-                    <h4 class="text-primary fw-bold mb-0">
-                      ${{ producto.precio }}
-                    </h4>
-                    <span class="badge bg-success">{{
-                      getDisponibilidadProducto(producto.cantidadProducto)
-                    }}</span>
-                  </div>
-                  <div
-                  [ngClass]="{
-                    'overflow-hidden': !mostrarDescripcionCompleta
-                  }"
-                  [style.maxHeight]="
-                    mostrarDescripcionCompleta ? 'none' : '45px'
-                  "
-                >
-                <p class="card-text small">
-                  {{ producto.descripcion }}
-                </p>
-                </div>
-                 
-                  <div class="d-flex justify-content-between mt-3">
-                    <!-- Botón de editar con color invertido -->
-                    <button
-                      class="btn btn-secondary btn-sm"
-                      (click)="openEditDialog(producto)"
-                      onmouseover="this.className='btn btn-outline-secondary btn-sm'"
-                      onmouseout="this.className='btn btn-secondary btn-sm'"
-                    >
-                      <i class="bi bi-pencil-square"></i>
-                    </button>
-                    <!-- Botón de borrar con color invertido -->
-                    <button
-                      class="btn btn-danger btn-sm"
-                      (click)="borrarProducto(producto.idProducto)"
-                      onmouseover="this.className='btn btn-outline-danger btn-sm'"
-                      onmouseout="this.className='btn btn-danger btn-sm'"
-                    >
-                      <i class="bi bi-trash3"></i>
-                    </button>
-                    <!-- Botón de añadir al carrito -->
-                    <!-- <button class="btn btn-primary">
-                      <i class="fas fa-shopping-cart me-1"></i> Añadir
-                    </button> -->
-                    <!-- Botón de ver detalles -->
-                    <button class="btn btn-outline-secondary" (click)="openProductoDialog(producto)">
-                      Ver detalles
-                    </button>
-                  </div>
-                </div>
-              </div>
+  <div class="container">
+    <!-- Encabezado con título y contador del carrito -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="section-title">
+            <span class="highlight-text">Catálogo</span> de Productos
+          </h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filtro simple -->
+    <!-- <div class="row mb-4">
+      <div class="col-md-8 col-lg-6 mx-auto">
+        <div class="search-container">
+          <i class="bi bi-search search-icon"></i>
+          <input type="text" class="form-control search-input" placeholder="Buscar productos...">
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Productos -->
+    <div class="row">
+      <div class="col-md-6 col-lg-4 mb-4" *ngFor="let producto of productos">
+        <div class="product-card">
+          <div class="product-badges">
+            <span class="badge-new" *ngIf="getEstadoProducto(producto.fechaCreacion)">
+              {{ getEstadoProducto(producto.fechaCreacion) }}
+            </span>
+            <span class="badge-stock" [ngClass]="{'out-of-stock': producto.cantidadProducto <= 0}">
+              {{getDisponibilidadProducto(producto.cantidadProducto)}}
+            </span>
+          </div>
+          
+          <div class="product-image">
+            <img [src]="producto.imagen" alt="{{ producto.nombreProducto }}">
+            <div class="overlay-actions">
+              <button class="action-btn view-btn" *ngIf="idRol === 1" (click)="openProductoDialog(producto)">
+                <i class="bi bi-eye"></i>
+              </button>
+              <button class="action-btn edit-btn" *ngIf="idRol === 1" (click)="openEditDialog(producto)">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="action-btn delete-btn"  *ngIf="idRol === 1" (click)="borrarProducto(producto.idProducto)">
+                <i class="bi bi-trash"></i>
+              </button>
             </div>
+          </div>
+          
+          <div class="product-info">
+            <div class="category">{{ producto.nombreCategoria }}</div>
+            <h3 class="product-title">{{ producto.nombreProducto }}</h3>
+            
+            <div class="product-price">
+              <span class="price">${{ producto.precio }}</span>
+            </div>
+            
+            <div class="product-description" 
+              [ngClass]="{'collapsed': !mostrarDescripcionCompleta}" 
+              [style.maxHeight]="mostrarDescripcionCompleta ? 'none' : '45px'">
+              {{ producto.descripcion }}
+            </div>
+            
+            <button 
+              *ngIf="producto.descripcion && producto.descripcion.length > 50"
+              class="read-more" 
+              (click)="toggleDescripcion()">
+              {{ mostrarDescripcionCompleta ? 'Ver menos' : 'Ver más' }}
+            </button>
+            
+            <button class="details-btn" (click)="openProductoDialog(producto)">
+              Ver detalles
+            </button>
           </div>
         </div>
       </div>
     </div>
-  
-    <!-- Botones flotantes en la esquina inferior derecha -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1030">
-      <!-- Botón verde con signo más -->
-      <button
-        class="btn btn-success btn-lg rounded-circle shadow mb-2 d-block"
-        (click)="openAddDialog()"
-      >
-        <i class="bi bi-plus-lg"></i>
-      </button>
-      <!-- Botón azul con icono de carrito -->
-      <button class="btn btn-primary btn-lg rounded-circle shadow" (click)="irACarritoCompras()">
-        <i class="bi bi-cart"></i>
-      </button>
-    </div>
-  </body>
-  
-  <!-- Formulario para agregar producto -->
-  <div *ngIf="isAddDialogOpen" class="add-dialog">
-    <div class="dialog-content">
-      <app-crear-producto (close)="closeAddDialog()"></app-crear-producto>
+
+    <!-- Mensaje cuando no hay productos -->
+    <div class="row" *ngIf="productos.length === 0">
+      <div class="col-12 text-center py-5">
+        <div class="no-products">
+          <i class="bi bi-inbox display-1 text-muted"></i>
+          <p class="lead mt-3">No hay productos disponibles en este momento</p>
+          <button *ngIf="idRol === 1" class="btn btn-success" (click)="openAddDialog()">
+            <i class="bi bi-plus-lg"></i> Agregar Producto
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-  
-  <div *ngIf="isEditDialogOpen" class="edit-dialog">
-    <div class="dialog-content">
-      <app-crear-producto
-        [currentProducto]="currentProducto"
-      ></app-crear-producto>
-      <!-- Pasamos el producto -->
+
+  <!-- Botón flotante para agregar producto -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1030">
+    <!-- Botón verde con signo más -->
+    <button *ngIf="idRol === 1"
+      class="btn btn-success btn-lg rounded-circle shadow mb-2 d-block"
+      (click)="openAddDialog()"
+    >
+      <i class="bi bi-plus-lg"></i>
+    </button>
+
+    <!-- Botón azul con icono de carrito y notificación -->
+    <button class="btn btn-primary btn-lg rounded-circle shadow position-relative" (click)="irACarritoCompras()">
+      <i class="bi bi-cart"></i>
+      <span *ngIf="cantidadProductos > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        {{ cantidadProductos > 99 ? '99+' : cantidadProductos }}
+        <span class="visually-hidden">productos en el carrito</span>
+      </span>
+    </button>
+  </div>
+
+  <!-- Diálogos -->
+  <div *ngIf="isAddDialogOpen && idRol === 1"  class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h4>Agregar Nuevo Producto</h4>
+        <button class="close-btn" (click)="closeAddDialog()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-crear-producto (close)="closeAddDialog()"></app-crear-producto>
+      </div>
     </div>
   </div>
-  
-  <div *ngIf="isProducto" class="edit-dialog">
-    <div class="dialog-content">
-      <app-detalle-producto [currentProducto]="currentProducto"></app-detalle-producto>
+
+  <div *ngIf="isEditDialogOpen && idRol === 1"
+ class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h4>Editar Producto</h4>
+        <button class="close-btn" (click)="isEditDialogOpen = false">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-crear-producto
+          [currentProducto]="currentProducto"
+          (close)="isEditDialogOpen = false; cargarProductos()"
+        ></app-crear-producto>
+      </div>
     </div>
   </div>
+
+  <div *ngIf="isProducto" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h4>Detalles del Producto</h4>
+        <button class="close-btn" (click)="isProducto = false">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-detalle-producto 
+          [currentProducto]="currentProducto"
+          (close)="isProducto = false"
+        ></app-detalle-producto>
+      </div>
+    </div>
+  </div>
+</body>

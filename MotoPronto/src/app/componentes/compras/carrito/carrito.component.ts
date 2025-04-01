@@ -22,6 +22,7 @@ export class CarritoComponent implements OnInit {
     subTotal: 0,
     idUsuario: 0
   };
+  cantidadProductos: number=0;
 
   productosCarrito: ProductoCarrito[] = [];
 
@@ -74,7 +75,7 @@ export class CarritoComponent implements OnInit {
       (data) => {
         if (data && data.productosCarrito && data.productosCarrito.length > 0) {
           this.productosCarrito = data.productosCarrito;
-          console.log(this.productosCarrito);
+          this.cantidadProductos = this.productosCarrito.length;
         } else {
           this.errorMessage = 'No hay productos en el carrito.';
         }
