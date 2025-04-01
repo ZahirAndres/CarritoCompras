@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { ProductosService } from '../../../services/producto.service';
 import { Producto } from '../../../models/producto';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CompraService } from '../../../services/compra.service';
 import { CarritoService } from '../../../services/carrito.service';
 import { isPlatformBrowser } from '@angular/common';
@@ -34,7 +34,8 @@ export class VerProductosComponent implements OnInit, OnDestroy {
     private router: Router,
     private compraService: CompraService,
     private carritoService: CarritoService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   idRol: number = 0;
@@ -77,6 +78,19 @@ export class VerProductosComponent implements OnInit, OnDestroy {
           }
         });
     }
+
+    this.activatedRoute.params.subscribe(params => {
+      const idCategoria = params['idCategoria'];
+      const nombreProducto = params['nombreProducto'];
+
+      if (idCategoria) {
+        this.cargarProductosPorCategoria(idCategoria);
+      } else if (nombreProducto && nombreProducto.trim() !== '') {
+        this.buscarProductoPorNombre(nombreProducto);
+      } else {
+        this.cargarProductos();
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -224,6 +238,35 @@ export class VerProductosComponent implements OnInit, OnDestroy {
     return idRolStr ? Number(idRolStr) : 0; // Si es null, asignamos 0
   }
 
+  cargarProductosPorCategoria(idCategoria: number): void {
+    this.productoService.buscarPorCategoria(idCategoria).subscribe(
+      (data) => {
+        if (data && Array.isArray(data.productos)) {
+          this.productos = [...data.productos];
+          console.log("Productos filtrados por categoría:", this.productos);
+        } else {
+          console.error("Formato de datos incorrecto:", data);
+        }
+      },
+      (error) => {
+        console.error("Error al cargar productos filtrados", error);
+      }
+    );
+  }
 
-
+  buscarProductoPorNombre(nombreProducto: string): void {
+    this.productoService.buscarPorNombre(nombreProducto).subscribe(
+      (data) => {
+        if (data && Array.isArray(data.productos)) {
+          this.productos = [...data.productos];
+          console.log("Productos encontrados:", this.productos);
+        } else {
+          console.error("Formato de datos incorrecto:", data);
+        }
+      },
+      (error) => {
+        console.error("Error al buscar productos por nombre", error);
+      }
+    );
+  }
 }

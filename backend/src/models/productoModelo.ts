@@ -38,6 +38,24 @@ class ProductoModelo {
     });
     return result;
   }
+
+  public async buscarPorCategoria(idCategoria: number){
+    const result = await pool.then(async (connection) => {
+      return await connection.query("SELECT p.*, c.nombreCategoria FROM productos p INNER JOIN categoria c ON c.idCategoria = p.idCategoria WHERE p.idCategoria =?", [idCategoria]);
+    });
+    return result;
+  }
+
+  public async buscarPorNombreProducto(nombreProducto: string) {
+    const result = await pool.then(async (connection) => {
+      return await connection.query(
+        "SELECT p.*, c.nombreCategoria FROM productos p INNER JOIN categoria c ON c.idCategoria = p.idCategoria WHERE p.nombreProducto LIKE ?",
+        [`%${nombreProducto}%`]  // Para permitir búsqueda parcial de productos
+      );
+    });
+    return result;
+  }
+  
 }
 
 const model = new ProductoModelo();

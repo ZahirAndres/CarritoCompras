@@ -21,7 +21,6 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" (click)="inicio()">Inicio</a>
         </li>
-        
 
         <!-- Dropdown de Productos -->
         <li class="nav-item dropdown">
@@ -30,38 +29,39 @@
             Productos
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li>
+              <a class="dropdown-item" (click)="filtrarPorCategoria()">Todos</a>
+            </li>
             <li *ngFor="let categoria of categorias">
-              <a class="dropdown-item" [routerLink]="['/productos', categoria.idCategoria]">{{ categoria.nombreCategoria }}</a>
+              <a class="dropdown-item" (click)="filtrarPorCategoria(categoria.idCategoria)">
+                {{ categoria.nombreCategoria }}
+              </a>
             </li>
           </ul>
         </li>
-        
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="#">Servicios</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contacto</a>
-        </li> -->
       </ul>
+
+      <!-- Barra de búsqueda -->
+      <form class="d-flex me-3" (submit)="buscarProducto()">
+        <input class="form-control me-2" type="search" placeholder="Buscar producto" aria-label="Buscar"
+          [(ngModel)]="nombreProducto" name="nombreProducto">
+        <button class="btn btn-outline-light" type="submit">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
 
       <!-- Elementos de la derecha -->
       <div class="d-flex align-items-center">
         <!-- Carrito de compras -->
         <a class="nav-link me-3 position-relative" (click)="carrito()">
           <i class="bi bi-cart-fill"></i>
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            
-            <span class="visually-hidden">productos en carrito</span>
-            
-          </span>
         </a>
 
         <a class="nav-link me-3 position-relative" (click)="historial()">
           <i class="bi bi-clock-history"></i>
-          <span class="visually-hidden">Carritos pagados</span>
-            
         </a>
-        <!-- Usuario logueado (mostrar condicionalmente) -->
+
+        <!-- Usuario logueado -->
         <div *ngIf="usuario.idUsuario !== 0" class="d-flex align-items-center me-3">
           <div class="me-user-2">
             <img [src]="usuario.avatar" alt="Avatar de Usuario" />
@@ -70,14 +70,11 @@
             {{ usuario.nombreUsuario }} {{ usuario.apellidoP }}
           </span>
         </div>
-        <!-- Botón de inicio de sesión -->
-        <!-- <button class="btn btn-login me-2">Iniciar Sesión</button> -->
 
         <!-- Botón de cerrar sesión -->
         <button class="btn btn-danger" (click)="logOut()">
           <i class="bi bi-box-arrow-left"></i>
         </button>
-
       </div>
     </div>
   </div>

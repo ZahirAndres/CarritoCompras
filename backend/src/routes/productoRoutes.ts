@@ -13,6 +13,8 @@ class ProductoRoutes {
     this.router.post("/", productoController.add);
     this.router.put("/", productoController.update);
     this.router.delete("/", productoController.delete);
+    this.router.get("/buscarCategoria/:idCategoria", productoController.buscarPorCategoria);
+    this.router.get("/buscarNombre/:nombreProducto", productoController.buscarPorNombre);
   }
 }
 

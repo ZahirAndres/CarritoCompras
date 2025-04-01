@@ -30,6 +30,7 @@ export class NavBarComponent implements OnInit {
 
   categorias: any[] = [];
   errorMessage: string = '';
+  nombreProducto: string = '';
 
 
 
@@ -104,4 +105,22 @@ export class NavBarComponent implements OnInit {
   carrito() {
     this.router.navigate(['carrito-compras'])
   }
+
+  filtrarPorCategoria(idCategoria?: number) {
+    if (idCategoria === undefined) {
+      this.router.navigate(['/home']);
+    } else {
+      this.router.navigate(['/home', idCategoria]);
+    }
+  }
+
+  buscarProducto(): void {
+    if (this.nombreProducto.trim()) {
+      this.router.navigate(['/home/buscarNombre', this.nombreProducto]);
+    } else {
+      this.router.navigate(['/home']); // Muestra todos los productos si no se ingresa nada
+    }
+  }
+  
+
 }
