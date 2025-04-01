@@ -3,7 +3,7 @@ import pool from '../config/connection';
 class ProductoModelo {
   public async list() {
     const result = await pool.then(async (connection) => {
-      return await connection.query("SELECT * FROM productos");
+      return await connection.query("SELECT p.*, c.nombreCategoria FROM productos p INNER JOIN categoria c ON c.idCategoria = p.idCategoria");
     });
     return result;
   }

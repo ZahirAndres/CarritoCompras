@@ -4,6 +4,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario';
 import { isPlatformBrowser } from '@angular/common';
 import { PerfilService } from '../../services/perfil.service';
+import { CategoriaService } from '../../services/categoria.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -27,14 +28,35 @@ export class NavBarComponent implements OnInit {
     avatar: ''
   };
 
+  categorias: any[] = [];
+  errorMessage: string = '';
+
+
+
   constructor(private router: Router,
-    private perfilService: PerfilService, 
-    @Inject(PLATFORM_ID) private platformId: Object) { }
+    private perfilService: PerfilService,
+    @Inject(PLATFORM_ID) private platformId: Object, private categoriaService: CategoriaService) { }
 
   ngOnInit(): void {
     this.getUsuario();
+    this.obtenerCategorias();
   }
 
+  obtenerCategorias(): void {
+    this.categoriaService.listarCategorias().subscribe({
+      next: (response) => {
+        if (response.code === 200) {
+          this.categorias = response.categorias;
+        } else {
+          this.errorMessage = 'Error al obtener categorías';
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener categorías:', error);
+        this.errorMessage = 'No se pudo cargar la lista de categorías';
+      }
+    });
+  }
   logOut() {
     sessionStorage.clear()
     this.router.navigate(['login'])
@@ -44,14 +66,14 @@ export class NavBarComponent implements OnInit {
       console.warn('Intentando acceder a sessionStorage en un entorno no navegador.');
       return;
     }
-  
+
     const idUsuarioLocal = sessionStorage.getItem('idUsuario');
-  
+
     if (!idUsuarioLocal) {
       console.error('No hay usuario autenticado');
       return;
     }
-  
+
     this.perfilService.getOnlyUsuario(idUsuarioLocal).subscribe({
       next: (data) => {
         // Acceder al primer elemento de 'usuario' que es un array
@@ -66,7 +88,7 @@ export class NavBarComponent implements OnInit {
       }
     });
   }
-  
+
   perfil() {
     this.router.navigate(['perfil'])
   }
@@ -75,11 +97,11 @@ export class NavBarComponent implements OnInit {
     this.router.navigate(['historial'])
   }
 
-  inicio(){
+  inicio() {
     this.router.navigate(['home'])
   }
 
-  carrito(){
+  carrito() {
     this.router.navigate(['carrito-compras'])
   }
 }

@@ -1,11 +1,11 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID, ApplicationRef, NgZone } from '@angular/core';
 import { CarritoService } from '../../../services/carrito.service';
 import { isPlatformBrowser } from '@angular/common';
 import { Carrito, ProductoCarrito } from '../../../models/carrito';
 import { CompraService } from '../../../services/compra.service';
 import { Compra } from '../../../models/producto';
 import { PaymentService } from '../../../services/payment.service';
-import { loadScript } from '@paypal/paypal-js';
+import { take, first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-carrito',
@@ -22,20 +22,27 @@ export class CarritoComponent implements OnInit {
     subTotal: 0,
     idUsuario: 0
   };
-
+  cantidadProductos: number = 0;
   productosCarrito: ProductoCarrito[] = [];
-
   errorMessage: string = '';
 
   constructor(
     private carritoService: CarritoService,
+    private appRef: ApplicationRef,
+    private ngZone: NgZone,
     @Inject(PLATFORM_ID) private platformId: Object,
     private compraService: CompraService,
     private paymentService: PaymentService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.getCarritoActual();
+    this.ngZone.runOutsideAngular(() => {
+      this.getCarritoActual();
+    });
+
+    this.appRef.isStable.pipe(first((stable) => stable === true)).subscribe(() => {
+      console.log('La aplicación está estable');
+    });
   }
 
   getCarritoActual(): void {
@@ -43,73 +50,59 @@ export class CarritoComponent implements OnInit {
       console.warn('Intentando acceder a sessionStorage en un entorno no navegador.');
       return;
     }
-  
+
     const idUsuarioLocal = sessionStorage.getItem('idUsuario');
-  
+
     if (!idUsuarioLocal) {
       console.error('No hay usuario autenticado');
       this.errorMessage = 'No hay usuario autenticado';
       return;
     }
-  
-    this.carritoService.obtenerCarrito(idUsuarioLocal).subscribe({
+
+    this.carritoService.obtenerCarrito(idUsuarioLocal).pipe(take(1)).subscribe({
       next: (data) => {
-        if (data && data.carritosPagados && data.carritosPagados.length > 0) {
+        if (data?.carritosPagados?.length > 0) {
           this.carritoActual = data.carritosPagados[0];
-          this.getArticulosCarrito(this.carritoActual.idCarrito); // Usa el ID del carrito obtenido
+          this.getArticulosCarrito(this.carritoActual.idCarrito);
         } else {
-          // Si no hay carrito activo, mostramos que está vacío
           this.errorMessage = 'El carrito está vacío';
         }
       },
       error: (error) => {
         console.error('Error al obtener el carrito:', error);
-        // En lugar de mostrar un error, indicamos que el carrito está vacío
         this.errorMessage = 'El carrito está vacío';
       }
     });
   }
-  
 
   getArticulosCarrito(idCarrito: number) {
-    this.compraService.getArticulosCarrito(idCarrito).subscribe(
+    this.compraService.getArticulosCarrito(idCarrito).pipe(take(1)).subscribe(
       (data) => {
-        if (data && data.productosCarrito && data.productosCarrito.length > 0) {
+        if (data?.productosCarrito?.length > 0) {
           this.productosCarrito = data.productosCarrito;
-          console.log(this.productosCarrito);
+          this.cantidadProductos = this.productosCarrito.length;
         } else {
-          // Si no hay productos, mostramos que el carrito está vacío
           this.errorMessage = 'El carrito está vacío';
         }
       },
       (error) => {
         console.error('Error al obtener los productos del carrito:', error);
-        // En caso de error, indicamos que el carrito está vacío
         this.errorMessage = 'El carrito está vacío';
       }
     );
   }
-  
-  procesarPago() { }
-
-  continuarComprando() { }
-
-  explorarProductos() { }
 
   eliminarProducto(productosCarrito: ProductoCarrito) {
     const compraResta = {
       idCompra: productosCarrito.idCompra,
       cantidad: productosCarrito.cantidadTotal
     };
- 
-    this.compraService.restarCantidadCompra(compraResta).subscribe(
+
+    this.compraService.restarCantidadCompra(compraResta).pipe(take(1)).subscribe(
       (data) => {
-        if (data && (data.message === "Cantidad actualizada" || data.message === "Producto eliminado del carrito")) {
+        if (data?.message === 'Cantidad actualizada' || data?.message === 'Producto eliminado del carrito') {
           console.log('Compra actualizada correctamente');
           this.getCarritoActual();
-
-          // Si el producto fue eliminado, recargar el carrito
-          this.getArticulosCarrito(this.carritoActual.idCarrito);
         } else {
           console.error('Error al actualizar la compra:', data.message);
         }
@@ -126,13 +119,13 @@ export class CarritoComponent implements OnInit {
 
     const compraData: Compra = {
       idProducto: productosCarrito.idProducto,
-      idUsuario: this.carritoActual.idUsuario, // Asegurar que el idUsuario proviene del carrito actual
+      idUsuario: this.carritoActual.idUsuario,
       cantidad: 1
     };
 
-    this.compraService.add(compraData).subscribe({
+    this.compraService.add(compraData).pipe(take(1)).subscribe({
       next: () => {
-        this.getArticulosCarrito(this.carritoActual.idCarrito); // Refrescar el carrito
+        this.getArticulosCarrito(this.carritoActual.idCarrito);
         this.getCarritoActual();
       },
       error: (error) => {
@@ -148,13 +141,11 @@ export class CarritoComponent implements OnInit {
       cantidad: 1
     };
 
-    this.compraService.restarCantidadCompra(compraResta).subscribe(
+    this.compraService.restarCantidadCompra(compraResta).pipe(take(1)).subscribe(
       (data) => {
-        if (data && (data.message === "Cantidad actualizada" || data.message === "Producto eliminado del carrito")) {
+        if (data?.message === 'Cantidad actualizada' || data?.message === 'Producto eliminado del carrito') {
           console.log('Compra actualizada correctamente');
           this.getCarritoActual();
-
-          // Si el producto fue eliminado, recargar el carrito
           this.getArticulosCarrito(this.carritoActual.idCarrito);
         } else {
           console.error('Error al actualizar la compra:', data.message);
@@ -162,7 +153,5 @@ export class CarritoComponent implements OnInit {
       },
       (error) => console.error('Error al actualizar la compra:', error)
     );
-  } 
-
-  
+  }
 }

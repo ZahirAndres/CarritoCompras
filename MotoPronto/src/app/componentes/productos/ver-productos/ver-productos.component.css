@@ -1,34 +1,382 @@
-/* Diseño en dos columnas para los formularios */
-.dialog-content form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* Inputs con mejor apariencia */
-.dialog-content input {
+/* Variables para colores y consistencia */
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3f37c9;
+    --accent-color: #4cc9f0;
+    --success-color: #4caf50;
+    --danger-color: #f44336;
+    --warning-color: #ff9800;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --gray-color: #6c757d;
+    --light-gray: #e9ecef;
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+  }
+  
+  /* Estilos generales */
+  .body-all-pages {
+    background-color: #f8f9fa;
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #e8ebf2 100%);
+    padding: 30px 0;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Título de sección con efecto de resaltado */
+  .section-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--dark-color);
+  }
+  
+  .highlight-text {
+    position: relative;
+    color: var(--primary-color);
+  }
+  
+  .highlight-text::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    height: 6px;
+    background-color: var(--accent-color);
+    border-radius: 3px;
+    z-index: -1;
+    opacity: 0.4;
+  }
+  
+  /* Estilos de la barra de búsqueda */
+  .search-container {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+  
+  .search-input {
+    padding: 12px 20px 12px 45px;
+    border-radius: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
     font-size: 1rem;
-    transition: border-color 0.3s ease;
-}
-
-.dialog-content input:focus {
-    border-color: #6C48C5;
-    outline: none;
-}
-
-/* Reducir el ancho de los campos */
-.dialog-content input[type="text"],
-.dialog-content input[type="number"] {
-    max-width: 100%;
-}
-
-/* Estilo para todos los cuadros de diálogo */
-.edit-dialog, .existencias-dialog, .add-dialog {
+  }
+  
+  .search-input:focus {
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.25);
+    border-color: var(--primary-color);
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-color);
+    font-size: 1.1rem;
+  }
+  
+  /* Resumen del carrito en el encabezado */
+  .cart-summary {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    background-color: white;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-speed);
+  }
+  
+  .cart-summary:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  
+  .cart-icon {
+    position: relative;
+    margin-right: 8px;
+    font-size: 1.4rem;
+    color: var(--primary-color);
+  }
+  
+  .cart-counter {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: red;
+    color: rgb(0, 0, 0);
+    border-radius: 50%;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 0 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .cart-text {
+    font-weight: 600;
+    color: var(--dark-color);
+  }
+  
+  /* Tarjeta de producto rediseñada */
+  .product-card {
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-speed);
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .product-badges {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .badge-new, .badge-stock {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  .badge-new {
+    background-color: var(--danger-color);
+    color: white;
+  }
+  
+  .badge-stock {
+    background-color: rgb(57, 214, 51);
+    color: white;
+  }
+  
+  .badge-stock.out-of-stock {
+    background-color: red;
+  }
+  
+  .product-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .product-card:hover .product-image img {
+    transform: scale(1.05);
+  }
+  
+  .overlay-actions {
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    transition: bottom 0.3s ease;
+  }
+  
+  .product-card:hover .overlay-actions {
+    bottom: 0;
+  }
+  
+  .action-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.9;
+  }
+  
+  .action-btn:hover {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  
+  .view-btn {
+    background-color: var(--primary-color);
+  }
+  
+  .edit-btn {
+    background-color:blue;
+  }
+  
+  .delete-btn {
+    background-color: red;
+  }
+  
+  .product-info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  .category {
+    color: var(--gray-color);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+  }
+  
+  .product-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--dark-color);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    height: 2.8rem;
+  }
+  
+  .product-price {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+  }
+  
+  .product-description {
+    font-size: 0.9rem;
+    color: var(--gray-color);
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  
+  .product-description.collapsed {
+    position: relative;
+  }
+  
+  .read-more {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    padding: 0;
+    cursor: pointer;
+    margin-bottom: 10px;
+    align-self: flex-start;
+  }
+  
+  .details-btn {
+    margin-top: auto;
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+  
+  .details-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  /* No hay productos */
+  .no-products {
+    padding: 40px;
+    text-align: center;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  /* Botón flotante para agregar */
+  .floating-action-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+  }
+  
+  .floating-action-btn:hover {
+    transform: translateY(-5px) rotate(90deg);
+    background: var(--secondary-color);
+  }
+  
+  .tooltip-text {
+    position: absolute;
+    right: 70px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  
+  .floating-action-btn:hover .tooltip-text {
+    opacity: 1;
+  }
+  
+  /* Modales/Diálogos estilizados */
+  .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -40,4 +388,133 @@
     align-items: center;
     z-index: 2000;
     animation: fadeIn 0.3s ease;
-}
+    backdrop-filter: blur(3px);
+  }
+  
+  .modal-container {
+    background-color: white;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.4s ease;
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--light-gray);
+    background-color: #f8f9fa;
+  }
+  
+  .modal-header h4 {
+    margin: 0;
+    color: var(--dark-color);
+    font-weight: 600;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--gray-color);
+    transition: all 0.2s;
+  }
+  
+  .close-btn:hover {
+    color: var(--danger-color);
+  }
+  
+  .modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: calc(90vh - 70px);
+  }
+  
+  /* Diseño en dos columnas para los formularios */
+  .modal-body form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  /* Inputs con mejor apariencia */
+  .modal-body input,
+  .modal-body select,
+  .modal-body textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .modal-body input:focus,
+  .modal-body select:focus,
+  .modal-body textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.25);
+    outline: none;
+  }
+  
+  /* Animaciones */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .modal-body form {
+      grid-template-columns: 1fr;
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+    }
+  
+    .product-image {
+      height: 180px;
+    }
+    
+    .floating-action-btn {
+      width: 50px;
+      height: 50px;
+      font-size: 1.4rem;
+      bottom: 20px;
+      right: 20px;
+    }
+  }

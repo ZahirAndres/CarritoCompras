@@ -7,6 +7,7 @@ export interface Producto {
     idCategoria: number;
     descripcion: string;
     fechaCreacion: Date;
+    nombreCategoria?: string;
 }
 
 export interface Compra {
