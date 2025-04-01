@@ -1,0 +1,27 @@
+<div class="success-dialog-container">
+    <div class="success-icon-wrapper">
+      <div class="success-icon-container">
+        <mat-icon class="success-icon">check_circle</mat-icon>
+      </div>
+      <div class="success-confetti"></div>
+    </div>
+    
+    <h1 mat-dialog-title class="success-title">¡Pago Exitoso!</h1>
+    
+    <div mat-dialog-content class="success-content">
+      <p class="success-message">Tu pago se ha procesado correctamente.</p>
+      <div class="transaction-details">
+        <div class="detail-item">
+          <mat-icon class="detail-icon">lock</mat-icon>
+          <span>Transacción segura y verificada</span>
+        </div>
+      </div>
+    </div>
+    
+    <div mat-dialog-actions align="center" class="success-actions">
+      <button mat-raised-button class="primary-button" (click)="cerrar()">
+        <span>Aceptar</span>
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>

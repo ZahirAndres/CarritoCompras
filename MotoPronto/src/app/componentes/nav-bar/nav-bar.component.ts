@@ -78,4 +78,8 @@ export class NavBarComponent implements OnInit {
   inicio(){
     this.router.navigate(['home'])
   }
+
+  carrito(){
+    this.router.navigate(['carrito-compras'])
+  }
 }

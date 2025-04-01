@@ -25,8 +25,10 @@ import { HistorialComponent } from './componentes/historial/historial.component'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 import { PagoComponent } from './componentes/pago/pago.component';
 import { CarritoComponent } from './componentes/compras/carrito/carrito.component';
+import { PagoExitosoDialogComponent } from './componentes/pago-exitoso-dialog/pago-exitoso-dialog.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { CarritoComponent } from './componentes/compras/carrito/carrito.componen
     PerfilComponent,
     HistorialComponent,
     CarritoComponent,
-    PagoComponent
+    PagoComponent,
+    PagoExitosoDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +58,8 @@ import { CarritoComponent } from './componentes/compras/carrito/carrito.componen
     FormsModule,
     CommonModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatIconModule
   ],
   providers: [
     MessageService,
