@@ -23,7 +23,7 @@
               {{getDisponibilidadProducto(producto.cantidadProducto)}}
             </span>
           </div>
-          
+
           <div class="product-image">
             <img [src]="producto.imagen" alt="{{ producto.nombreProducto }}">
             <div class="overlay-actions">
@@ -33,33 +33,30 @@
               <button class="action-btn edit-btn" *ngIf="idRol === 1" (click)="openEditDialog(producto)">
                 <i class="bi bi-pencil"></i>
               </button>
-              <button class="action-btn delete-btn"  *ngIf="idRol === 1" (click)="borrarProducto(producto.idProducto)">
+              <button class="action-btn delete-btn" *ngIf="idRol === 1" (click)="borrarProducto(producto.idProducto)">
                 <i class="bi bi-trash"></i>
               </button>
             </div>
           </div>
-          
+
           <div class="product-info">
             <div class="category">{{ producto.nombreCategoria }}</div>
             <h3 class="product-title">{{ producto.nombreProducto }}</h3>
-            
+
             <div class="product-price">
               <span class="price">${{ producto.precio }}</span>
             </div>
-            
-            <div class="product-description" 
-              [ngClass]="{'collapsed': !mostrarDescripcionCompleta}" 
+
+            <div class="product-description" [ngClass]="{'collapsed': !mostrarDescripcionCompleta}"
               [style.maxHeight]="mostrarDescripcionCompleta ? 'none' : '45px'">
               {{ producto.descripcion }}
             </div>
-            
-            <button 
-              *ngIf="producto.descripcion && producto.descripcion.length > 50"
-              class="read-more" 
+
+            <button *ngIf="producto.descripcion && producto.descripcion.length > 50" class="read-more"
               (click)="toggleDescripcion()">
               {{ mostrarDescripcionCompleta ? 'Ver menos' : 'Ver más' }}
             </button>
-            
+
             <button class="details-btn" (click)="openProductoDialog(producto)">
               Ver detalles
             </button>
@@ -85,69 +82,82 @@
   <!-- Botón flotante para agregar producto -->
   <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1030">
     <!-- Botón verde con signo más -->
-    <button *ngIf="idRol === 1"
-      class="btn btn-success btn-lg rounded-circle shadow mb-2 d-block"
-      (click)="openAddDialog()"
-    >
+    <button *ngIf="idRol === 1" class="btn btn-success btn-lg rounded-circle shadow mb-2 d-block"
+      (click)="openAddDialog()">
       <i class="bi bi-plus-lg"></i>
     </button>
 
     <!-- Botón azul con icono de carrito y notificación -->
     <button class="btn btn-primary btn-lg rounded-circle shadow position-relative" (click)="irACarritoCompras()">
       <i class="bi bi-cart"></i>
-      <span *ngIf="cantidadProductos > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+      <span *ngIf="cantidadProductos > 0"
+        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
         {{ cantidadProductos > 99 ? '99+' : cantidadProductos }}
         <span class="visually-hidden">productos en el carrito</span>
       </span>
     </button>
-  </div>
 
-  <!-- Diálogos -->
-  <div *ngIf="isAddDialogOpen && idRol === 1"  class="modal-overlay">
-    <div class="modal-container">
-      <div class="modal-header" style="background-color: #4361ee; color: white">
-        <h4>Agregar Nuevo Producto</h4>
-        <button class="close-btn" (click)="closeAddDialog()">
-          <i class="bi bi-x-lg"></i>
-        </button>
+
+
+
+    <!-- Botón flotante para abrir ChatBot -->
+    <button class="btn btn-info btn-lg rounded-circle shadow mt-2 d-block" (click)="toggleChat()">
+      <i class="bi bi-chat-dots"></i>
+    </button>
+
+    <!-- Contenedor del chat -->
+    <div *ngIf="showChat" class="chat-modal position-fixed bottom-0 end-0 m-3"
+      style="z-index: 1040; width: 500px; height: 600px; background: #ffffff00; border: 1px solid #cccccc00; border-radius: 5px;">
+      <div class="chat-header p-2 border-bottom d-flex justify-content-between align-items-center">
+        <span>Chat Bot</span>
+        <button type="button" class="btn-close" aria-label="Cerrar" (click)="toggleChat()"></button>
       </div>
-      <div class="modal-body">
-        <app-crear-producto></app-crear-producto>
+      <div class="chat-body p-2" style="overflow-y: auto; height: calc(100% - 40px);">
+        <!-- Aquí se incrusta el iframe del chatbot -->
+        <iframe src="https://www.chatbase.co/chatbot-iframe/uOb5mBqkXOEU8QKDkvQEX" width="100%" height="100%"
+          style="border: none;"></iframe>
       </div>
     </div>
-  </div>
 
-  <div *ngIf="isEditDialogOpen && idRol === 1"
- class="modal-overlay">
-    <div class="modal-container">
-      <div class="modal-header">
-        <h4>Editar Producto</h4>
-        <button class="close-btn" (click)="closeAddDialog()">
-          <i class="bi bi-x-lg"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        <app-crear-producto
-          [currentProducto]="currentProducto"
-        ></app-crear-producto>
+    <!-- Diálogos -->
+    <div *ngIf="isAddDialogOpen && idRol === 1" class="modal-overlay">
+      <div class="modal-container">
+        <div class="modal-header" style="background-color: #4361ee; color: white">
+          <h4>Agregar Nuevo Producto</h4>
+          <button class="close-btn" (click)="closeAddDialog()">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-crear-producto></app-crear-producto>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div *ngIf="isProducto" class="modal-overlay">
-    <div class="modal-container">
-      <div class="modal-header">
-        <h4>Detalles del Producto</h4>
-        <button class="close-btn" (click)="isProducto = false">
-          <i class="bi bi-x-lg"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        <app-detalle-producto 
-          [currentProducto]="currentProducto"
-          (close)="isProducto = false"
-        ></app-detalle-producto>
+    <div *ngIf="isEditDialogOpen && idRol === 1" class="modal-overlay">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h4>Editar Producto</h4>
+          <button class="close-btn" (click)="closeAddDialog()">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-crear-producto [currentProducto]="currentProducto"></app-crear-producto>
+        </div>
       </div>
     </div>
-  </div>
-</body>
+
+    <div *ngIf="isProducto" class="modal-overlay">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h4>Detalles del Producto</h4>
+          <button class="close-btn" (click)="isProducto = false">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-detalle-producto [currentProducto]="currentProducto" (close)="isProducto = false"></app-detalle-producto>
+        </div>
+      </div>
+    </div>

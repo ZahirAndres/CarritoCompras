@@ -29,6 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { PagoComponent } from './componentes/pago/pago.component';
 import { CarritoComponent } from './componentes/compras/carrito/carrito.component';
 import { PagoExitosoDialogComponent } from './componentes/pago-exitoso-dialog/pago-exitoso-dialog.component';
+import { ChatComponent } from './componentes/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { PagoExitosoDialogComponent } from './componentes/pago-exitoso-dialog/pa
     HistorialComponent,
     CarritoComponent,
     PagoComponent,
-    PagoExitosoDialogComponent
+    PagoExitosoDialogComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
