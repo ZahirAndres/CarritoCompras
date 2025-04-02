@@ -1,0 +1,67 @@
+/* Contenedor principal del chat */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Área donde se muestran los mensajes */
+  .messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilo para mensajes enviados por el usuario */
+  .user-message {
+    background-color: #dcf8c6;
+    text-align: right;
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 10px;
+    max-width: 80%;
+    align-self: flex-end;
+  }
+  
+  /* Estilo para mensajes del bot */
+  .bot-message {
+    background-color: #f1f0f0;
+    text-align: left;
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 10px;
+    max-width: 80%;
+    align-self: flex-start;
+  }
+  
+  /* Área de entrada y botón para enviar el mensaje */
+  .input-area {
+    display: flex;
+  }
+  
+  .input-area input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .input-area button {
+    padding: 10px 15px;
+    margin-left: 5px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .input-area button:hover {
+    background-color: #0069d9;
+  }
+  

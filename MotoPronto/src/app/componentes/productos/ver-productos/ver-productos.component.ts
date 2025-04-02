@@ -39,6 +39,8 @@ export class VerProductosComponent implements OnInit, OnDestroy {
   ) { }
 
   idRol: number = 0;
+    // Variable para controlar la visibilidad del chat
+    showChat: boolean = false;
 
   ngOnInit(): void {
     this.idRol = this.getIdRol();
@@ -231,6 +233,10 @@ export class VerProductosComponent implements OnInit, OnDestroy {
 
   irACarritoCompras() {
     this.router.navigate(['carrito-compras']);
+  }
+
+  toggleChat(): void {
+    this.showChat = !this.showChat;
   }
 
   getIdRol(): number {
