@@ -50,6 +50,7 @@ class CompraModelo {
     }
 
     public async update(compra: any) {
+        
         const result = await pool.then(async (connection) => {
             return await connection.query(
                 "UPDATE compra SET idProducto=?, idCarrito=?, cantidad=?, totalProducto=? WHERE idCompra=?",
@@ -88,8 +89,15 @@ class CompraModelo {
         return result;
     }
 
-    public async actualizarCantidadProducto(idCompra :number, nuevaCantidad:number, nuevoTotalProducto:number){
+    public async actualizarCantidadProducto(idCompra :number, nuevaCantidad:number, nuevoTotalProducto:number, cantidad:number, idProducto:number) {
+        
+        
         const result = await pool.then(async (connection) => {
+            const updateResult = await connection.query(
+                "UPDATE productos SET cantidadProducto = cantidadProducto - ? WHERE idProducto = ?",
+                [cantidad, idProducto]
+            );
+            
             return await connection.query(
                 "UPDATE compra SET cantidad =?, totalProducto =? WHERE idCompra =?",
                 [nuevaCantidad, nuevoTotalProducto, idCompra]
