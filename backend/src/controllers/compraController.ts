@@ -71,7 +71,7 @@ class CompraController {
                 const idCompra = productoEnCarrito[0].idCompra;
 
 
-                await model.actualizarCantidadProducto(idCompra, nuevaCantidad, nuevoTotalProducto);
+                await model.actualizarCantidadProducto(idCompra, nuevaCantidad, nuevoTotalProducto, cantidad, idProducto);
             }
 
             return res.json({ message: "Compra agregada o actualizada", code: 0 });
@@ -184,7 +184,7 @@ class CompraController {
             if (nuevaCantidad <= 0) {
                 await model.delete(idCompra);
             } else {
-                await model.actualizarCantidadProducto(idCompra, nuevaCantidad, nuevoTotalProducto);
+                await model.actualizarCantidadProducto(idCompra, nuevaCantidad, nuevoTotalProducto, cantidad, idProducto);
             }
     
             // Actualizar subtotal y total del carrito
