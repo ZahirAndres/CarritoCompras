@@ -14,22 +14,36 @@ import { Router } from '@angular/router';
 export class RegisterComponent {
   loading = false;
 
-  registerForm = this.fb.group({
-    nombreUsuario: ['', Validators.required],
-    apellidoP: ['', Validators.required],
-    apellidoM: ['', Validators.required],
-    telefono: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-    ciudad: ['', Validators.required],
-    codigoPostal: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
-    calleNumero: ['', Validators.required],
-    colonia: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    confirmPassword: ['', Validators.required],
-    avatar: ['', Validators.required]
-  }, {
-    validators: passwordMatchValidator
-  });
+  // Expresión regular para validar la contraseña con los requisitos dados
+  private passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{8,}$/;
+
+
+  registerForm = this.fb.group(
+    {
+      nombreUsuario: ['', Validators.required],
+      apellidoP: ['', Validators.required],
+      apellidoM: ['', Validators.required],
+      telefono: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      ciudad: ['', Validators.required],
+      codigoPostal: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
+      calleNumero: ['', Validators.required],
+      colonia: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(this.passwordPattern)
+        ]
+      ],
+      confirmPassword: ['', Validators.required],
+      avatar: ['', Validators.required]
+    },
+    {
+      validators: passwordMatchValidator
+    }
+  );
 
   constructor(
     private fb: FormBuilder,
@@ -80,14 +94,12 @@ export class RegisterComponent {
       },
       error => {
         console.error('Error en la respuesta del backend:', error);
-        // Intentamos obtener un mensaje de error específico enviado desde el backend
         let errorMsg = 'Error al registrar usuario';
         if (error.error && error.error.message) {
           errorMsg = error.error.message;
         } else if (error.message) {
           errorMsg = error.message;
         }
-        
         this.messageService.add({ severity: 'error', summary: 'Error', detail: errorMsg });
       }
     ).add(() => this.loading = false);
