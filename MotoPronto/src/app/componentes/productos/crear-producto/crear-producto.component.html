@@ -30,7 +30,7 @@
                 <!-- Nombre del producto -->
                 <div class="col-md-6">
                   <label for="nombreProducto" class="form-label text-dark fw-medium">
-                    Nombre de la Moto
+                    Nombre del producto
                   </label>
                   <div class="input-group">
                     <span class="input-group-text bg-white border-end-0">
@@ -48,7 +48,7 @@
                       class="invalid-feedback"
                       *ngIf="campoInvalido('nombreProducto')"
                     >
-                      Ingrese el nombre de la moto
+                      Ingrese el nombre del producto
                     </div>
                   </div>
                 </div>
@@ -169,7 +169,7 @@
                       class="form-control border-start-0 shadow-none"
                       id="imagen"
                       formControlName="imagen"
-                      placeholder="https://ejemplo.com/imagen-moto.jpg"
+                      placeholder="https://ejemplo.com/imagen-producto.jpg"
                       [ngClass]="{ 'is-invalid': campoInvalido('imagen') }"
                     />
                     <button 
@@ -233,7 +233,7 @@
                     class="invalid-feedback"
                     *ngIf="campoInvalido('descripcion')"
                   >
-                    Ingrese una descripción para la moto
+                    Ingrese una descripción para el producto
                   </div>
                   <div class="form-text mt-2">
                     <div class="d-flex align-items-center">
@@ -263,7 +263,7 @@
         class="btn btn-primary px-4"
         (click)="guardarProducto()"
       >
-        <i class="bi bi-save me-1"></i>Guardar Moto
+        <i class="bi bi-save me-1"></i>Guardar producto
       </button>
     </div>
   </div>
