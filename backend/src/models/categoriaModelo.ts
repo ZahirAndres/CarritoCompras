@@ -20,6 +20,15 @@ class CategoriaModelo {
         });
         return result;
     }
+
+    public async getCategoriaByName(name: string){
+        const result = await pool.then( async (connection) => {
+            return await connection.query(
+                " SELECT * FROM categoria WHERE nombreCategoria = ?", [name]
+            );
+        });
+        return result[0];
+    }
    
 
 

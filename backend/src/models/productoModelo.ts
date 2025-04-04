@@ -16,10 +16,10 @@ class ProductoModelo {
   }
 
   public async add(producto: any) {
-      const result = await pool.then(async (connection) => {
-        return await connection.query("INSERT INTO productos SET ?", [producto]);
-      });
-      return result;
+    const result = await pool.then(async (connection) => {
+      return await connection.query("INSERT INTO productos SET ?", [producto]);
+    });
+    return result;
   }
 
   public async update(producto: any) {
@@ -39,7 +39,7 @@ class ProductoModelo {
     return result;
   }
 
-  public async buscarPorCategoria(idCategoria: number){
+  public async buscarPorCategoria(idCategoria: number) {
     const result = await pool.then(async (connection) => {
       return await connection.query("SELECT p.*, c.nombreCategoria FROM productos p INNER JOIN categoria c ON c.idCategoria = p.idCategoria WHERE p.idCategoria =?", [idCategoria]);
     });
@@ -50,12 +50,19 @@ class ProductoModelo {
     const result = await pool.then(async (connection) => {
       return await connection.query(
         "SELECT p.*, c.nombreCategoria FROM productos p INNER JOIN categoria c ON c.idCategoria = p.idCategoria WHERE p.nombreProducto LIKE ?",
-        [`%${nombreProducto}%`]  // Para permitir búsqueda parcial de productos
+        [`%${nombreProducto}%`]
       );
     });
     return result;
   }
-  
+
+  public async getProductoByName(name: string) {
+    const result = await pool.then(async (connection) => {
+      return await connection.query("SELECT * FROM productos WHERE nombreProducto =?", [name]);
+    });
+    return result[0];
+  }
+
 }
 
 const model = new ProductoModelo();

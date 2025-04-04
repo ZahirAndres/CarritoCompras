@@ -36,13 +36,10 @@ class ProductoController {
             }
 
             // Verificar si el producto ya existe
-            const productos = await model.list();
-            const productoExistente = productos.some((producto: any) => producto.nombreProducto === nombreProducto && producto.idCategoria === idCategoria);
-
-            if (productoExistente) {
-                return res.status(400).json({ message: "El producto ya existe en esta categoría", code: 5 });
+            const resultadoBusqueda = await model.getProductoByName(nombreProducto);
+            if (resultadoBusqueda) {
+                return res.status(400).json({ message: "El producto ya existe, ingrese otro nombre de producto", code: 5 });
             }
-
 
             var fechaCreacion = new Date();
 
@@ -82,10 +79,20 @@ class ProductoController {
                 return res.status(404).json({ message: "El producto no existe", code: 7 });
             }
 
+            if (productoExistente.nombreProducto == nombreProducto) {
+                await model.update({ idProducto, imagen, nombreProducto, idCategoria, descripcion, precio, cantidadProducto });
+                return res.json({ message: "Producto actualizado correctamente", code: 0 });
+            } else {
+                const resultadoBusqueda = await model.getProductoByName(nombreProducto);
+                if (resultadoBusqueda) {
+                    return res.status(400).json({ message: "El producto ya existe, ingrese otro nombre de producto", code: 5 });
+                }
 
-            await model.update({ idProducto, imagen, nombreProducto, idCategoria, descripcion, precio, cantidadProducto });
+                await model.update({ idProducto, imagen, nombreProducto, idCategoria, descripcion, precio, cantidadProducto });
+                return res.json({ message: "Producto actualizado correctamente", code: 0 });
 
-            return res.json({ message: "Producto actualizado correctamente", code: 0 });
+            }
+
         } catch (error: any) {
             return res.status(500).json({ message: `${error.message}` });
         }
