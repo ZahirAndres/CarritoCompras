@@ -22,6 +22,7 @@ class UsuarioRoutes {
         this.router.delete('/', usuarioController.delete)
         this.router.get('/:idUsuario', usuarioController.listOne)
         this.router.put('/ascender', usuarioController.ascender)
+        this.router.put('/aceptoTerminos', usuarioController.aceptoTerminos)
     }
 }
 const usuarioRoutes = new UsuarioRoutes();

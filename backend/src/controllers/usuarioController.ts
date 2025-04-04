@@ -18,6 +18,7 @@ class UsuarioController {
         correoElectronico: "",
         password: "",
         idRol: 0,
+        aceptoTerminos: 0,
     }
 
     public async list(req: Request, res: Response) {
@@ -94,6 +95,7 @@ class UsuarioController {
                 password: encryptedText,
                 idRol: idRol,
                 avatar: avatar || "", 
+                aceptoTerminos: 0
             };
 
             // Guardar el usuario
@@ -153,6 +155,7 @@ class UsuarioController {
             idRol: idRol,
             email: correoElectronicoC, // Este es el email que se va a actualizar,
             avatar: avatar || usuarioExistente.avatar,
+            aceptoTerminos: usuarioExistente.aceptoTerminos 
           };
       
           // Actualizar el usuario
@@ -226,5 +229,42 @@ class UsuarioController {
         }
     }
 
+
+
+
+    public async aceptoTerminos(req: Request, res: Response) {
+      try {
+        let { 
+          correoElectronico
+        } = req.body;
+    
+        // Validación de email
+        if ( !correoElectronico ||  !validator.isEmail(correoElectronico)) {
+          return res.status(400).json({ message: "Email inválido", code: 1 });
+        }
+    
+        // Verificar si el usuario existe (buscamos el objeto completo)
+        const usuarios = await model.list();
+        const usuarioExistente = usuarios.find((usuario: any) => usuario.correoElectronico === correoElectronico);
+    
+        if (!usuarioExistente) {
+          return res.status(404).json({ message: "Usuario no encontrado", code: 3 });
+        }
+    
+    
+        const updatedUser = {
+          correoElectronico: correoElectronico
+
+        };
+    
+        // Actualizar el usuario
+        await model.aceptoTerminos(updatedUser);
+    
+        return res.status(200).json({ message: "Usuario actualizado correctamente", code: 0 });
+      } catch (error: any) {
+        return res.status(500).json({ message: `Error en el servidor: ${error.message}` });
+      }
+    }
+    
 }
 export const usuarioController = new UsuarioController();

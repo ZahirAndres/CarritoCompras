@@ -30,6 +30,7 @@ import { PagoComponent } from './componentes/pago/pago.component';
 import { CarritoComponent } from './componentes/compras/carrito/carrito.component';
 import { PagoExitosoDialogComponent } from './componentes/pago-exitoso-dialog/pago-exitoso-dialog.component';
 import { ChatComponent } from './componentes/chat/chat.component';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { ChatComponent } from './componentes/chat/chat.component';
   providers: [
     MessageService,
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    DialogService
   ],
   bootstrap: [AppComponent]
 })

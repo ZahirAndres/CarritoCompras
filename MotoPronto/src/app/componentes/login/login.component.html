@@ -30,7 +30,11 @@
                         [ngClass]="{'is-invalid': password.invalid && (password.dirty || password.touched)}">
                 </div>
                 <small *ngIf="password.invalid && (password.dirty || password.touched)" class="error-message">
-                    <div *ngIf="password.errors?.['required']">Contraseña es requerida.</div>
+                    <span *ngIf="password.errors?.['required']">Contraseña es requerida.</span>
+                    <span *ngIf="password.errors?.['minlength']">Mínimo 8 caracteres.</span>
+                    <span *ngIf="password.errors?.['pattern']">
+                      La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial.
+                    </span>
                 </small>
             </div>
 

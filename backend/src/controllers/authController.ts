@@ -31,7 +31,8 @@ class AuthController {
       const newUser = {
         idUsuario: lstUsers[0].idUsuario,
         email: lstUsers[0].email,
-        idRol: lstUsers[0].idRol
+        idRol: lstUsers[0].idRol,
+        terminos : lstUsers[0].aceptoTerminos,
       };
 
       const token = jwt.sign(newUser, process.env.SECRET || 'default_secret', { expiresIn: '1h' });
