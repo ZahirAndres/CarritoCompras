@@ -8,6 +8,9 @@ import { isPlatformBrowser } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { UsuarioService } from '../../../services/usuario.service';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { TerminosCondicionesComponent } from '../../terminos-condiciones/terminos-condiciones.component';
 
 @Component({
   selector: 'app-ver-productos',
@@ -24,6 +27,8 @@ export class VerProductosComponent implements OnInit, OnDestroy {
   isProducto: boolean = false;
   mostrarDescripcionCompleta: boolean = false;
   cantidadProductos: number = 0;
+  mostrarModalTerminos = false; 
+  ref: DynamicDialogRef | undefined;
 
   // Subscriptions
   private cartUpdateSubscription?: Subscription;
@@ -35,14 +40,16 @@ export class VerProductosComponent implements OnInit, OnDestroy {
     private compraService: CompraService,
     private carritoService: CarritoService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private activatedRoute: ActivatedRoute
-  ) { }
+    private activatedRoute: ActivatedRoute,
+    private usuarioService: UsuarioService,
+    private dialogService: DialogService ){}
 
   idRol: number = 0;
     // Variable para controlar la visibilidad del chat
     showChat: boolean = false;
 
   ngOnInit(): void {
+    this.verificarTerminos();
     this.idRol = this.getIdRol();
     this.cargarProductos();
     // Iniciar el polling del carrito cada 30 segundos
@@ -272,5 +279,38 @@ export class VerProductosComponent implements OnInit, OnDestroy {
         console.error("Error al buscar productos por nombre", error);
       }
     );
+  }
+
+
+  verificarTerminos() {
+    const terminosAceptados = sessionStorage.getItem('terminos');
+
+    if (terminosAceptados !== '1') {
+      this.abrirModalTerminos();
+    }
+  }
+
+  abrirModalTerminos() {
+    this.ref = this.dialogService.open(TerminosCondicionesComponent, {
+      header: 'Términos y Condiciones',
+      width: '50%',
+      closable: false
+    });
+
+    this.ref?.onClose.subscribe((aceptado: boolean) => {
+      if (aceptado) {
+        this.aceptarTerminos();
+      }
+    });
+  }
+
+  aceptarTerminos() {
+    const email = sessionStorage.getItem('email');
+
+    if (email) {
+      this.usuarioService.aceptarTerminos({ correoElectronico: email }).subscribe(() => {
+        sessionStorage.setItem('terminos', '1');
+      });
+    }
   }
 }

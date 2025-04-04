@@ -23,7 +23,7 @@ export class RegisterComponent {
       nombreUsuario: ['', Validators.required],
       apellidoP: ['', Validators.required],
       apellidoM: ['', Validators.required],
-      telefono: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      telefono: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10),Validators.pattern('^[0-9]+$')]],
       ciudad: ['', Validators.required],
       codigoPostal: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
       calleNumero: ['', Validators.required],

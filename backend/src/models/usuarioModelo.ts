@@ -106,6 +106,27 @@ class UsuarioModelo {
         });
         return result;
     }
+
+
+    public async aceptoTerminos(usuario: any) {
+        const query = `
+          UPDATE usuario SET 
+            aceptoTerminos = 1
+            WHERE correoElectronico = ?
+        `;
+        const values = [
+
+            usuario.correoElectronico,
+
+        ];
+
+        console.log("Ejecutando update:", query, values);
+        const result = await pool.then(async (connection) => {
+            return await connection.query(query, values);
+        });
+        return result;
+    }
+
 }
 const model = new UsuarioModelo();
 export default model;

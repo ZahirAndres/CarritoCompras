@@ -68,6 +68,8 @@
                 <small *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="error-message">
                   <span *ngIf="telefono.errors?.['required']">Teléfono es requerido.</span>
                   <span *ngIf="telefono.errors?.['pattern']">Solo se permiten números.</span>
+                  <span *ngIf="telefono.errors?.['minlength']">Mínimo 10 caracteres.</span>
+                  <span *ngIf="telefono.errors?.['maxlength']">Máximo 10 caracteres.</span>
                 </small>
               </div>
               <div class="field">

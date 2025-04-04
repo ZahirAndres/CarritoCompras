@@ -12,9 +12,18 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class LoginComponent {
 
+  private passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{8,}$/;
+
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required]
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(this.passwordPattern)
+      ]
+    ],
   })
 
   constructor(private fb:FormBuilder, private authService: AuthService,
@@ -31,7 +40,7 @@ export class LoginComponent {
     return this.loginForm.controls['password'];
   }
 
-  login() { 
+  login() {  
     console.log('Login')
     const {email, password} = this.loginForm.value;
 
@@ -47,6 +56,7 @@ export class LoginComponent {
           sessionStorage.setItem('idUsuario', decodedToken.idUsuario);
           sessionStorage.setItem('idRol', decodedToken.idRol);
           sessionStorage.setItem('email',  email as string);
+          sessionStorage.setItem('terminos', decodedToken.terminos);
             this.router.navigate(['/home']);
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Email o Contraseña Incorrecta' });
