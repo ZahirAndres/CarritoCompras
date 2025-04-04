@@ -20,6 +20,15 @@ class RolModelo {
         });
         return result;
     }
+
+    public async getRolByName(name: string){
+        const result = await pool.then( async (connection) => {
+            return await connection.query(
+                " SELECT * FROM rol WHERE nombreRol=?", [name]
+             );
+        });
+        return result[0];
+    }
    
 
 
